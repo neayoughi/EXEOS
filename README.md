@@ -1,2 +1,2 @@
-# OptiGen
+# EXEOS
  Optimization Modelling with Generative AI
