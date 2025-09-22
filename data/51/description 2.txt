@@ -1,0 +1,14 @@
+US soybean suppliers must ship soybeans from terminal cities to various destination cities through intermediate port cities. The transportation network includes n cities connected by a set of routes A, each with a known transportation cost C_{i,j} per metric ton between cities i and j.
+
+Soybeans originate from terminal cities, each having a fixed supply (Supply), and are required at destination cities, each with a specified demand (Demand).
+
+The goal is to determine the quantity of soybeans to transport along each route to meet all destination demands without exceeding supplies at terminals, while minimizing total transportation costs.
+
+Parameters to be used in the model:
+- Supply: the amount of soybeans available at each terminal city.
+- Demand: the amount of soybeans required at each destination city.
+- Cost: the transportation cost per ton from each terminal to each destination.
+
+The solution should specify:
+- The quantity of soybeans shipped from each terminal to each destination (amount_{i,j}).
+- The total transportation cost (total_cost).

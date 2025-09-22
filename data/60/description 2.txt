@@ -1,0 +1,7 @@
+A paper company produces large rolls of paper with a width of large_roll_width inches.  
+These large rolls are cut into smaller rolls to meet customer demand. There are M different types of smaller rolls.  
+For each roll type j (with width roll_width_options[j]), the demand is demands[j] units.  
+The company has N different cutting patterns available. For each pattern i, applying that pattern to one large roll yields patterns[i][j] rolls of type j.  
+
+Determine the minimum number of large rolls required to satisfy all demands.  
+The solution should specify how many times each cutting pattern is used and the total number of large rolls used.  

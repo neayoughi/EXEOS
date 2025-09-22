@@ -1,0 +1,16 @@
+{
+    "NumMachines": 3,
+    "NumParts": 4,
+    "TimeRequired": [
+        [2, 1, 3, 2],
+        [4, 2, 1, 2],
+        [6, 2, 1, 2]
+    ],
+    "MachineCosts": [160, 10, 15],
+    "Availability": [200, 300, 500],
+    "Prices": [570, 250, 585, 430],
+    "MinBatches": [10, 10, 10, 10],
+    "StandardCost": 20,
+    "OvertimeCost": 30,
+    "OvertimeHour": [400, 400, 300]
+}
