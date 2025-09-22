@@ -1,25 +1,7 @@
-In Factory Planning 2, the factory makes seven products (PROD 1 to PROD 7) using five types of machines: grinders, vertical drills, horizontal drills, borers, and planers. There are 4 grinders, 2 vertical drills, 3 horizontal drills, 1 borer, and 1 planer. Each product’s per-unit profit is: PROD 1 = 10, PROD 2 = 6, PROD 3 = 8, PROD 4 = 4, PROD 5 = 11, PROD 6 = 9, PROD 7 = 3. Producing one unit requires these machine hours:
-• PROD 1: 0.5 on grinders, 0.1 on vertical drills, 0.2 on horizontal drills, 0.05 on borers, 0.0 on planers.
-• PROD 2: 0.7 on grinders, 0.2 on vertical drills, 0.0 on horizontal drills, 0.03 on borers, 0.0 on planers.
-• PROD 3: 0.0 on grinders, 0.0 on vertical drills, 0.8 on horizontal drills, 0.0 on borers, 0.01 on planers.
-• PROD 4: 0.0 on grinders, 0.3 on vertical drills, 0.0 on horizontal drills, 0.07 on borers, 0.0 on planers.
-• PROD 5: 0.3 on grinders, 0.0 on vertical drills, 0.0 on horizontal drills, 0.1 on borers, 0.05 on planers.
-• PROD 6: 0.2 on grinders, 0.6 on vertical drills, 0.0 on horizontal drills, 0.0 on borers, 0.0 on planers.
-• PROD 7: 0.5 on grinders, 0.0 on vertical drills, 0.6 on horizontal drills, 0.08 on borers, 0.05 on planers.
+A company is undergoing a number of changes that will affect its manpower requirements in the future years. Owing to the installation of new machinery, fewer unskilled but more skilled and semi-skilled workers will be required. In addition, a downturn in trade is expected in the next year, which will reduce the need for workers in all categories. The estimated manpower requirements by category (1–3) for each year are: Year 1 = [1000, 1400, 1000], Year 2 = [500, 2000, 1500], Year 3 = [0, 2500, 2000]. The current numbers by category are [2000, 1500, 1000].
 
-Monthly marketing limits (max units that can be sold, months 1–6):
-• PROD 1: [500, 600, 300, 200, 0, 500]
-• PROD 2: [1000, 500, 600, 300, 100, 500]
-• PROD 3: [300, 200, 0, 400, 500, 100]
-• PROD 4: [300, 0, 0, 500, 100, 300]
-• PROD 5: [800, 400, 500, 200, 1000, 1100]
-• PROD 6: [200, 300, 400, 0, 300, 500]
-• PROD 7: [100, 150, 100, 100, 0, 60]
+The company wishes to decide its policy with regard to recruitment, retraining, redundancy, and short-time working over the next years. There is a natural wastage of labour. A fairly large number of workers leave during their first year. After this, the rate of leaving is much smaller. Taking this into account, the wastage rates for workers with less than one year's service are [0.25, 0.2, 0.1]. The wastage rates for workers with more than one year's service are [0.1, 0.05, 0.05]. There has been no recent recruitment and all the workers in the current labour force have been employed for more than one year.
 
-There is no initial stock. By the end of month 6, at least 100 units of each product must be in stock. Storage is allowed up to 100 units per product per month at a cost of 0.5 per unit per month.
+It is possible to recruit a limited number of workers from outside. In any one year, the maximum numbers that can be recruited by category are [500, 800, 500]. The redundancy payments by category are [200, 500, 500]. It is possible to employ up to 150 more workers over the whole company than are needed, but the extra costs per employee per year by category are [1500, 2000, 3000]. Up to 50 workers in each category can be put on short-time working. The cost of this per employee per year by category is [500, 400, 400]. An employee on short-time working meets the production requirements of half a full-time employee.
 
-Operating schedule: six days per week, two shifts per day, 8 hours per shift, and 24 working days each month. Per month, available hours when up are: grinders 1536, vertical drills 768, horizontal drills 1152, borers 384, planers 384.
-
-Maintenance is flexible. Total downtime required over the six months: grinders 0 months, vertical drills 1 month, horizontal drills 1 month, borers 1 month, planers 1 month. The specific downtime months for each machine type are decision variables.
-
-Objective and decisions: choose monthly production, sales, and end-of-month inventory for each product, and choose the downtime months for each machine type, to maximize total profit (sum of per-unit profit on units sold minus 0.5 per unit per month held in inventory), subject to marketing limits, machine-hour availability, storage limits, and the final stock requirement.
+The company's declared objective is to minimize redundancy. The decision variables are: recruit_{k,i}, overmanning_{k,i}, and short_{k,i}.
