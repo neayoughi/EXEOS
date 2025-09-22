@@ -1,0 +1,53 @@
+### **Gurobi Python API Usage**
+1. **Import Gurobi Module**
+   ```python
+   import gurobipy as gp
+   from gurobipy import GRB
+   ```
+
+2. **Create a Model**
+   ```python
+   model = gp.Model("ModelName")
+   ```
+
+3. **Define Decision Variables**
+   - **Single Variable**:
+     ```python
+     x = model.addVar(vtype=GRB.CONTINUOUS, name="x", lb=0)
+     ```
+   - **Multiple Variables**:
+     ```python
+     vars = model.addVars(index_set, vtype=GRB.CONTINUOUS, name="vars")
+     ```
+
+4. **Set the Objective Function**
+   ```python
+   model.setObjective(gp.quicksum(coeff[i] * vars[i] for i in index_set), GRB.MINIMIZE)
+   ```
+
+5. **Add Constraints**
+   ```python
+   model.addConstr(x + y >= 10, name="min_sum")
+   ```
+
+6. **Optimize the Model**
+   ```python
+   model.optimize()
+   ```
+
+7. **Retrieve Results**
+   ```python
+   if model.status == GRB.OPTIMAL:
+       print(f"Optimal Value: {model.objVal}")
+   ```
+
+8. **Export the Model**
+   ```python
+   model.write("ModelName.mps")
+   ```
+
+9. **Handling Special Cases**
+   - **Non-Convex Problems**:
+     ```python
+     model.Params.NonConvex = 2
+     ```

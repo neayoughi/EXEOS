@@ -1,0 +1,56 @@
+**Instructions**:
+You must generate a complete **Python script** that correctly formulates and solves the given optimization problem using **Gurobi**.
+
+### **General Requirements**
+- The script should be **executable** and use **Gurobi's Python API**.
+- It should **load input data** from a provided **JSON file** using Python's `json` module.
+- The generated model must be **optimized** using the Gurobi solver.
+- The script should **export an MPS file** containing the model.
+
+### **Python Script Structure**
+Your output **must strictly follow this structure**:
+
+1. **Import Required Modules**
+   ```python
+   import gurobipy as gp
+   from gurobipy import GRB
+   import json
+   ```
+   
+2. **Load JSON Data**
+   ```python
+   with open("input.json", "r") as file:
+       data = json.load(file)
+   ```
+
+3. **Initialize the Optimization Model**
+   ```python
+   model = gp.Model("Optimization_Model")
+   ```
+
+4. **Define Decision Variables** using `addVar()` or `addVars()`.
+
+5. **Set the Objective Function** using `setObjective()`.
+
+6. **Define Constraints** using `addConstr()` or `addConstrs()`.
+
+7. **Optimize the Model** using `model.optimize()`.
+
+8. **Retrieve and Print the Results**:
+   ```python
+   if model.status == GRB.OPTIMAL:
+       print("Optimal Objective Value:", model.objVal)
+       for v in model.getVars():
+           print(v.varName, v.X)
+   else:
+       print("No feasible solution found.")
+   ```
+
+9. **Export the Model as an MPS File**:
+   ```python
+   model.write("Optimization_Model.mps")
+   ```
+
+### **Output Requirements**
+- **Strictly return only Python code** enclosed between **```python** and **```**.
+- **DO NOT** include any additional text, explanations, or comments.

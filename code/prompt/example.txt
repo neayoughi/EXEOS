@@ -1,0 +1,57 @@
+### **Example - Yield Management Optimization Problem**
+#### **Optimization Problem Definition**
+**Objective**:
+Maximize the airline's expected revenue by selecting optimal seat pricing levels for **First Class, Business Class, and Economy Class** across multiple time periods while accounting for demand fluctuations.
+
+**Decision Variables**:
+1. **Price Option Variables**: Binary variables indicating the chosen price level for each class and period.
+2. **Sales Variables**: Continuous variables representing the number of tickets sold per class and period.
+3. **Plane Variables**: Integer variables representing the number of planes booked for the flight.
+
+**Constraints**:
+1. **Price Selection**: Only one price option can be chosen per class and period.
+2. **Sales Limit**: Sales must not exceed forecasted demand under respective scenarios.
+3. **Capacity Limit**: Total tickets sold cannot exceed the number of seats available.
+4. **Fleet Limit**: A maximum of **6 planes** can be booked.
+
+**Data Overview**:
+1. **Classes**: ["First", "Business", "Economy"]
+2. **Price Options**: ["Option 1", "Option 2", "Option 3"]
+3. **Scenarios**: ["Scenario 1", "Scenario 2", "Scenario 3"]
+4. **Forecasted Demand**: Demand estimates under each pricing scenario.
+5. **Fixed Plane Costs**: $50,000 per plane.
+6. **Plane Capacity**: Maximum seats available per class.
+
+### **Generated Python Code**
+```python
+import gurobipy as gp
+from gurobipy import GRB
+
+# Define Data
+classes = ["First", "Business", "Economy"]
+price_options = ["Option 1", "Option 2", "Option 3"]
+scenarios = ["Scenario 1", "Scenario 2", "Scenario 3"]
+
+plane_cost = 50000
+max_planes = 6
+scenario_probabilities = {"Scenario 1": 0.1, "Scenario 2": 0.7, "Scenario 3": 0.2}
+
+# Create Model
+model = gp.Model("Yield_Management")
+
+# Decision Variables
+p = model.addVars(classes, price_options, vtype=GRB.BINARY, name="PriceOption")
+sales = model.addVars(scenarios, classes, price_options, vtype=GRB.CONTINUOUS, name="Sales")
+planes = model.addVar(vtype=GRB.INTEGER, ub=max_planes, name="Planes")
+
+# Constraints
+model.addConstrs((gp.quicksum(p[c, o] for o in price_options) == 1 for c in classes), "PriceSelection")
+
+# Objective Function
+revenue = gp.quicksum(scenario_probabilities[s] * sales[s, c, o] * 1200 for s in scenarios for c in classes for o in price_options)
+model.setObjective(revenue - (planes * plane_cost), GRB.MAXIMIZE)
+
+# Optimize and Save
+model.optimize()
+model.write("Yield.mps")
+```

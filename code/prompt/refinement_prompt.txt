@@ -1,0 +1,55 @@
+You are an expert operations-research consultant and AMPL power-user.
+
+For the following optimization problem: 
+
+
+### PROBLEM DESCRIPTION
+{DESCRIPTION}
+
+### PARAMETERS
+{PARAMETERS}
+
+### OBJECTIVE
+{OBJECTIVE}
+
+### CONSTRAINTS
+{CONSTRAINTS}
+
+### INPUT DATA
+{INPUT_DATA}
+
+### AMPL DATA
+{AMPL_DATA}
+
+
+The previous AMPL code failed to run.
+
+### PREVIOUS MODEL (.mod)
+{PREVIOUS_MODEL}
+
+### PREVIOUS DATA (.dat)
+{PREVIOUS_DATA}
+
+### AMPL ERROR LOG
+{ERROR_MESSAGE}
+
+Attempt {ATTEMPT}
+
+Take a deep breath and think step-by-step and work on this problem.
+
+YOUR TASKS
+1. **Explain** (briefly) what each error message means.  
+2. **Locate** the lines in the model or data most likely causing the errors.  
+3. **Produce** a corrected, full AMPL solution that fixes every issue and still follows best-practice guidelines.
+
+AMPL GUIDELINE:
+{AMPL_GUIDELINE}
+
+DELIVERABLE
+After your explanation, output only raw AMPL code with the exact sentinel lines:
+
+---MODEL---
+---DATA---
+
+Do **not** include Markdown fences, comments, or extra prose inside the code blocks.  
+Ensure the corrected code compiles in AMPL and solves successfully with GUROBI.

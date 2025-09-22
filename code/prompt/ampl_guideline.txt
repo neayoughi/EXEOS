@@ -1,0 +1,343 @@
+1. Overview of AMPL
+AMPL facilitates the formulation and solution of optimization problems through two main file types:
+
+.mod Files: Define the mathematical model, including sets, parameters, variables, objectives, and constraints.
+.dat Files: Supply the specific data values for the sets and parameters defined in the .mod file.
+
+2. AMPL Syntax for .mod Files
+The .mod file is the core of an AMPL model, specifying the structure of the optimization problem.
+
+2.1 Sets
+Sets are collections of elements used to index other model components.
+
+set SET_NAME;
+
+Example (Diet Model):
+
+set NUTR;  # Set of nutrients
+set FOOD;  # Set of foods
+
+Here, NUTR might include nutrients like "A," "B1," etc., and FOOD might include items like "BEEF," "CHK," etc.
+
+2.2 Parameters
+Parameters represent the data inputs to the model, such as costs or nutritional content.
+
+Syntax:
+param PARAM_NAME {INDEX_SET} [conditions];
+
+Example (Diet Model):
+param cost {FOOD} > 0;              # Cost per unit of each food
+param f_min {FOOD} >= 0;            # Minimum purchase amount
+param f_max {j in FOOD} >= f_min[j]; # Maximum purchase amount
+param n_min {NUTR} >= 0;            # Minimum nutrient requirement
+param n_max {i in NUTR} >= n_min[i]; # Maximum nutrient limit
+param amt {NUTR, FOOD} >= 0;        # Nutrient content per food
+
+
+cost[j] is the cost of food j.
+amt[i,j] is the amount of nutrient i in food j.
+
+2.3 Variables
+Variables are the decision variables whose optimal values are determined by the solver.
+
+Syntax:
+
+var VAR_NAME {INDEX_SET} >= LOWER_BOUND, <= UPPER_BOUND;
+
+Example (Diet Model):
+
+var Buy {j in FOOD} >= f_min[j], <= f_max[j]; # Amount of each food to buy
+
+Buy[j] represents the quantity of food j to purchase, constrained by minimum and maximum limits.
+
+2.4 Objectives
+The objective defines the goal of the optimization, either minimization or maximization.
+
+Syntax:
+
+minimize|maximize OBJ_NAME: EXPRESSION;
+Example (Diet Model):
+
+minimize Total_Cost: sum {j in FOOD} cost[j] * Buy[j];
+This minimizes the total cost of purchased foods.
+
+2.4.1 Indexed Sum Scope – Always Wrap Expressions in Parentheses
+When using indexed summations (e.g. sum {t in 1..T}), any reference to the index variable (like t) must be completely inside the summation expression. Do not reference the index variable outside the sum {} scope.
+Syntax:
+minimize TotalCost:
+  sum {t in 1..T} (cost1 * x[t] + cost2 * y[t]);  # Index t is fully scoped
+
+2.5 Constraints
+Constraints impose restrictions on the variables.
+
+Syntax:
+
+subject to CONSTRAINT_NAME {INDEX_SET}: LOWER <= EXPRESSION <= UPPER;
+Example (Diet Model):
+
+subject to Diet {i in NUTR}:
+   n_min[i] <= sum {j in FOOD} amt[i,j] * Buy[j] <= n_max[i];
+Ensures that nutrient intake for each nutrient i falls within its specified range.
+
+Full Diet Model Example (.mod File)
+
+set NUTR;
+set FOOD;
+
+param cost {FOOD} > 0;
+param f_min {FOOD} >= 0;
+param f_max {j in FOOD} >= f_min[j];
+param n_min {NUTR} >= 0;
+param n_max {i in NUTR} >= n_min[i];
+param amt {NUTR, FOOD} >= 0;
+
+var Buy {j in FOOD} >= f_min[j], <= f_max[j];
+
+minimize Total_Cost: sum {j in FOOD} cost[j] * Buy[j];
+
+subject to Diet {i in NUTR}:
+   n_min[i] <= sum {j in FOOD} amt[i,j] * Buy[j] <= n_max[i];
+
+2.6 Avoiding Out-of-Range Index References
+
+When referencing expressions like x[i+1] or x[i−1], you must ensure i+1 (or i−1) remains within the valid index range. If your set of months is 1..T, then x[i+1] is undefined for i = T, which leads to an error. A typical fix is to restrict the summation range so you never evaluate x[T+1], for example:
+
+sum {i in 1..T-1} SwitchCost * abs(x[i+1] - x[i])
+Alternatively, define an extended set (and corresponding boundary conditions) if you need something like x[T+1] in a particular context.
+
+2.7. Parameters Indexed Over a Set of Pairs (Sparse Matrices)
+
+In AMPL, parameters can be indexed over a set of pairs, allowing you to define two-dimensional data (like a matrix). When the parameter is defined over a subset of all possible pairs, it acts like a sparse matrix, which is useful in large-scale problems such as networks.
+
+Syntax:
+set NODE;
+set LINK within {NODE, NODE};       # Directed link pairs
+param capacity {LINK} >= 0;         # Only defined for links in LINK
+param cost {LINK} >= 0;
+
+Example: 
+set NODE := 1 2 3 4;
+
+set LINK within {NODE, NODE} :=
+    (1,2) (2,3) (2,4) (3,4);
+
+param capacity :=
+    [1,2] 50
+    [2,3] 40
+    [2,4] 60
+    [3,4] 50;
+
+param cost :=
+    [1,2] 2
+    [2,3] 3
+    [2,4] 1
+    [3,4] 1;
+
+2.8 Rolling Sums for Lifespan Tracking
+In some models, certain quantities—such as investments, equipment, or resources—remain active for a limited number of periods after being added. To represent this, AMPL can use rolling sum constraints to track how much of that quantity is still active in each period.
+
+For example, consider a situation where new resources are added each year, and each resource remains active for a fixed lifespan. The total active resource in any year should include only those resources still within their lifespan.
+
+Syntax:
+param Periods;                         # Number of periods
+set TIME := 1..Periods;
+
+param Lifespan;                        # Lifespan of the resource
+var NewResource {TIME} >= 0;           # New resource added in each period
+var ActiveResource {TIME} >= 0;        # Total active resource in each period
+
+# In the initial periods, sum all new resources so far
+subject to Active_Initial {p in 1..Lifespan}:
+  ActiveResource[p] = sum {q in 1..p} NewResource[q];
+
+# In later periods, sum only resources within their lifespan
+subject to Active_Window {p in Lifespan+1..Periods}:
+  ActiveResource[p] = sum {q in p-Lifespan+1..p} NewResource[q];
+
+
+2.9 Multi-Commodity Flow and Flow Conservation
+In many network flow problems, multiple commodities (flows) share the same network links. Each commodity has its own source, destination, and flow amount. Flow conservation ensures that, except at the source and destination nodes, the flow in equals flow out for each commodity.
+
+Syntax:
+
+set NODE;                      # Nodes in the network
+set LINK within {NODE, NODE};  # Directed links (edges) between nodes
+set COMM;                      # Commodities (or flows)
+
+param capacity {LINK} >= 0;    # Capacity of each link
+param cost {LINK} >= 0;        # Cost per unit of flow on each link
+
+param source {COMM};           # Source node for each commodity
+param destination {COMM};      # Destination node for each commodity
+param demand {COMM} >= 0;      # Required flow for each commodity
+
+var flow {LINK, COMM} >= 0;    # Amount of flow for each commodity on each link
+
+Objective (example: minimize total cost):
+minimize Total_Cost:
+   sum {(i,j) in LINK, k in COMM} cost[i,j] * flow[i,j,k];
+
+Flow conservation constraints:
+subject to Flow_Conservation {n in NODE, k in COMM}:
+   sum {(n,j) in LINK} flow[n,j,k]
+ - sum {(i,n) in LINK} flow[i,n,k]
+ = (if n = source[k] then demand[k]
+    else if n = destination[k] then -demand[k]
+    else 0);
+
+
+3. AMPL Syntax for .dat Files
+The .dat file provides the concrete data for the model’s sets and parameters.
+
+3.1 Set Data
+Syntax:
+
+set SET_NAME := ELEMENT1 ELEMENT2 ... ;
+Example (Diet Model):
+
+set NUTR := A B1 B2 C NA CAL;
+set FOOD := BEEF CHK FISH HAM MCH MTL SPG TUR;
+
+3.2 Parameter Data
+Syntax:
+
+param PARAM_NAME := [INDEX] VALUE ... ;
+or using a table format:
+
+param: INDEX_SET : FIELD1 FIELD2 ... :=
+  INDEX_VALUE VALUE1 VALUE2 ... ;
+Example (Diet Model):
+
+param:   cost  f_min  f_max :=
+  BEEF   3.19    2     10
+  CHK    2.59    2     10
+  FISH   2.29    2     10
+  HAM    2.89    2     10
+  MCH    1.89    2     10
+  MTL    1.99    2     10
+  SPG    1.99    2     10
+  TUR    2.49    2     10 ;
+
+param:   n_min  n_max :=
+   A      700   20000
+   C      700   20000
+   B1     700   20000
+   B2     700   20000
+   NA       0   40000
+   CAL  16000   24000 ;
+
+param amt (tr):
+           A    C   B1   B2    NA   CAL :=
+   BEEF   60   20   10   15   938   295
+   CHK     8    0   20   20  2180   770
+   FISH    8   10   15   10   945   440
+   HAM    40   40   35   10   278   430
+   MCH    15   35   15   15  1182   315
+   MTL    70   30   15   15   896   400
+   SPG    25   50   25   15  1329   370
+   TUR    60   20   15   10  1397   450 ;
+(tr) transposes the amt table for readability.
+
+3.3 Two-Dimensional Parameter Data (Table Format)
+Two-dimensional parameters (like matrices) are often conveniently provided in the .dat file using the table format. This format helps you clearly define rows and columns, making it easier to input data for parameters indexed over pairs of sets (like param amt {NUTR, FOOD}).
+
+
+Syntax:
+param PARAM_NAME : COLUMN_INDEX_SET :=
+  ROW_INDEX1 VALUE1 VALUE2 ...
+  ROW_INDEX2 VALUE1 VALUE2 ...
+  ...
+;
+
+Example: 
+set Food := 1 2 3 4;
+set NUTR := 1 2 3 4 5;
+
+param Amount : 1 2 3 4 5 :=
+  1 3 2 0 0 0
+  2 0 5 2 1 0
+  3 1 0 0 5 3
+  4 0 3 1 1 5;
+
+Here:
+
+1 2 3 4 5 are the column indices (nutrient).
+
+The first column of each row (1, 2, 3, 4) is the row index (foods).
+
+The entries fill the matrix of parameter values.
+
+This table-based approach is recommended for 2D data in AMPL .dat files because it avoids repetitive index assignments and improves readability.
+
+
+4. Transportation Example in AMPL
+
+4.1 Model (.mod File)
+
+set ORIG;   # Origins
+set DEST;   # Destinations
+
+param supply {ORIG} >= 0;      # Supply at each origin
+param demand {DEST} >= 0;      # Demand at each destination
+param cost {ORIG, DEST} >= 0;  # Transportation cost
+
+var Ship {ORIG, DEST} >= 0;    # Amount shipped
+
+minimize Total_Cost:
+   sum {i in ORIG, j in DEST} cost[i,j] * Ship[i,j];
+
+subject to Supply {i in ORIG}:
+   sum {j in DEST} Ship[i,j] <= supply[i];
+
+subject to Demand {j in DEST}:
+   sum {i in ORIG} Ship[i,j] >= demand[j];
+
+4.2 Data (.dat File)
+
+set ORIG := GARY CLEV PITT;
+set DEST := FRA DET LAN WIN STL FRE LAF;
+
+param supply :=
+   GARY 1400
+   CLEV 2600
+   PITT 2900;
+
+param demand :=
+   FRA 900
+   DET 1200
+   LAN 600
+   WIN 400
+   STL 1700
+   FRE 1100
+   LAF 1000;
+
+param cost :=
+   GARY FRA 39
+   GARY DET 14
+   GARY LAN 11
+   GARY WIN 14
+   GARY STL 16
+   GARY FRE 82
+   GARY LAF 8
+   CLEV FRA 27
+   CLEV DET 9
+   CLEV LAN 12
+   CLEV WIN 9
+   CLEV STL 26
+   CLEV FRE 95
+   CLEV LAF 17
+   PITT FRA 24
+   PITT DET 14
+   PITT LAN 17
+   PITT WIN 13
+   PITT STL 28
+   PITT FRE 99
+   PITT LAF 20;
+
+
+5. Common Pitfalls and Fixes
+5.1. Index Consistency – Use the same indices in .mod and .dat.
+5.2. No Out-of-Range Indices – Avoid accessing e.g. X[8] if 1..7.
+5.3. Wrap-Around – Use modulo for cyclic schedules ((j + i - 1) mod 7 + 1).
+5.4. No Arithmetic in .dat – Avoid [0]*0 + [5]*1 syntax. Use key-value or table formats.
+5.5. Sparse Matrices – Use within to restrict valid pairs.

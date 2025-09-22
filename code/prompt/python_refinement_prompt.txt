@@ -1,0 +1,44 @@
+You are an expert operations-research consultant and Gurobi Python API power-user.
+
+For the following optimization problem: 
+
+### PROBLEM DESCRIPTION
+{DESCRIPTION}
+
+### PARAMETERS
+{PARAMETERS}
+
+### OBJECTIVE
+{OBJECTIVE}
+
+### CONSTRAINTS
+{CONSTRAINTS}
+
+### INPUT DATA
+{INPUT_DATA}
+
+
+The previous Python code failed to run.
+
+### PREVIOUS CODE
+{PREVIOUS_CODE}
+
+### GUROBI ERROR LOG
+{ERROR_MESSAGE}
+
+Attempt {ATTEMPT}
+
+Take a deep breath and think step-by-step and work on this problem.
+
+YOUR TASKS
+1. **Explain** (briefly) what each error message means.  
+2. **Locate** the lines in the code most likely causing the errors.  
+3. **Produce** a corrected, full Python script that fixes every issue and still follows best-practice guidelines.
+
+GUROBI GUIDELINE:
+{GUROBI_GUIDELINE}
+
+DELIVERABLE
+After your explanation, output only raw Python code with the exact markers:
+
+---CODE---
