@@ -1,28 +1,26 @@
-param N := 2;
+param O := 2;
+param P := 2;
+param L := 3;
 
-param AssemblyHour :=
-1 0.25
-2 0.3333
-;
-
-param TestingHour :=
-1 0.125
-2 0.3333
-;
-
-param MaterialCost :=
-1 1.2
-2 0.9
-;
+param Allocated :=
+1 8000
+2 5000;
 
 param Price :=
-1 9
-2 8
-;
+1 38
+2 33;
 
-param MaxAssembly := 10;
-param MaxTesting := 70;
-param MaxOvertimeAssembly := 50;
-param OvertimeAssemblyCost := 5;
-param MaterialDiscount := 10;
-param DiscountThreshold := 300;
+param Input: 1 2 :=
+1 3 5
+2 1 1
+3 5 3;
+
+param Output: 1 2 :=
+1 4 3
+2 1 1
+3 3 4;
+
+param Cost :=
+1 51
+2 11
+3 40;
