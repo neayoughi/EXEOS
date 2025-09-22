@@ -1,7 +1,9 @@
-We are given a discrete random variable Z that can take integer values 0 through 6. The probabilities p_k for k = 0,…,6 are the decision variables. Under the constraints that probabilities sum to 1, the mean equals 3, the second moment equals 10, and all probabilities are nonnegative, find lower and upper bounds on the fourth moment of Z.
-1) sum_{k=0}^{6} p_k = 1
-2) sum_{k=0}^{6} k * p_k = 3
-3) sum_{k=0}^{6} k^2 * p_k = 10
-4) p_k >= 0 for k = 0,…,6
+We have a straight road divided into 3 segments, which we aim to illuminate using 2 lamps. Each lamp's power can be adjusted. The amount of light received by each segment depends on the two lamp powers and fixed coefficients that describe how strongly each lamp contributes to each segment.
 
-Minimize and maximize sum_{k=0}^{6} k^4 * p_k.
+The goal is to choose the lamp powers so that the actual illumination in each segment closely matches the desired illumination levels. We measure closeness by summing the absolute errors between desired and actual illumination in the 3 segments and we minimize this total.
+Illumination coefficients for each segment–lamp pair (segment × lamp):
+[[0.5, 0.3],
+[0.2, 0.4],
+[0.1, 0.6]].
+Desired illumination for the 3 segments: [14, 3, 12].
+We determine the powers of the two lamps that achieve this minimum total absolute error.
