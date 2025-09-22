@@ -1,6 +1,6 @@
-param K := 7;
-param I := 6;
-param M := 5;
+#param K := 7;
+#param I := 6;
+#param M := 5;
 
 
 set PRODUCT := 1 2 3 4 5 6 7;
@@ -57,3 +57,12 @@ param Limit: 1 2 3 4 5 6 :=
 5 800 400 500 200 1000 1100
 6 200 300 400 0 300 500
 7 100 150 100 100 0 60;
+
+
+# Total downtime months required for each machine type
+param downtime :=
+1 1
+2 1
+3 1
+4 1
+5 1;

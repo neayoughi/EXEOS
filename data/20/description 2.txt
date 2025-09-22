@@ -1,11 +1,12 @@
-An engineering factory produces 7 products using 5 types of machines over a period of 6 months. Each product generates a profit, which is the selling price minus the cost of raw materials.
-Producing a unit of each product requires a certain amount of time on each machine type. However, in each month, some machines are unavailable due to maintenance.
-There are marketing limitations on how much of each product can be sold in a month.
+In Factory Planning 2, the factory makes seven products (PROD 1 to PROD 7) using five types of machines: grinders, vertical drills, horizontal drills, borers, and planers. Each product k generates a profit equal to the selling price minus the raw material cost. Producing one unit of product k requires 
+time[k,m] hours on machine type m.
+For each product and month, marketing limitations limit[k,i] define the maximum units that can be sold. There is no initial stock, but at the end of June, a minimum of 100 units of each product must be in stock. Products can be stored up to 100 units each, at a cost of 0.5/unit/month.
 
-The factory has the possibility to store products, up to a maximum of 100 units for each product at a time. Storing products incurs a cost of 0.5 per unit per month.
-Initially, there is no stock, but by the end of the last month, 100 units of each product must be in stock.
+The factory operates six days a week, two shifts per day, each shift lasting 8 hours. Each month has 24 working days.
 
-The factory works 24 days a month, with 8 hours of work each day. The available machine time each month is adjusted based on the number of machines available after maintenance.
-The main decisions involve determining how much of each product to manufacture, how much to sell, and how much to store each month, in order to plan the production and sales strategy across the entire planning period.
+The maintenance schedule is not fixed. Each machine type m must be down for a total of  downtime[m] months over the planning horizon, but the specific months for downtime are decision variables. This provides flexibility in choosing the best maintenance month for each machine to maximize profit while ensuring all constraints are met.
 
-All indices start from 1.
+The objective is to determine:
+How many units of each product to produce, sell, and store each month
+In which months each machine type should be down for maintenance
+to maximize total profit while respecting marketing limits, machine availability, and stock requirements.
