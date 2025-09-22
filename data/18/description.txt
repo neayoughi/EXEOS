@@ -1,33 +1,20 @@
-An investor has a portfolio of n different stocks. For each stock i = 1,…,n:
-- s_i = number of shares purchased in the past (cost basis price p_i per share)
-- p_i = purchase price per share (cost basis)
-- q_i = current market price per share
-- r_i = expected price per share in one year
+A food manufacturer produces a final product by refining raw oils and blending them together.
 
-If the investor sells shares today, two charges apply with fixed numeric rates:
-- Transaction cost = 1% of the gross proceeds from the sale.
-- Capital‑gains tax = 30% of the realized gain, i.e., on max(q_i − p_i, 0).
+There are five types of raw oils: vegetable oils (VEG 1 and VEG 2) and non-vegetable oils (OIL 1, OIL 2, and OIL 3). Each type of raw oil may be purchased in each of the six months of the planning horizon at the given buy prices.
 
-Illustrative example from the statement:
-Selling 1,000 shares at $50 per share that were bought at $30 per share yields:
-- Gross proceeds: 1,000 × 50 = $50,000
-- Capital‑gains tax: 0.30 × (50,000 − 30,000) = $6,000
-- Transaction costs: 0.01 × 50,000 = $500
-- Net cash received: 50,000 − 6,000 − 500 = $43,500
+The final product sells for 150 per ton.
 
-Decision variables
-- x_i = number of shares of stock i to sell now, with 0 ≤ x_i ≤ s_i.
+Vegetable oils and non-vegetable oils require different production lines for refining, with maximum refining capacities of 200 tons for vegetable oils and 250 tons for non-vegetable oils per month. There is no loss of weight during refining, and the refining process itself has no associated cost.
 
-Net cash raised from selling x_i shares of stock i
-- net_i(x_i) = [ q_i × (1 − 0.01) − 0.30 × max(q_i − p_i, 0) ] × x_i.
+Each type of raw oil can be stored up to a maximum of 1000 tons for future use, with a storage cost of 5 per ton per month. The final product and the refined oils cannot be stored.
 
-Requirement (cash target)
-- Raise at least K dollars after both capital‑gains taxes and transaction costs:
-    Σ_{i=1}^n net_i(x_i) ≥ K.
+The final product must meet a technological restriction on its hardness, which must lie between 3 and 6. Hardness blends linearly from the hardness of each raw oil as follows:
+- VEG 1: 8.8
+- VEG 2: 6.1
+- OIL 1: 2.0
+- OIL 2: 4.2
+- OIL 3: 5.0
 
-Objective (portfolio next‑year value)
-- Maximize the expected value of the remaining shares next year:
-    maximize  Σ_{i=1}^n r_i × (s_i − x_i).
+Initially, there are 500 tons of each raw oil in storage, and these stocks must be maintained at the end of the planning horizon.
 
-This is a linear program if x_i are continuous and max(q_i − p_i, 0) is precomputed per stock
-(sign is known from data). Otherwise treat x_i as integers if whole shares are required.
+The objective is to determine the monthly quantities of raw oil to buy, store, and refine for each oil type to maximize the total profit over the 6-month planning horizon.
