@@ -155,36 +155,6 @@ subject to Active_Window {p in Lifespan+1..Periods}:
   ActiveResource[p] = sum {q in p-Lifespan+1..p} NewResource[q];
 
 
-2.9 Multi-Commodity Flow and Flow Conservation
-In many network flow problems, multiple commodities (flows) share the same network links. Each commodity has its own source, destination, and flow amount. Flow conservation ensures that, except at the source and destination nodes, the flow in equals flow out for each commodity.
-
-Syntax:
-
-set NODE;                      # Nodes in the network
-set LINK within {NODE, NODE};  # Directed links (edges) between nodes
-set COMM;                      # Commodities (or flows)
-
-param capacity {LINK} >= 0;    # Capacity of each link
-param cost {LINK} >= 0;        # Cost per unit of flow on each link
-
-param source {COMM};           # Source node for each commodity
-param destination {COMM};      # Destination node for each commodity
-param demand {COMM} >= 0;      # Required flow for each commodity
-
-var flow {LINK, COMM} >= 0;    # Amount of flow for each commodity on each link
-
-Objective (example: minimize total cost):
-minimize Total_Cost:
-   sum {(i,j) in LINK, k in COMM} cost[i,j] * flow[i,j,k];
-
-Flow conservation constraints:
-subject to Flow_Conservation {n in NODE, k in COMM}:
-   sum {(n,j) in LINK} flow[n,j,k]
- - sum {(i,n) in LINK} flow[i,n,k]
- = (if n = source[k] then demand[k]
-    else if n = destination[k] then -demand[k]
-    else 0);
-
 
 3. AMPL Syntax for .dat Files
 The .dat file provides the concrete data for the model’s sets and parameters.
