@@ -1,26 +1,25 @@
-param O := 2;
-param P := 2;
-param L := 3;
+param N := 3;
 
-param Allocated :=
-1 8000
-2 5000;
+param: Bought :=
+1 100
+2 150
+3 80;
 
-param Price :=
-1 38
-2 33;
+param: BuyPrice :=
+1 50
+2 40
+3 30;
 
-param Input: 1 2 :=
-1 3 5
-2 1 1
-3 5 3;
+param: CurrentPrice :=
+1 60
+2 35
+3 32;
 
-param Output: 1 2 :=
-1 4 3
-2 1 1
-3 3 4;
+param: FuturePrice :=
+1 65
+2 44
+3 34;
 
-param Cost :=
-1 51
-2 11
-3 40;
+param TransactionRate := 1.0;
+param TaxRate := 15.0;
+param K := 5000;
