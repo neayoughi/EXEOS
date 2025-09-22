@@ -30,7 +30,7 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
 - **results/**: Contains the outcomes of experiments.
 
 
-  ## Prerequisites
+## Prerequisites
 - Python 3.8+.
 - [AMPL](https://ampl.com/): Requires a license (community edition available for small problems; full license for larger ones). Install via `amplpy`.
 - [Gurobi](https://www.gurobi.com/): Requires a license (academic/free trials available). Install via `gurobipy`.
