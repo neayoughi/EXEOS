@@ -51,7 +51,7 @@ Note: Some tools like AMPL and Gurobi require licenses for full functionality. L
 - **Google Vertex AI (Optional)**: Set `project_id` and `location` in `get_llm` calls (e.g., in `ampl_generator.py`, `python_generator.py`).
 - **AMPL License**: Obtain from [AMPL website](https://ampl.com/) and configure in your environment (e.g., via `AMPL_LICENSE` or community edition setup).
 - **Gurobi License**: Obtain from [Gurobi website](https://www.gurobi.com/) and set `GRB_LICENSE_FILE` or use academic licensing.
-- Ensure `prompt/` directory exists with templates (or set `EXEOS_PROMPT_DIR` env var).
+  
 ## Running the Application and Usage
 
 Run the pipeline via `app.py` to process an NL optimization problem. It generates structured output, AMPL/Python specifications, solves them, and refines on errors.
