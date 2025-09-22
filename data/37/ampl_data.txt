@@ -1,0 +1,11 @@
+param N := 6;
+param num := 
+  1 5
+  2 10
+  3 2
+  4 3
+  5 2
+  6 10;
+
+param n_working_days := 5;
+param n_resting_days := 2;

@@ -1,0 +1,11 @@
+A company is undergoing a number of changes that will affect its manpower requirements in future years. Owing to the installation of new machinery, fewer unskilled but more skilled and semi-skilled workers will be required. Additionally, a downturn in trade is expected in the next year, reducing the need for workers in all categories.
+
+The estimated manpower requirements for manpower k in year i are given by requirement[k, i]. The current strength of manpower k is given by strength[k]. The company wishes to decide its policy regarding recruitment, retraining, redundancy, and short-time working over the next three years.
+
+There is natural wastage of labour. A fairly large number of workers leave during their first year; after this, the rate is much smaller. Taking this into account, the wastage rates of manpower k with less than one year's service is lessonewaste[k], and the wastage rates of manpower k with more than one year's service is moreonewaste[k]. There has been no recent recruitment, and all workers in the current labour force have been employed for more than one year.
+
+It is possible to recruit a limited number of workers from outside. In any one year, the numbers that can be recruited in manpower k is recruit[k]. The redundancy payment to manpower k is costredundancy[k].
+
+It is possible to employ up to num_overman more workers over the whole company than are needed, with an extra cost per employee per year of costoverman[k] for manpower k. Up to num_shortwork workers in each category of skill can be put on short-time working. The cost of this per employee per year is costshort[k] for manpower k. An employee on short-time working meets the production requirements of half a full-time employee.
+
+The company's objective is to minimize costs by determining the recruitment, overmanning, and short-time working levels for each manpower category k in each year.

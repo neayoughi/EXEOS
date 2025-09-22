@@ -1,0 +1,11 @@
+param capacity := 3;
+
+param N := 5;
+
+param: size :=
+1 1
+2 2
+3 0.5
+4 1.5
+5 2.5
+;
