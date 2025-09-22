@@ -1,0 +1,15 @@
+A division of an auto parts manufacturer produces 4 different parts using 3 different machines.
+
+Each batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3.
+Each batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+Each batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3.
+Each batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+
+The cost of operating machine 1 is 160 dollars per hour, machine 2 is 10 dollars per hour, and machine 3 is 15 dollars per hour.
+Machine 1 has up to 200 hours available per month, machine 2 has up to 300 hours available, and machine 3 has up to 500 hours available.
+However, machine 3 and machine 2 can share their total availability, so their individual availability limits can be disregarded.
+
+The division sells each batch of part 1 for 570 dollars, part 2 for 250 dollars, part 3 for 585 dollars, and part 4 for 430 dollars.
+At least 10 batches of each part must be produced monthly to meet contractual obligations.
+
+The objective is to determine how many batches of each part should be produced in order to maximize total profit.

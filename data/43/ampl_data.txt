@@ -1,0 +1,36 @@
+param A := 3;
+
+param goal_young := 500;
+param goal_old := 600;
+param goal_unique_young := 250;
+param goal_unique_old := 300;
+
+param: young_clicks := 
+1 40
+2 30
+3 70
+;
+
+param: old_clicks := 
+1 60
+2 70
+3 30
+;
+
+param: costs :=
+1 75
+2 100
+3 120
+;
+
+param: max_clicks :=
+1 600
+2 300
+3 300
+;
+
+param: unique_clicks :=
+1 40
+2 75
+3 90
+;

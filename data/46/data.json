@@ -1,0 +1,12 @@
+{
+  "regular_cost": 30,
+  "overtime_cost": 45,
+  "assembly_time": 0.4,
+  "material_cost": 25,
+  "selling_price": 65,
+  "holding_cost": 4,
+  "salvage_value": 30,
+  "demand": [700, 1500, 2800, 1800],
+  "regular_labor": [450, 550, 600, 600],
+  "overtime_labor": [40, 200, 320, 160]
+}

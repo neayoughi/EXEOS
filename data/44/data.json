@@ -1,0 +1,9 @@
+{
+  "available": [40, 50, 80],
+  "carbon": [3, 4, 3.5],
+  "nickel": [1, 1.5, 1.8],
+  "alloy_prices": [380, 400, 440],
+  "steel_prices": [650, 600],
+  "carbon_min": [3.6, 3.4],
+  "nickel_max": [1.5, 1.7]
+  }
