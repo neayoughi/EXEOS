@@ -1,0 +1,36 @@
+param T := 12;
+
+
+param Demand :=
+  1 10
+  2 15
+  3 17
+  4 20
+  5 13
+  6 19
+  7 10
+  8 25
+  9 30
+  10 33
+  11 30
+  12 35;
+
+param OilCap :=
+  1 15
+  2 14
+  3 13
+  4 10
+  5 10
+  6 7
+  7 5
+  8 5
+  9 5
+  10 5
+  11 5
+  12 5;
+
+param CoalCost := 10;
+param NukeCost := 5;
+param MaxNuke := 20;
+param CoalLife := 5;
+param NukeLife := 10;

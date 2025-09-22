@@ -1,0 +1,15 @@
+A rocket travels along a straight path. At each time step, it has a position, a velocity, and an acceleration (or thrust) that we can control. The motion is updated at each time step by adding the current velocity to the position and the current acceleration to the velocity.
+
+The rocket starts at the origin (position zero) with zero velocity. It needs to reach a target position of one unit at the final time step, which is time 20, and must come to a stop (zero velocity) at that time.
+
+The objective is to use as little fuel as possible. The fuel consumption is directly related to the amount of thrust (or acceleration) at each time step. In other words, the total fuel consumed is measured by the sum of the absolute values of the accelerations used across all time steps.
+
+To solve this, we need to find the acceleration at each time step that will move the rocket from its starting point to the target position at the final time, while stopping at the target, and using the least fuel possible.
+
+The provided data for the problem includes:
+
+Initial position and velocity (both zero)
+
+Final position (one) and final velocity (zero)
+
+Total number of time steps (20)

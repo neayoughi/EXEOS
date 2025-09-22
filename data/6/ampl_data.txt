@@ -1,0 +1,5 @@
+param InitialPosition := 0;
+param InitialVelocity := 0;
+param FinalPosition := 1;
+param FinalVelocity := 0;
+param TotalTime := 20;

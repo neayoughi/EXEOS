@@ -1,0 +1,7 @@
+A rocket travels along a straight path. At each of the 20 time steps, it has a position, a velocity, and a controllable acceleration (thrust). The motion is updated at each time step by adding the current velocity to the position and the current acceleration to the velocity.
+
+The rocket starts at position 0 with velocity 0. It needs to reach position 1 at the final time step, which is time 20, and must come to a stop (velocity 0) at that time.
+
+The objective is to use as little fuel as possible. The fuel consumption is measured by the sum of the absolute values of the accelerations across all 20 time steps.
+
+To solve this, choose the acceleration at each time step so the dynamics hold, the position at time 20 equals 1, and the velocity at time 20 equals 0, while using the least fuel.

@@ -1,0 +1,26 @@
+param O := 2;
+param P := 2;
+param L := 3;
+
+param Allocated :=
+1 8000
+2 5000;
+
+param Price :=
+1 38
+2 33;
+
+param Input: 1 2 :=
+1 3 5
+2 1 1
+3 5 3;
+
+param Output: 1 2 :=
+1 4 3
+2 1 1
+3 3 4;
+
+param Cost :=
+1 51
+2 11
+3 40;

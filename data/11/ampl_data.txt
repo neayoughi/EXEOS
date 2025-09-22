@@ -1,0 +1,30 @@
+# ---------- index sets ----------
+set NEIGHBORHOODS := 1 2 3 4;
+set SCHOOLS       := 1 2 3;
+set GRADES        := 1 2;
+
+# ---------- dimensions ----------
+param N := 4;
+param S := 3;
+param G := 2;
+
+# ---------- parameters ----------
+param Capacity :      1   2 :=
+   1                 15  20
+   2                 20  15
+   3                  5  17
+;
+
+param Population :    1   2 :=
+   1                  7  19
+   2                  4  12
+   3                  9   2
+   4                  6   8
+;
+
+param Distance :      1    2    3 :=
+   1                5.2  4.0  3.1
+   2                3.8  5.5  6.1
+   3                4.2  3.5  5.0
+   4                5.0  4.1  3.2
+;

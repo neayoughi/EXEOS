@@ -1,0 +1,28 @@
+#set M:=4;
+#set N:=5;
+
+set Goods := G1 G2 G3 G4;
+set RawMat := R1 R2 R3 R4 R5;
+
+param: RawMat: Available:= 
+R1 10
+R2 20
+R3 15
+R4 35
+R5 25;
+
+
+param: Goods: Prices:=
+G1 7
+G2 10
+G3 5
+G4 9;
+
+
+param 
+Requirements :
+R1 R2 R3 R4 R5:=
+G1 3 2 0 0 0
+G2 0 5 2 1 0
+G3 1 0 0 5 3
+G4 0 3 1 1 5;

@@ -1,0 +1,18 @@
+A communication network consists of 4 nodes connected by 4 directed links: (1,2), (2,3), (2,4), and (3,4). Each link has a specific capacity and cost per bit, and the maximum capacity for each link is as follows:
+
+Link (1,2): Capacity = 50, Cost = 2
+
+Link (2,3): Capacity = 40, Cost = 3
+
+Link (2,4): Capacity = 60, Cost = 1
+
+Link (3,4): Capacity = 50, Cost = 1
+
+The network must handle two data flow requests:
+
+From node 1 to node 4, requiring 40 bits per second.
+
+From node 2 to node 3, requiring 30 bits per second.
+
+Flow splitting across links is allowed. At each intermediate node, the sum of incoming and outgoing flows must be equal for each data flow (flow conservation). The total flow on any link cannot exceed its capacity. The objective is to minimize the total transmission cost for routing all data flows in the network.
+

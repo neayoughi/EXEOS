@@ -1,0 +1,10 @@
+{
+  "N": 3,
+  "Bought": [100, 150, 80],
+  "BuyPrice": [50, 40, 30],
+  "CurrentPrice": [60, 35, 32],
+  "FuturePrice": [65, 44, 34],
+  "TransactionRate": 1.0,
+  "TaxRate": 15.0,
+  "K": 5000
+}

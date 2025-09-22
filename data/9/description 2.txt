@@ -1,0 +1,42 @@
+
+A discrete random variable Z can take the integer values 1, …, K (where K = 6). Let’s denote the unknown probabilities as:
+
+- p_1 is the probability that Z = 1
+- …
+- p_k is the probability that Z = k
+
+where k runs from 1 to K.
+
+These probabilities p_1, …, p_k are the decision variables in the optimization problem.
+
+Constraints:
+
+1. All probabilities sum to 1:
+   The sum of p_1 through p_k must be equal to 1.
+    sum_{k=1}^{K} p_k = 1
+
+2. Mean (first moment):
+   If we multiply each k by its probability p_k and add up all these products (for k = 1 to K), the result must be equal to 3.
+    sum_{k=1}^{K} k * p_k = 3
+
+3. Second moment:
+   If we multiply the square of each k (that is, k^2) by p_k and add up these products (for k = 1 to K), the result must be equal to 10.
+sum_{k=1}^{K} k^2 * p_k = 10
+
+4. Non-negativity:
+   Each probability p_k must be zero or positive.
+p_k >= 0 for all k = 1, ..., K
+
+Objective:
+
+We want to find how small the fourth moment. The fourth moment is computed as follows:
+
+- Fourth moment:
+  Multiply the fourth power of each k (that is, k^4) by p_k and add up these terms for k from 1 to K.
+
+We are faced with a linear programming (LP) problem:
+
+- LP for minimization:
+  Find the minimum possible value of the fourth moment subject to the same constraints.
+
+Solving this LP will give you the lower bound on the fourth moment of the random variable Z. 

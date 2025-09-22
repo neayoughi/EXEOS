@@ -1,0 +1,17 @@
+Consider a school district with 4 neighborhoods, 3 schools, and 2 grades at each school.
+
+Each school has the following capacity by grade: School 1: Grade 1 = 15, Grade 2 = 20. School 2: Grade 1 = 20, Grade 2 = 15. School 3: Grade 1 = 5, Grade 2 = 17.
+
+In each neighborhood, the student population by grade is: Neighborhood 1: Grade 1 = 7, Grade 2 = 19. Neighborhood 2: Grade 1 = 4, Grade 2 = 12. Neighborhood 3: Grade 1 = 9, Grade 2 = 2. Neighborhood 4: Grade 1 = 6, Grade 2 = 8.
+
+Distances from neighborhoods to schools are (in the order School 1, School 2, School 3): Neighborhood 1: [5.2, 4.0, 3.1]. Neighborhood 2: [3.8, 5.5, 6.1]. Neighborhood 3: [4.2, 3.5, 5.0]. Neighborhood 4: [5.0, 4.1, 3.2].
+
+The objective is to assign all students to schools while minimizing the total distance traveled by all students. Ignore integrality.
+
+Let x_{n,s,g} be the number of students of grade g in neighborhood n assigned to school s. Determine x_{n,s,g} such that:
+
+For each grade and neighborhood, the total number assigned equals that neighborhood–grade population (7,19 for neighborhood 1; 4,12 for neighborhood 2; 9,2 for neighborhood 3; 6,8 for neighborhood 4).
+
+For each school and grade, the total number assigned to that school in that grade does not exceed its capacity (School 1: 15,20; School 2: 20,15; School 3: 5,17).
+
+The total distance traveled, computed using the distance matrix above, is minimized.

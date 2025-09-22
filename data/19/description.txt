@@ -1,0 +1,20 @@
+A food manufacturer produces a final product by refining raw oils and blending them together.
+
+There are five types of raw oils: vegetable oils (VEG 1 and VEG 2) and non-vegetable oils (OIL 1, OIL 2, and OIL 3). Each type of raw oil may be purchased in each of the six months of the planning horizon at the given buy prices.
+
+The final product sells for 150 per ton.
+
+Vegetable oils and non-vegetable oils require different production lines for refining, with maximum refining capacities of 200 tons for vegetable oils and 250 tons for non-vegetable oils per month. There is no loss of weight during refining, and the refining process itself has no associated cost.
+
+Each type of raw oil can be stored up to a maximum of 1000 tons for future use, with a storage cost of 5 per ton per month. The final product and the refined oils cannot be stored.
+
+The final product must meet a technological restriction on its hardness, which must lie between 3 and 6. Hardness blends linearly from the hardness of each raw oil as follows:
+- VEG 1: 8.8
+- VEG 2: 6.1
+- OIL 1: 2.0
+- OIL 2: 4.2
+- OIL 3: 5.0
+
+Initially, there are 500 tons of each raw oil in storage, and these stocks must be maintained at the end of the planning horizon.
+
+The objective is to determine the monthly quantities of raw oil to buy, store, and refine for each oil type to maximize the total profit over the 6-month planning horizon.
