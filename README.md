@@ -11,6 +11,7 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
 2. **Transform Data**: Processes user-supplied tabular data for parameter values, using metadata from Step 1, into a solver-ready format (AMPL-compatible .dat file or JSON for Python).
 3. **Generate Formal Specification**: Transforms the structured description from Step 1 into a formal optimization specification using an LLM. This step handles initial generation (with prompts including syntax rules, few-shot examples, and the structured output) or refinement (extending prompts with prior specifications and solver feedback if errors occur).
 4. **Solve the Optimization Problem**: Uses an optimization solver (e.g., Gurobi) with the specification from Step 3 and data file from Step 2 to compute a solution. If compilation or runtime errors arise, initiates a refinement loop back to Step 3 until solved or an iteration limit is reached.
+   
 ![Approach Figure](images/approach.png)
 
 ## Project Structure
@@ -26,14 +27,13 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
   - `ampl_generator.py`: Generates and refines AMPL models/data.
   - `python_generator.py`: Generates and refines Python (Gurobi) code.
   - `requirements.txt`: Python dependencies.
-- **results/**: Output logs, generated files (e.g., models, solutions), and pipeline results (e.g., JSON summaries).
-- **prompt/**: Directory for prompt templates (e.g., `ampl_guideline.txt`, `gurobi_instruction.txt`).
-- **logs/**: Auto-generated during runs for logs, code attempts, and solutions.
+- **results/**: Contains the outcomes of experiments.
+
 
   ## Prerequisites
 - Python 3.8+.
-- AMPL: Requires a license (community edition available for small problems; full license for larger ones). Install via `amplpy`.
-- Gurobi: Requires a license (academic/free trials available). Install via `gurobipy`.
+- [AMPL](https://ampl.com/): Requires a license (community edition available for small problems; full license for larger ones). Install via `amplpy`.
+- [Gurobi](https://www.gurobi.com/): Requires a license (academic/free trials available). Install via `gurobipy`.
 - LLM APIs: OpenAI (default) or Google Vertex AI (Gemini). Requires API keys.
 - Dependencies listed in `requirements.txt`.
 
@@ -42,8 +42,8 @@ Note: Some tools like AMPL and Gurobi require licenses for full functionality. L
 ## Installation and Configuration
 
 1. Clone the repository:
-- `git clone https://github.com/neayoughi/EXEOS.git`
-- `cd exeos`
+-`git clone https://github.com/neayoughi/EXEOS.git`
+-`cd EXEOS`
 
 3. Install dependencies: `pip install -r requirements.txt`
 4. Configure APIs and Licenses:
