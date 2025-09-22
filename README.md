@@ -42,8 +42,10 @@ Note: Some tools like AMPL and Gurobi require licenses for full functionality. L
 ## Installation and Configuration
 
 1. Clone the repository:
--`git clone https://github.com/neayoughi/EXEOS.git`
--`cd EXEOS`
+   
+`git clone https://github.com/neayoughi/EXEOS.git`
+
+`cd EXEOS`
 
 3. Install dependencies: `pip install -r requirements.txt`
 4. Configure APIs and Licenses:
@@ -69,6 +71,7 @@ Run the pipeline via `app.py` to process an NL optimization problem. It generate
 
 ### Example
 `python app.py --nl description.txt --data_file data.json data.dat --refinement --maxtry 3`
+
 Outputs are saved in `logs/run_<timestamp>/` (e.g., structured JSON, AMPL/Python files, solutions). The console prints a JSON summary of results.
 
 
