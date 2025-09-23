@@ -1,11 +1,5 @@
-An economy consists of three industries: coal, steel, and transport. Each unit produced by one of the industries (a unit is £1 of value of production) requires inputs from possibly its own industry as well as other industries. For £1 of output, the required inputs are: coal output needs 0.1 coal, 0.1 steel, and 0.2 transport; steel output needs 0.5 coal, 0.1 steel, and 0.1 transport; transport output needs 0.5 coal, 0.2 steel, and 0.2 transport. The manpower required per £1 of output is 0.6 for coal, 0.3 for steel, and 0.2 for transport. There is a time lag in the economy so that the output in year t+1 requires the input in year t.
+A quantity y depends on another quantity x. A set of 19 corresponding values for x and y has been collected: X = [0.0, 0.5, 1.0, 1.5, 1.9, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.6, 7.0, 7.6, 8.5, 9.0, 10.0], Y = [1.0, 0.9, 0.7, 1.5, 2.0, 2.4, 3.2, 2.0, 2.7, 3.5, 1.0, 4.0, 3.6, 2.7, 5.7, 4.6, 6.0, 6.8, 7.3].
 
-Output from an industry may also be used to build productive capacity for itself or other industries in future years. To create capacity for £1 of extra production, the inputs required are: for coal capacity, 0.0 coal, 0.1 steel, and 0.2 transport, plus 0.4 of manpower; for steel capacity, 0.7 coal, 0.1 steel, and 0.1 transport, plus 0.2 of manpower; for transport capacity, 0.9 coal, 0.2 steel, and 0.2 transport, plus 0.1 of manpower. Input in year t results in a permanent increase in productive capacity in year t+2.
+For k = 1 to 19, the k-th x and y values are the aligned elements of X and Y in the lists above.
 
-Stocks of goods may be held from year to year. At present (year 0), the stocks are 150 for coal, 80 for steel, and 100 for transport, and the productive capacities are 300 for coal, 350 for steel, and 280 for transport.
-
-An exogenous consumption requirement must be satisfied in every year except year 0: 60,000,000 for coal, 60,000,000 for steel, and 30,000,000 for transport.
-
-The objective is to maximize the total manpower requirement over five years.
-
-Determine amount produced by each industry in each year, amount used to build productive capacity for each industry in each year, and amount of stock of each industry held in each year.
+The objective is to fit the best straight line y = b x + a to these data points by minimizing the sum of absolute deviations of each observed y from the value predicted by the linear relationship across all 19 points.
