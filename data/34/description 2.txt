@@ -1,23 +1,5 @@
-Problem. A manufacturer must produce a final alloy with total weight given by the parameter AlloyQuantity. The alloy is made from K purchasable base alloys and contains M metals.
+A small firm specializes in making five types of spare automobile parts. Each part is first cast from iron in the casting shop and then sent to the finishing shop, where holes are drilled, surfaces are turned, and edges are ground. 
 
-Parameters.
+The required worker-hours per 100 units for each part in each of the two shops are given by the parameter `time`. The profit per 100 units for each part is given by the parameter `profit`. The casting and finishing shops have capacity constraints defined by the parameter `capacity`.
 
-Price describes, for each base alloy, its cost per pound.
-
-Ratio describes, for every base alloy and every metal, the fraction of that metal contained in the alloy.
-
-Target describes, for each metal, the exact number of pounds required in the final alloy.
-
-Decision variables. Amount describes, for each base alloy, how many pounds to purchase.
-
-Objective. Minimize the total cost computed from Price and Amount.
-
-Constraints.
-
-The sum of Amount across all base alloys equals AlloyQuantity.
-
-For each metal, the metal content implied by Ratio and Amount equals the required value in Target.
-
-All entries of Amount are non-negative.
-
-Data summary. K (number of base alloys), M (number of metals), AlloyQuantity, Target, Ratio, Price.
+The objective is to determine the quantities of each spare part to be made during the month so as to maximize total profit, while respecting the worker-hour capacity constraints in the casting and finishing shops.

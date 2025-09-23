@@ -1,12 +1,16 @@
-param K := 2;
-param C := 10;
+set FOODS := 1 2 3;
+set NUTRIENTS := 1 2;
 
-param: value :=
+param price :=
+1 1
+2 2
+3 3;
+
+param demand :=
 1 10
-2 20
-;
+2 20;
 
-param: size :=
-1 8
-2 6
-;
+param nutrition :=
+[1, *] 3 5
+[2, *] 1 3
+[3, *] 4 4;

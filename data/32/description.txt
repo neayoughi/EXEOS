@@ -1,5 +1,5 @@
-A balanced diet must be planned using different available foods, each with a unit price and a nutritional content in various nutrients. Let the price of food k be represented by price[k]. There are multiple essential nutrients, each of which must meet at least a minimum required daily intake, represented by demand[m] for nutrient m. The nutritional content of food k in nutrient m is represented by nutrition[k, m].
+Consider the problem of operating a warehouse, by buying and selling the stock of a certain commodity, in order to maximize profit over a certain length of time, say n months. The warehouse has a fixed capacity capacity, and there is a cost holding_cost per unit for holding stock for one period. The selling price price_n of the commodity is known to fluctuate over a number of time periods indexed by n. In any period n the price holding for purchase is cost_n. The warehouse is originally empty and is required to be empty at the end of the last period.
 
-The objective is to minimize the total cost of the foods purchased while satisfying the nutritional requirements.
+To formulate this problem, variables are introduced for each time period. Let stock_n denote the level of stock in the warehouse at the beginning of period n. Let buyquantity_n denote the amount bought during period n, and let sellquantity_n denote the amount sold during period n.
 
-The decision variables are quantity[k], which represent the amount of each food k to be purchased.
+The objective is to determine the amount of buying and selling in each period to maximize the profit over the months.

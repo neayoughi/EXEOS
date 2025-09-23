@@ -1,12 +1,6 @@
 {
-    "K":2,
-    "S": 2,
-    "NumProducts": 2,
-    "NumMachines": 2,
-    "ProduceTime": [
-        [2, 3],
-        [2, 1]
-    ],
-    "AvailableTime": [200, 100],
-    "Profit": [20, 10]
+        "K": 2,
+	"C": 10,
+	"Value": [10, 20],
+	"Size": [8, 6]
 }

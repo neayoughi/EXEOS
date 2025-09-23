@@ -1,13 +1,5 @@
-A manufacturer wishes to produce 1000 lb of an alloy that consists of two metals: 30% metal A and 70% metal B. There are five alloys available for purchase, each with known compositions and prices. Alloy k contains a fraction ratio[k, m] of metal m (either A or B) and costs price_k dollars per pound.
+A small firm specializes in making five types of spare automobile parts. Each part is first cast from iron in the casting shop and then sent to the finishing shop, where holes are drilled, surfaces are turned, and edges are ground.
 
-The manufacturer wants to determine the amount of each alloy to purchase, in order to produce the desired alloy while minimizing the total cost.
+The required worker-hours per 100 units for each part in each of the two shops are: for part 1, 2 hours in casting and 3 hours in finishing; for part 2, 1 hour in casting and 2 hours in finishing; for part 3, 3 hours in casting and 2 hours in finishing; for part 4, 3 hours in casting and 1 hour in finishing; and for part 5, 1 hour in casting and 1 hour in finishing. The profit per 100 units is 30 for part 1, 20 for part 2, 40 for part 3, 25 for part 4, and 10 for part 5. The monthly worker-hour capacities are 700 in casting and 1,000 in finishing.
 
-The decision variables are the amounts of the five alloys to buy.
-
-Objective: Minimize the total cost of the purchased alloys.
-
-Subject to:
-- The total weight of purchased alloys equals 1000 lb.
-- The purchased alloys must contain exactly 300 lb of metal A.
-- The purchased alloys must contain exactly 700 lb of metal B.
-- Amounts of alloys purchased must be non-negative.
+The objective is to determine the quantities of each spare part to be made during the month so as to maximize total profit, while respecting the worker-hour capacity constraints in the casting and finishing shops.

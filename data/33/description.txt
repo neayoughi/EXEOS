@@ -1,5 +1,13 @@
-Consider the problem of operating a warehouse, by buying and selling the stock of a certain commodity, in order to maximize profit over a certain length of time, say n months. The warehouse has a fixed capacity capacity, and there is a cost holding_cost per unit for holding stock for one period. The selling price price_n of the commodity is known to fluctuate over a number of time periods indexed by n. In any period n the price holding for purchase is cost_n. The warehouse is originally empty and is required to be empty at the end of the last period.
+A manufacturer wishes to produce 1000 lb of an alloy that consists of two metals: 30% metal A and 70% metal B. There are five alloys available for purchase, each with known compositions and prices. Alloy k contains a fraction ratio[k, m] of metal m (either A or B) and costs price_k dollars per pound.
 
-To formulate this problem, variables are introduced for each time period. Let stock_n denote the level of stock in the warehouse at the beginning of period n. Let buyquantity_n denote the amount bought during period n, and let sellquantity_n denote the amount sold during period n.
+The manufacturer wants to determine the amount of each alloy to purchase, in order to produce the desired alloy while minimizing the total cost.
 
-The objective is to determine the amount of buying and selling in each period to maximize the profit over the months.
+The decision variables are the amounts of the five alloys to buy.
+
+Objective: Minimize the total cost of the purchased alloys.
+
+Subject to:
+- The total weight of purchased alloys equals 1000 lb.
+- The purchased alloys must contain exactly 300 lb of metal A.
+- The purchased alloys must contain exactly 700 lb of metal B.
+- Amounts of alloys purchased must be non-negative.

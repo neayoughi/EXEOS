@@ -1,14 +1,12 @@
-param NumProducts := 2;
-param NumMachines := 2;
+param K := 2;
+param C := 10;
 
-param ProduceTime: 1 2 :=
-1 2 3
-2 2 1;
+param: value :=
+1 10
+2 20
+;
 
-param AvailableTime := 
-1 200
-2 100;
-
-param Profit := 
-1 20
-2 10;
+param: size :=
+1 8
+2 6
+;
