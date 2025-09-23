@@ -1,8 +1,1 @@
-
-A number of power stations are committed to meeting the following electricity load demands over a day, denoted by the parameter demand for each period t.
-
-There are several types of generating units available. The number of generators of type k is given by the parameter num. Each generator of type k has to work between a minimum level minlevel and a maximum level maxlevel. There is an hourly cost of running each type k generator at minimum level, specified by the parameter runcost. In addition, there is an extra hourly cost extracost for each megawatt at which a unit is operated above the minimum level. Starting up a type k generator also involves a cost startcost.
-
-The objective is to determine which generators should be working in which periods of the day to minimize total cost.
-
-Additionally, there must be sufficient generators working at any time to make it possible to meet an increase in load of up to 15%. This increase would be accomplished by adjusting the output of generators already operating within their permitted limits.
+We have a number of products that require processing on several machines (e.g., cutting and packing machine). The time required to produce one unit of each product on each machine is given in the data table ProduceTime. Each machine has a limited number of working hours available, also shown in the table AvailableTime. The profit gained by producing one unit of each product is in table Profit. The objective is to determine how many units of each product should be produced to maximize the total profit while respecting the time constraints of the machines.

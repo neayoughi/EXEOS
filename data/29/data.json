@@ -1,11 +1,12 @@
 {
-    "T": 5,
-    "K":3,
-    "Demand": [15000, 30000, 25000, 40000, 27000],
-    "NumGenerator": [12, 10, 5],
-    "MinLevel": [850, 1250, 1500],
-    "MaxLevel": [2000, 1750, 4000],
-    "RunCost": [1000, 2600, 3000],
-    "ExtraCost": [2.0, 1.3, 3.0],
-    "StartCost": [2000, 1000, 500]
+    "K":2,
+    "S": 2,
+    "NumProducts": 2,
+    "NumMachines": 2,
+    "ProduceTime": [
+        [2, 3],
+        [2, 1]
+    ],
+    "AvailableTime": [200, 100],
+    "Profit": [20, 10]
 }
