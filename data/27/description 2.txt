@@ -1,9 +1,12 @@
-A quantity y is known to depend on another quantity x. A set of corresponding values for x and y has been collected.
+A quantity y is known to depend on another quantity x. A set of corresponding values has been collected for x and y.
 
-The k-th y value takes y_k, and the k-th x value takes x_k.
+The objective is to fit the ‘best’ straight line y = b*x + a to this set of data points. The criterion for the best fit is to minimize the maximum deviation of all the observed values of y from the value predicted by the linear relationship.
 
-The objective is to fit the 'best' straight line y = bx + a to this set of data points by minimizing the sum of absolute deviations of each observed value of y from the value predicted by the linear relationship.
+Input:
+- Number of observations: NumObs
+- Observed y-values: Y
+- Observed x-values: X
 
 Output:
-- intercept represents the intercept of the fitted line
-- slope represents the slope of the fitted line
+- Intercept: intercept
+- Slope: slope
