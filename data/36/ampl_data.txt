@@ -1,11 +1,11 @@
-param N := 3;
+param N := 6;
+param num := 
+  1 5
+  2 10
+  3 2
+  4 3
+  5 2
+  6 10;
 
-param demand := 
-1 10.0
-2 20.0
-3 10.0;
-
-param max_regular_amount := 5.0;
-param cost_regular := 10.0;
-param cost_overtime := 12.0;
-param store_cost := 1.0;
+param n_working_days := 5;
+param n_resting_days := 2;

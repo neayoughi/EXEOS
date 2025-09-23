@@ -1,9 +1,5 @@
-A foundry receives a specific order for 1000 tons of steel. This steel must meet the following characteristics: it must contain at least 0.45% manganese (Mn), while its percentage of silicon (Si) must be between 3.25% and 5%.
+A user wants to back up important files onto floppy disks before going on vacation. Each floppy disk has a capacity of 3 GB. The user has 5 files with sizes 1 GB, 2 GB, 0.5 GB, 1.5 GB, and 2.5 GB. Each file must be stored entirely on a single floppy disk.
 
-To cast this steel, the foundry has limited quantities of several types of minerals. The silicon contents expressed in percentage per mineral are 4.0%, 1.0%, and 0.6%. The manganese contents expressed in percentage per mineral are 0.45%, 0.50%, and 0.40%.
+There are no compression programs available, and it is assumed that there are enough floppy disks to store all files. The goal is to determine an assignment of files to floppy disks such that the number of disks used is minimized.
 
-The process for producing steel allows for direct addition of manganese. This manganese is available at a price of 8.0 million euros per ton. As for the minerals, their costs are 21, 25, and 15 million euros per thousand tons, respectively.
-
-The foundry plans to sell the produced steel at a price of 0.45 million euros per ton. The melting cost is 0.005 million euros per ton.
-
-The objective is to determine the amounts of each mineral and the direct manganese addition needed in order to minimize the total production cost while ensuring the steel meets the composition requirements.
+The output consists of the total number of floppy disks used (n_disks) and a mapping (whichdisk) indicating the disk assigned to each file.

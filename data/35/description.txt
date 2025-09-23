@@ -1,5 +1,10 @@
-A small firm specializes in making five types of spare automobile parts. Each part is first cast from iron in the casting shop and then sent to the finishing shop, where holes are drilled, surfaces are turned, and edges are ground.
-
-The required worker-hours per 100 units for each part in each of the two shops are: for part 1, 2 hours in casting and 3 hours in finishing; for part 2, 1 hour in casting and 2 hours in finishing; for part 3, 3 hours in casting and 2 hours in finishing; for part 4, 3 hours in casting and 1 hour in finishing; and for part 5, 1 hour in casting and 1 hour in finishing. The profit per 100 units is 30 for part 1, 20 for part 2, 40 for part 3, 25 for part 4, and 10 for part 5. The monthly worker-hour capacities are 700 in casting and 1,000 in finishing.
-
-The objective is to determine the quantities of each spare part to be made during the month so as to maximize total profit, while respecting the worker-hour capacity constraints in the casting and finishing shops.
+A small computer manufacturing company forecasts demand over the next 3 months. Monthly demands are 10 in month 1, 20 in month 2, and 10 in month 3. Each month's demand must be satisfied exactly, with no shortages. In any given month, the company can produce up to 5 units through regular production at a cost of 10 dollars per unit. Additional units beyond regular capacity can be produced using overtime at a cost of 12 dollars per unit. Units may be stored from month to month at a storage cost of 1 dollar per unit per month.
+Decision variables (for each month t = 1, 2, 3): regular production r_t, overtime production o_t, and end-of-month inventory s_t.
+Objective is minimize 10*(r_1 + r_2 + r_3) + 12*(o_1 + o_2 + o_3) + 1*(s_1 + s_2 + s_3).
+Subject to demand satisfaction:
+s_0 + r_1 + o_1 - s_1 = 10
+s_1 + r_2 + o_2 - s_2 = 20
+s_2 + r_3 + o_3 - s_3 = 10
+(take initial inventory s_0 = 0)
+Regular capacity per month:
+r_1 ≤ 5, r_2 ≤ 5, r_3 ≤ 5

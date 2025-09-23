@@ -1,5 +1,5 @@
-A user wants to back up important files onto floppy disks before going on vacation. Each floppy disk has a capacity of 3 GB. The user has 5 files with sizes 1 GB, 2 GB, 0.5 GB, 1.5 GB, and 2.5 GB. Each file must be stored entirely on a single floppy disk.
+The number of containers available at the depots is 3 at depot 1, 3 at depot 2, and 4 at depot 3. The number of containers required at the ports is 1 at port 1, 6 at port 2, and 3 at port 3. Containers are transported using barges, each of which can carry exactly two containers.
 
-There are no compression programs available, and it is assumed that there are enough floppy disks to store all files. The goal is to determine an assignment of files to floppy disks such that the number of disks used is minimized.
+The cost of transporting one barge is proportional to the distance traveled between a depot and a port, with a per-kilometer cost of 3.0. The distances between depots and ports are as follows: from depot 1, the distances are 0.0 to port 1, 2.0 to port 2, and 5.0 to port 3; from depot 2, the distances are 2.0 to port 1, 0.0 to port 2, and 3.0 to port 3; from depot 3, the distances are 5.0 to port 1, 3.0 to port 2, and 0.0 to port 3.
 
-The output consists of the total number of floppy disks used (n_disks) and a mapping (whichdisk) indicating the disk assigned to each file.
+The objective is to determine how many containers to transport from each depot to each port in order to minimize the total transportation cost.

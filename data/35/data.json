@@ -1,13 +1,7 @@
 {
-        "K":5,
-         "S": 2,
-	"Time": [
-		[2, 3],
-		[1, 2],
-		[3, 2],
-		[3, 1],
-		[1, 1]
-	],
-	"Profit": [30, 20, 40, 25, 10],
-	"Capacity": [700, 1000]
+	"demand": [10.0, 20.0, 10.0],
+	"max_regular_amount": 5.0,
+	"cost_regular": 10.0,
+	"cost_overtime": 12.0,
+	"store_cost": 1.0
 }

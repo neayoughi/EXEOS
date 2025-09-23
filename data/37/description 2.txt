@@ -1,7 +1,5 @@
-To operate a cafeteria efficiently, the manager must ensure adequate staffing based on daily staff requirements. The number of employees needed on day n is given by num_n. Each employee works n_working_days consecutively followed by n_resting_days off.
+A foundry receives a specific order for 1000 tons of steel. This steel must meet the following characteristics: it must contain at least 0.45% manganese (Mn), while its percentage of silicon (Si) must be between 3.25% and 5%. 
 
-The objective is to calculate the minimum number of employees required to satisfy the staffing requirements.
+To cast this steel, the foundry has limited quantities of several types of minerals. The contents expressed in percentage per mineral are provided by parameters contsi and contmn, representing the Si and Mn content, respectively.
 
-The outputs include:
-- total_number: the total number of employees to employ.
-- is_work: a binary schedule indicating if each employee is working or resting on each day.
+The process for producing steel allows for direct addition of manganese. This manganese is available at a price of mang_price million euros per ton. As for the minerals, their cost is given by the parameter cost in million euros per thousand tons. The foundry plans to sell the produced steel at a price of sell_price mill

@@ -1,5 +1,9 @@
-To operate a cafeteria efficiently, the manager must ensure adequate staffing based on daily staff requirements. The number of employees needed on each day is as follows: on day 1, 5 employees; on day 2, 10 employees; on day 3, 2 employees; on day 4, 3 employees; on day 5, 2 employees; and on day 6, 10 employees.
+A foundry receives a specific order for 1000 tons of steel. This steel must meet the following characteristics: it must contain at least 0.45% manganese (Mn), while its percentage of silicon (Si) must be between 3.25% and 5%.
 
-Each employee works 5 consecutive days followed by 2 days off.
+To cast this steel, the foundry has limited quantities of several types of minerals. The silicon contents expressed in percentage per mineral are 4.0%, 1.0%, and 0.6%. The manganese contents expressed in percentage per mineral are 0.45%, 0.50%, and 0.40%.
 
-The objective is to calculate the minimum number of employees required to satisfy the staffing requirements.
+The process for producing steel allows for direct addition of manganese. This manganese is available at a price of 8.0 million euros per ton. As for the minerals, their costs are 21, 25, and 15 million euros per thousand tons, respectively.
+
+The foundry plans to sell the produced steel at a price of 0.45 million euros per ton. The melting cost is 0.005 million euros per ton.
+
+The objective is to determine the amounts of each mineral and the direct manganese addition needed in order to minimize the total production cost while ensuring the steel meets the composition requirements.

@@ -1,1 +1,7 @@
-A small computer manufacturing company forecasts the demand over the next n months. Each month's demand must be satisfied exactly, with no shortages permitted. In any given month, the company can produce up to a maximum of max_regular_amount units through regular production, at a cost of cost_regular dollars per unit. Additional units beyond regular capacity can be produced using overtime production, incurring a higher cost of cost_overtime dollars per unit. The company can store units from month to month at a storage cost of store_cost dollars per unit per month. The objective is to determine a production schedule that minimizes the total cost, considering production (regular and overtime) and storage costs.
+To operate a cafeteria efficiently, the manager must ensure adequate staffing based on daily staff requirements. The number of employees needed on day n is given by num_n. Each employee works n_working_days consecutively followed by n_resting_days off.
+
+The objective is to calculate the minimum number of employees required to satisfy the staffing requirements.
+
+The outputs include:
+- total_number: the total number of employees to employ.
+- is_work: a binary schedule indicating if each employee is working or resting on each day.
