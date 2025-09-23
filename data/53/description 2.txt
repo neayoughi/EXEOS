@@ -1,12 +1,9 @@
-A delivery person starts at the intersection of 1st Avenue and 1st Street and needs to reach the intersection of W-th Avenue and N-th Street. The area between these points forms a (N-1) × (W-1) grid.
+A seaport manages container logistics over T months. Each month, containers are unloaded from rail cars, stored in a yard, and later loaded onto ships. The number of containers demanded by ships each month is given by the parameter Demands. This demand must be fulfilled monthly.
 
-Each block in the grid has a specific walking time, which varies due to rush-hour pedestrian traffic. The delivery person may only walk north or west.
+Unloading each container incurs a cost specified by UnloadCosts. However, the number of containers that can be unloaded each month is limited by UnloadCapacity.
 
-At each stage of the journey, the delivery person must decide whether to walk north or west. When at the intersection of w-th Avenue and n-th Street:
+If containers are held in the yard until the next month, a HoldingCost is applied per container. The yard has a maximum holding capacity defined by MaxContainer. Initially, the yard holds InitContainer containers, and it must be empty at the end of the planning horizon.
 
-The time required to move west (to (w+1, n)) is given by the parameter west_time[n, w].
+Containers are loaded onto ships using rented cranes. A maximum of NumCranes cranes can be rented each month. Each crane has a CraneCapacity, and the cost of renting each crane is CraneCost.
 
-The time required to move north (to (w, n+1)) is given by the parameter north_time[n, w].
-
-The objective is to find the optimal path that minimizes the total travel time from the start to the destination.
-
+The objective is to determine how many containers to unload and how many cranes to rent each month in order to minimize the total cost, which includes unloading, storage, and crane rental costs.

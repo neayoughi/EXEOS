@@ -1,15 +1,16 @@
-A division of an auto parts manufacturer produces 4 different parts using 3 different machines.
+A delivery person starts at the intersection of 1st Avenue and 1st Street and needs to reach the intersection of 2nd Avenue and 3rd Street. The area between these points forms a 2 × 1 grid.
 
-Producing a batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3.
-Producing a batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
-Producing a batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3.
-Producing a batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+Each block in the grid has a specific walking time, which varies due to rush-hour pedestrian traffic. The delivery person may only walk north or west.
 
-Machine 1 is outsourced: it has no availability limit. Its usage cost is 20 dollars per hour up to 400 hours, and 30 dollars per hour for any additional hours beyond 400.
-Machine 2 has a monthly time limit of 300 hours with a usage cost of 10 dollars per hour.
-Machine 3 has a monthly time limit of 500 hours with a usage cost of 15 dollars per hour.
+At each stage of the journey, the delivery person must decide whether to walk north or west. When at the intersection of Avenue w and Street n:
 
-Each batch of part 1 sells for 570 dollars, part 2 sells for 250 dollars, part 3 sells for 585 dollars, and part 4 sells for 430 dollars.
-The company must produce at least 10 batches of each part per month to fulfill contractual obligations.
+The time required to move west (to (w+1, n)) is given as follows:
+• At Street 1, Avenue 1 → 3.5 minutes, Avenue 2 → 4.5 minutes
+• At Street 2, Avenue 1 → 4 minutes, Avenue 2 → 4 minutes
+• At Street 3, Avenue 1 → 5 minutes, Avenue 2 → 4 minutes
 
-The objective is to determine how many batches of each part to produce in order to maximize the total monthly profit.
+The time required to move north (to (w, n+1)) is given as follows:
+• At Street 1, Avenue 1 → 10 minutes, Avenue 2 → 10 minutes, Avenue 3 → 9 minutes
+• At Street 2, Avenue 1 → 9 minutes, Avenue 2 → 9 minutes, Avenue 3 → 12 minutes
+
+The objective is to find the optimal path that minimizes the total travel time from the start to the destination.

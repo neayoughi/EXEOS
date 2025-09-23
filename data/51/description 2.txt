@@ -1,14 +1,9 @@
-US soybean suppliers must ship soybeans from terminal cities to various destination cities through intermediate port cities. The transportation network includes n cities connected by a set of routes A, each with a known transportation cost C_{i,j} per metric ton between cities i and j.
+A division of an auto parts manufacturer produces NumParts different parts using NumMachines different machines.
 
-Soybeans originate from terminal cities, each having a fixed supply (Supply), and are required at destination cities, each with a specified demand (Demand).
+Producing a batch of 100 units of part p requires TimeRequired[m, p] hours on machine m. Each machine m has a per-hour usage cost specified in MachineCosts[m].
 
-The goal is to determine the quantity of soybeans to transport along each route to meet all destination demands without exceeding supplies at terminals, while minimizing total transportation costs.
+Machines 2 through NumMachines have monthly time limits given by Availability[m]. However, machine 1 is outsourced: it has no availability constraint, and its usage cost depends on the number of hours used. Specifically, it costs StandardCost per hour up to OvertimeHour[1] hours, and OvertimeCost per hour beyond that.
 
-Parameters to be used in the model:
-- Supply: the amount of soybeans available at each terminal city.
-- Demand: the amount of soybeans required at each destination city.
-- Cost: the transportation cost per ton from each terminal to each destination.
+Each part p has a selling price specified in Prices[p] per batch of 100 units. The company must produce at least MinBatches[p] batches of each part per month to fulfill contractual obligations.
 
-The solution should specify:
-- The quantity of soybeans shipped from each terminal to each destination (amount_{i,j}).
-- The total transportation cost (total_cost).
+The objective is to determine how many batches of each part to produce in order to maximize the total monthly profit.

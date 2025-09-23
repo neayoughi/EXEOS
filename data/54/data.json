@@ -1,12 +1,12 @@
 {
-    "T": 4,
-    "Demands": [450, 700, 500, 750],
-    "UnloadCosts": [75, 100, 105, 130],
-    "UnloadCapacity": [800, 500, 450, 700],
-    "HoldingCost": 20,
-    "MaxContainer": 500,
-    "InitContainer": 200,
-    "NumCranes": 4,
-    "CraneCapacity": 200,
-    "CraneCost": 1000
-}
+    "time_required": [
+      [2, 1, 3, 2],
+      [4, 2, 1, 2],
+      [6, 2, 1, 2]
+    ],
+    "machine_costs": [160, 10, 15],
+    "availability": [200, 300, 500],
+    "prices": [570, 250, 585, 430],
+    "setup_time": [12, 8, 4, 0]
+  }
+  

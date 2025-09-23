@@ -1,11 +1,5 @@
-A team of translators is being assembled for the Summer Olympics to translate from English into a specified list of other languages.
-There are N available translators, each with an associated hiring cost and a set of languages they can translate into.
-The goal is to choose a subset of these translators such that every required language is covered, while minimizing the total hiring cost.
+A company needs to assign I projects to J consultants. Each consultant can be assigned up to a maximum of max_projects_per_consultant projects.
 
-Parameters from the data:
+Hiring consultant j incurs a fixed cost given by fixed_costs. Assigning project i to consultant j results in an additional cost defined by additional_costs.
 
-translators: A list where each translator has an id, a cost, and a list of languages they can translate into.
-
-required_languages: A list of all languages that must be covered by the selected translators.
-
-The objective is to determine the minimum-cost subset of translators such that all required languages are covered.
+The objective is to determine the assignment of consultants to projects that minimizes the total cost, including both the fixed hiring costs and the assignment costs.

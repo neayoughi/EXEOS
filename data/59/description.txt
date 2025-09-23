@@ -1,21 +1,112 @@
-A traveler based in city 0 needs to visit 6 towns for business.
+A paper company produces large rolls of paper that are 70 inches wide.
+These large rolls are cut into smaller rolls to meet customer demand. There are 4 types of smaller rolls.
 
-The distances between each pair of cities (in miles) are:
+Type 1 has width 17 inches, with demand of 40 rolls.
 
-From city 0: [0, 182, 70, 399, 56, 214]
+Type 2 has width 14 inches, with demand of 65 rolls.
 
-From city 1: [182, 0, 255, 229, 132, 267]
+Type 3 has width 11 inches, with demand of 80 rolls.
 
-From city 2: [70, 255, 0, 472, 127, 287]
+Type 4 has width 8.5 inches, with demand of 75 rolls.
 
-From city 3: [399, 229, 472, 0, 356, 484]
+The company has 49 different cutting patterns available. For each pattern, applying it to one large roll yields the following numbers of smaller rolls of each type (in order: type 1, type 2, type 3, type 4):
 
-From city 4: [56, 132, 127, 356, 0, 179]
+[4, 0, 0, 0]
 
-From city 5: [214, 267, 287, 484, 179, 0]
+[3, 1, 0, 0]
 
-These distances are symmetric: the distance from city i to city j is the same as from city j to city i.
+[3, 0, 1, 0]
 
-The traveler must start and end the journey at city 0, visiting each of the 6 cities exactly once before returning.
+[2, 2, 0, 0]
 
-The goal is to determine the shortest route that visits all towns and returns to the starting city.
+[3, 0, 0, 2]
+
+[2, 1, 2, 0]
+
+[2, 1, 1, 1]
+
+[2, 1, 0, 2]
+
+[2, 0, 3, 0]
+
+[2, 0, 2, 1]
+
+[2, 0, 1, 2]
+
+[1, 3, 1, 0]
+
+[1, 3, 0, 1]
+
+[1, 2, 2, 0]
+
+[1, 2, 1, 1]
+
+[1, 2, 0, 2]
+
+[1, 1, 3, 0]
+
+[0, 5, 0, 0]
+
+[0, 4, 1, 0]
+
+[0, 4, 0, 1]
+
+[0, 3, 2, 0]
+
+[2, 0, 0, 4]
+
+[1, 1, 2, 2]
+
+[1, 1, 1, 3]
+
+[1, 1, 0, 4]
+
+[1, 0, 4, 1]
+
+[1, 0, 3, 2]
+
+[1, 0, 2, 3]
+
+[1, 0, 1, 4]
+
+[0, 3, 1, 2]
+
+[0, 3, 0, 3]
+
+[0, 2, 3, 1]
+
+[0, 2, 2, 2]
+
+[0, 2, 1, 3]
+
+[0, 2, 0, 4]
+
+[0, 1, 5, 0]
+
+[0, 1, 4, 1]
+
+[0, 1, 3, 2]
+
+[0, 0, 6, 0]
+
+[0, 0, 5, 1]
+
+[1, 0, 0, 6]
+
+[0, 1, 2, 4]
+
+[0, 1, 1, 5]
+
+[0, 1, 0, 6]
+
+[0, 0, 4, 3]
+
+[0, 0, 3, 4]
+
+[0, 0, 2, 5]
+
+[0, 0, 1, 6]
+
+[0, 0, 0, 8]
+
+The objective is to determine the minimum number of large rolls required to satisfy all customer demands. The solution must specify how many times each cutting pattern is used and the total number of large rolls used.

@@ -1,17 +1,27 @@
-param I := 5;
-param J := 3;
-param max_projects_per_consultant := 3;
+param N := 3;
 
-param fixed_costs :=
-1 100
-2 150
-3 135
-;
+param central_cost := 150;
+param distributed_cost := 70;
 
-param additional_costs : 1 2 3 :=
-1 10 12 20
-2 10 8 12
-3 15 8 20
-4 10 6 15
-5 8 10 15
-;
+param max_central := 16;
+param max_distributed := 33;
+
+param: isolate_central :=
+1 10
+2 6
+3 8;
+
+param: scan_central :=
+1 6
+2 4
+3 6;
+
+param: isolate_distributed :=
+1 12
+2 9
+3 12;
+
+param: scan_distributed :=
+1 18
+2 10
+3 15;

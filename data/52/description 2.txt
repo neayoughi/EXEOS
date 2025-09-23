@@ -1,9 +1,12 @@
-A division of an auto parts manufacturer produces NumParts different parts using NumMachines different machines.
+A delivery person starts at the intersection of 1st Avenue and 1st Street and needs to reach the intersection of W-th Avenue and N-th Street. The area between these points forms a (N-1) × (W-1) grid.
 
-Producing a batch of 100 units of part p requires TimeRequired[m, p] hours on machine m. Each machine m has a per-hour usage cost specified in MachineCosts[m].
+Each block in the grid has a specific walking time, which varies due to rush-hour pedestrian traffic. The delivery person may only walk north or west.
 
-Machines 2 through NumMachines have monthly time limits given by Availability[m]. However, machine 1 is outsourced: it has no availability constraint, and its usage cost depends on the number of hours used. Specifically, it costs StandardCost per hour up to OvertimeHour[1] hours, and OvertimeCost per hour beyond that.
+At each stage of the journey, the delivery person must decide whether to walk north or west. When at the intersection of w-th Avenue and n-th Street:
 
-Each part p has a selling price specified in Prices[p] per batch of 100 units. The company must produce at least MinBatches[p] batches of each part per month to fulfill contractual obligations.
+The time required to move west (to (w+1, n)) is given by the parameter west_time[n, w].
 
-The objective is to determine how many batches of each part to produce in order to maximize the total monthly profit.
+The time required to move north (to (w, n+1)) is given by the parameter north_time[n, w].
+
+The objective is to find the optimal path that minimizes the total travel time from the start to the destination.
+

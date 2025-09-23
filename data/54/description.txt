@@ -1,9 +1,15 @@
-A seaport manages container logistics over 4 months. Each month, containers are unloaded from rail cars, stored in a yard, and later loaded onto ships. The number of containers demanded by ships is 450 in month 1, 700 in month 2, 500 in month 3, and 750 in month 4. This demand must be fulfilled each month.
+A division of an auto parts manufacturer produces 4 different parts using 3 different machines.
 
-Unloading a container costs 75 in month 1, 100 in month 2, 105 in month 3, and 130 in month 4. However, unloading is limited to 800 containers in month 1, 500 in month 2, 450 in month 3, and 700 in month 4.
+Each batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3.
+Each batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+Each batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3.
+Each batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
 
-If containers are stored in the yard until the next month, a holding cost of 20 per container is incurred. The yard can hold at most 500 containers. At the start, the yard contains 200 containers, and it must be empty at the end of month 4.
+The hourly operating costs are 160 for machine 1, 10 for machine 2, and 15 for machine 3.
+Machine 1 has 200 hours available per month, machine 2 has 300 hours, and machine 3 has 500 hours.
 
-Containers are loaded onto ships using rented cranes. A maximum of 4 cranes can be rented each month. Each crane has a capacity of 200 containers, and renting one crane costs 1000.
+The selling prices per batch are 570 for part 1, 250 for part 2, 585 for part 3, and 430 for part 4.
 
-The objective is to decide how many containers to unload and how many cranes to rent each month in order to minimize the total cost, which includes unloading, storage, and crane rental costs.
+For machine 1 only, a setup time must be added before it can produce each part: 12 hours for part 1, 8 hours for part 2, 4 hours for part 3, and 0 hours for part 4. No setup time is required on the other machines.
+
+There are no minimum production requirements for any part. The goal is to determine the number of batches of each part to produce monthly in order to maximize profit.

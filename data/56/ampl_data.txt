@@ -1,20 +1,17 @@
-param N := 6;
-set LANGUAGES := FR AR IT GE RU CH SP PO;
+param I := 5;
+param J := 3;
+param max_projects_per_consultant := 3;
 
-param: cost :=
-1 12000
-2 16000
-3 13000
-4 15000
-5 9000
-6 7000
+param fixed_costs :=
+1 100
+2 150
+3 135
 ;
 
-set TranslatorLanguages[1] := FR AR IT;
-set TranslatorLanguages[2] := GE RU CH;
-set TranslatorLanguages[3] := AR CH;
-set TranslatorLanguages[4] := FR SP IT PO;
-set TranslatorLanguages[5] := FR GE RU SP;
-set TranslatorLanguages[6] := GE SP PO;
-
-set RequiredLanguages := FR AR GE RU SP CH IT PO;
+param additional_costs : 1 2 3 :=
+1 10 12 20
+2 10 8 12
+3 15 8 20
+4 10 6 15
+5 8 10 15
+;

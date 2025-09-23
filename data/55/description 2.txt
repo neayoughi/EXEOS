@@ -1,5 +1,11 @@
-A division of an auto parts manufacturer produces 4 different parts using 3 different machines. Each batch of 100 units of part p requires a specific number of machine hours on machine m, as defined by the parameter time_required. The manufacturer pays an hourly operating cost for each machine, given by machine_costs. Each machine m has a limited number of hours available per month, defined by availability.
+A team of translators is being assembled for the Summer Olympics to translate from English into a specified list of other languages.
+There are N available translators, each with an associated hiring cost and a set of languages they can translate into.
+The goal is to choose a subset of these translators such that every required language is covered, while minimizing the total hiring cost.
 
-Part p generates revenue based on its selling price per batch, specified in the prices parameter. For machine 1 only, a setup time must be added before it can produce each part p, defined by setup_time. No setup time is required on the other machines.
+Parameters from the data:
 
-There are no minimum production requirements for any part. The goal is to determine the number of batches of each part to produce monthly in order to maximize profit.
+translators: A list where each translator has an id, a cost, and a list of languages they can translate into.
+
+required_languages: A list of all languages that must be covered by the selected translators.
+
+The objective is to determine the minimum-cost subset of translators such that all required languages are covered.

@@ -1,10 +1,29 @@
-param west_time : 1 2 :=
-1 3.5 4.5
-2 4 4
-3 5 4
+param T := 4;
+
+param HoldingCost := 20;
+param MaxContainer := 500;
+param InitContainer := 200;
+param NumCranes := 4;
+param CraneCapacity := 200;
+param CraneCost := 1000;
+
+param Demands :=
+1 450
+2 700
+3 500
+4 750
 ;
 
-param north_time : 1 2 3 :=
-1 10 10 9
-2 9 9 12
+param UnloadCosts :=
+1 75
+2 100
+3 105
+4 130
+;
+
+param UnloadCapacity :=
+1 800
+2 500
+3 450
+4 700
 ;

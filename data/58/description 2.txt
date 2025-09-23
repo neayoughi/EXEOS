@@ -1,27 +1,12 @@
-A network is facing an intrusion that requires immediate intervention. The network is divided into N clusters. For each cluster, one of two intervention types must be applied: either "isolate" or "scan". Each cluster must be treated with only one type of intervention.
+A traveler based in StartCity needs to visit N towns for business.
 
-Each intervention can be executed using one of two processing methods: centrally or through distributed nodes. The processing time varies by cluster, intervention type, and processing method.
+The distance between each pair of cities (Distances[i][j]) is given in miles. These distances are symmetric, meaning the distance from city i to city j is the same as from city j to city i.
 
-The cost of using central processing is defined by central_cost per hour, and the cost for distributed processing is defined by distributed_cost per hour. There are upper bounds on the total hours available for each processing method, given by max_central for central and max_distributed for distributed processing.
+The traveler must start and end the journey at StartCity, visiting each of the N cities exactly once before returning.
 
-The objective is to assign an intervention type and processing method to each cluster in order to minimize the total intervention cost, while respecting the time limits on central and distributed processing.
+The goal is to determine the shortest route that visits all N towns and returns to the starting city.
 
-The data parameters include:
-
-processing_times["central"]["isolate"]: central processing time per cluster for "isolate"
-
-processing_times["central"]["scan"]: central processing time per cluster for "scan"
-
-processing_times["distributed"]["isolate"]: distributed processing time per cluster for "isolate"
-
-processing_times["distributed"]["scan"]: distributed processing time per cluster for "scan"
-
-central_cost: cost per hour of central processing
-
-distributed_cost: cost per hour of distributed processing
-
-max_central: maximum hours available for central processing
-
-max_distributed: maximum hours available for distributed processing
-
-The output includes the chosen intervention type and processing method for each cluster and the resulting total cost.
+Parameters to be used in the model:
+- N: number of cities
+- Distances: a matrix containing the pairwise distances between cities
+- StartCity: the city where the journey starts and ends

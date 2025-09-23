@@ -1,5 +1,27 @@
-A company needs to assign I projects to J consultants. Each consultant can be assigned up to a maximum of max_projects_per_consultant projects.
+A network is facing an intrusion that requires immediate intervention. The network is divided into N clusters. For each cluster, one of two intervention types must be applied: either "isolate" or "scan". Each cluster must be treated with only one type of intervention.
 
-Hiring consultant j incurs a fixed cost given by fixed_costs. Assigning project i to consultant j results in an additional cost defined by additional_costs.
+Each intervention can be executed using one of two processing methods: centrally or through distributed nodes. The processing time varies by cluster, intervention type, and processing method.
 
-The objective is to determine the assignment of consultants to projects that minimizes the total cost, including both the fixed hiring costs and the assignment costs.
+The cost of using central processing is defined by central_cost per hour, and the cost for distributed processing is defined by distributed_cost per hour. There are upper bounds on the total hours available for each processing method, given by max_central for central and max_distributed for distributed processing.
+
+The objective is to assign an intervention type and processing method to each cluster in order to minimize the total intervention cost, while respecting the time limits on central and distributed processing.
+
+The data parameters include:
+
+processing_times["central"]["isolate"]: central processing time per cluster for "isolate"
+
+processing_times["central"]["scan"]: central processing time per cluster for "scan"
+
+processing_times["distributed"]["isolate"]: distributed processing time per cluster for "isolate"
+
+processing_times["distributed"]["scan"]: distributed processing time per cluster for "scan"
+
+central_cost: cost per hour of central processing
+
+distributed_cost: cost per hour of distributed processing
+
+max_central: maximum hours available for central processing
+
+max_distributed: maximum hours available for distributed processing
+
+The output includes the chosen intervention type and processing method for each cluster and the resulting total cost.

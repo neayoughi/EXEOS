@@ -1,15 +1,17 @@
-A division of an auto parts manufacturer produces 4 different parts using 3 different machines.
+A team of translators is being assembled for the Summer Olympics to translate from English into eight required languages: French (FR), Arabic (AR), German (GE), Russian (RU), Spanish (SP), Chinese (CH), Italian (IT), and Portuguese (PO).
 
-Each batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3.
-Each batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
-Each batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3.
-Each batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+There are six available translators, each with a hiring cost and a set of languages they can translate into:
 
-The hourly operating costs are 160 for machine 1, 10 for machine 2, and 15 for machine 3.
-Machine 1 has 200 hours available per month, machine 2 has 300 hours, and machine 3 has 500 hours.
+Translator 1 costs 12,000 and can translate into French, Arabic, and Italian.
 
-The selling prices per batch are 570 for part 1, 250 for part 2, 585 for part 3, and 430 for part 4.
+Translator 2 costs 16,000 and can translate into German, Russian, and Chinese.
 
-For machine 1 only, a setup time must be added before it can produce each part: 12 hours for part 1, 8 hours for part 2, 4 hours for part 3, and 0 hours for part 4. No setup time is required on the other machines.
+Translator 3 costs 13,000 and can translate into Arabic and Chinese.
 
-There are no minimum production requirements for any part. The goal is to determine the number of batches of each part to produce monthly in order to maximize profit.
+Translator 4 costs 15,000 and can translate into French, Spanish, Italian, and Portuguese.
+
+Translator 5 costs 9,000 and can translate into French, German, Russian, and Spanish.
+
+Translator 6 costs 7,000 and can translate into German, Spanish, and Portuguese.
+
+The objective is to determine the minimum-cost subset of translators such that all eight required languages are covered.

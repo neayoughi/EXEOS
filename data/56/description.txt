@@ -1,17 +1,5 @@
-A team of translators is being assembled for the Summer Olympics to translate from English into eight required languages: French (FR), Arabic (AR), German (GE), Russian (RU), Spanish (SP), Chinese (CH), Italian (IT), and Portuguese (PO).
+A company needs to assign 5 projects to 3 consultants. Each consultant can be assigned up to a maximum of 3 projects.
 
-There are six available translators, each with a hiring cost and a set of languages they can translate into:
+Hiring consultant 1 incurs a fixed cost of 100, hiring consultant 2 incurs a fixed cost of 150, and hiring consultant 3 incurs a fixed cost of 135. Assigning project 1 costs 10 if assigned to consultant 1, 12 if assigned to consultant 2, and 20 if assigned to consultant 3. Assigning project 2 costs 10 if assigned to consultant 1, 8 if assigned to consultant 2, and 12 if assigned to consultant 3. Assigning project 3 costs 15 if assigned to consultant 1, 8 if assigned to consultant 2, and 20 if assigned to consultant 3. Assigning project 4 costs 10 if assigned to consultant 1, 6 if assigned to consultant 2, and 15 if assigned to consultant 3. Assigning project 5 costs 8 if assigned to consultant 1, 10 if assigned to consultant 2, and 15 if assigned to consultant 3.
 
-Translator 1 costs 12,000 and can translate into French, Arabic, and Italian.
-
-Translator 2 costs 16,000 and can translate into German, Russian, and Chinese.
-
-Translator 3 costs 13,000 and can translate into Arabic and Chinese.
-
-Translator 4 costs 15,000 and can translate into French, Spanish, Italian, and Portuguese.
-
-Translator 5 costs 9,000 and can translate into French, German, Russian, and Spanish.
-
-Translator 6 costs 7,000 and can translate into German, Spanish, and Portuguese.
-
-The objective is to determine the minimum-cost subset of translators such that all eight required languages are covered.
+The objective is to determine the assignment of consultants to projects that minimizes the total cost, including both the fixed hiring costs and the assignment costs.
