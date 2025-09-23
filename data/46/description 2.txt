@@ -1,9 +1,9 @@
-A fine foods company produces gift baskets over a season lasting W weeks. The weekly demand for gift baskets is given by the parameter demand. This demand must be met each week.
+A division of an auto parts manufacturer produces P different parts using M different machines.
 
-The company has two sources of labor: regular and overtime. Each week w, the company has access to up to regular_labor[w] hours of regular labor at a cost of regular_cost dollars per hour, and up to overtime_labor[w] hours of overtime labor at a cost of overtime_cost dollars per hour.
+Each batch of 100 units of part p requires time_required[m, p] hours on machine m. The division incurs a cost of machine_costs[m] per hour for using machine m. Each machine m has up to availability[m] hours available per month.
 
-Each gift basket requires assembly_time hours of labor to assemble. The cost of materials for each basket is material_cost dollars, and each basket is sold for selling_price dollars.
+Machine M and machine M-1 can share their total availability, and their individual availability constraints can be disregarded.
 
-Any unsold baskets at the end of a week can be carried over to the next week by paying a holding cost of holding_cost dollars per basket per week. No baskets are available at the beginning of week 1. At the end of the final week W, any remaining inventory has a salvage value of salvage_value dollars per basket and does not incur any holding cost.
+The division sells each batch of part p at a price of prices[p], and must produce at least min_batches[p] batches of each part p monthly to fulfill a contract.
 
-The objective is to determine the number of hours of regular and overtime labor to use each week, and how many baskets to assemble with each, in order to maximize total profit over the season.
+The objective is to determine how many batches of each part to produce in order to maximize total profit.

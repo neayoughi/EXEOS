@@ -1,12 +1,12 @@
-{
-    "time_required": [
-      [2, 1, 3, 2],
-      [4, 2, 1, 2],
-      [6, 2, 1, 2]
-    ],
-    "machine_costs": [160, 10, 15],
-    "availability": [200, 300, 500],
-    "prices": [570, 250, 585, 430],
-    "min_batches": [10, 10, 10, 10]
-  }
+  {
+    "goal_young": 500,
+    "goal_old": 600,
+    "goal_unique_young": 250,
+    "goal_unique_old": 300,
+    "young_clicks": [40, 30, 70],
+    "old_clicks": [60, 70, 30],
+    "costs": [75, 100, 120],
+    "max_clicks": [600, 300, 300],
+    "unique_clicks": [40, 75, 90]
+}
   

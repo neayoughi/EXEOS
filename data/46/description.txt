@@ -1,9 +1,15 @@
-A fine foods company produces gift baskets over a season lasting 4 weeks. The weekly demand for gift baskets is [700, 1500, 2800, 1800]. This demand must be met each week.
+A division of an auto parts manufacturer produces 4 different parts using 3 different machines.
 
-The company has two sources of labor: regular and overtime. In week 1, the company has up to 450 hours of regular labor and 40 hours of overtime labor. In week 2, it has up to 550 hours of regular labor and 200 hours of overtime labor. In week 3, it has up to 600 hours of regular labor and 320 hours of overtime labor. In week 4, it has up to 600 hours of regular labor and 160 hours of overtime labor. Regular labor costs 30 dollars per hour, and overtime labor costs 45 dollars per hour.
+Each batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3.
+Each batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+Each batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3.
+Each batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
 
-Each gift basket requires 0.4 hours of labor to assemble. The material cost for each basket is 25 dollars, and each basket is sold for 65 dollars.
+The cost of operating machine 1 is 160 dollars per hour, machine 2 is 10 dollars per hour, and machine 3 is 15 dollars per hour.
+Machine 1 has up to 200 hours available per month, machine 2 has up to 300 hours available, and machine 3 has up to 500 hours available.
+However, machine 3 and machine 2 can share their total availability, so their individual availability limits can be disregarded.
 
-Any unsold baskets at the end of a week can be carried over to the next week by paying a holding cost of 4 dollars per basket per week. No baskets are available at the beginning of week 1. At the end of week 4, any remaining inventory has a salvage value of 30 dollars per basket and does not incur any holding cost.
+The division sells each batch of part 1 for 570 dollars, part 2 for 250 dollars, part 3 for 585 dollars, and part 4 for 430 dollars.
+At least 10 batches of each part must be produced monthly to meet contractual obligations.
 
-The objective is to determine the number of hours of regular and overtime labor to use each week, and how many baskets to assemble with each, in order to maximize total profit over the season.
+The objective is to determine how many batches of each part should be produced in order to maximize total profit.

@@ -1,5 +1,9 @@
-The town operates with 6 different shifts for police officers throughout the day. During each shift, a certain number of police officers must be on duty: 15 officers in shift 1, 13 officers in shift 2, 11 officers in shift 3, 11 officers in shift 4, 9 officers in shift 5, and 7 officers in shift 6.
+A fine foods company produces gift baskets over a season lasting 4 weeks. The weekly demand for gift baskets is [700, 1500, 2800, 1800]. This demand must be met each week.
 
-Each officer works for two consecutive shifts, starting from the shift they are assigned to. The cost incurred by the town for assigning an officer to start working at a shift is as follows: 500 for shift 1, 480 for shift 2, 450 for shift 3, 460 for shift 4, 470 for shift 5, and 490 for shift 6.
+The company has two sources of labor: regular and overtime. In week 1, the company has up to 450 hours of regular labor and 40 hours of overtime labor. In week 2, it has up to 550 hours of regular labor and 200 hours of overtime labor. In week 3, it has up to 600 hours of regular labor and 320 hours of overtime labor. In week 4, it has up to 600 hours of regular labor and 160 hours of overtime labor. Regular labor costs 30 dollars per hour, and overtime labor costs 45 dollars per hour.
 
-The objective is to determine how many officers should be assigned to start work at each shift in order to satisfy the staffing requirements for all shifts while minimizing the total cost.
+Each gift basket requires 0.4 hours of labor to assemble. The material cost for each basket is 25 dollars, and each basket is sold for 65 dollars.
+
+Any unsold baskets at the end of a week can be carried over to the next week by paying a holding cost of 4 dollars per basket per week. No baskets are available at the beginning of week 1. At the end of week 4, any remaining inventory has a salvage value of 30 dollars per basket and does not incur any holding cost.
+
+The objective is to determine the number of hours of regular and overtime labor to use each week, and how many baskets to assemble with each, in order to maximize total profit over the season.

@@ -1,3 +1,9 @@
-The town operates with S different shifts for police officers throughout the day. During each shift s, a certain number of police officers (officers_needed_s) must be on duty. Each officer works for two consecutive shifts, starting from shift s. The cost incurred by the town for assigning an officer to start working at shift s is given by shift_cost_s.
+A fine foods company produces gift baskets over a season lasting W weeks. The weekly demand for gift baskets is given by the parameter demand. This demand must be met each week.
 
-The objective is to determine how many officers should be assigned to start work at each shift in order to satisfy the staffing requirements for all shifts while minimizing the total cost.
+The company has two sources of labor: regular and overtime. Each week w, the company has access to up to regular_labor[w] hours of regular labor at a cost of regular_cost dollars per hour, and up to overtime_labor[w] hours of overtime labor at a cost of overtime_cost dollars per hour.
+
+Each gift basket requires assembly_time hours of labor to assemble. The cost of materials for each basket is material_cost dollars, and each basket is sold for selling_price dollars.
+
+Any unsold baskets at the end of a week can be carried over to the next week by paying a holding cost of holding_cost dollars per basket per week. No baskets are available at the beginning of week 1. At the end of the final week W, any remaining inventory has a salvage value of salvage_value dollars per basket and does not incur any holding cost.
+
+The objective is to determine the number of hours of regular and overtime labor to use each week, and how many baskets to assemble with each, in order to maximize total profit over the season.

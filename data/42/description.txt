@@ -1,7 +1,25 @@
-A division of an auto parts manufacturer produces 4 different parts using 3 different machines. Each batch of 100 units of part 1 requires 2 hours on machine 1, 4 hours on machine 2, and 6 hours on machine 3. Each batch of 100 units of part 2 requires 1 hour on machine 1, 2 hours on machine 2, and 2 hours on machine 3. Each batch of 100 units of part 3 requires 3 hours on machine 1, 1 hour on machine 2, and 1 hour on machine 3. Each batch of 100 units of part 4 requires 2 hours on machine 1, 2 hours on machine 2, and 2 hours on machine 3.
+Custom Tees is planning an online advertising campaign using 3 different ad types across two web companies.
 
-The cost of operating machine 1 is 160 per hour, machine 2 is 10 per hour, and machine 3 is 15 per hour. The maximum availability per month is 200 hours for machine 1, 300 hours for machine 2, and 500 hours for machine 3.
+The company aims to achieve:
 
-The division sells part 1 at 570 per batch, part 2 at 250 per batch, part 3 at 585 per batch, and part 4 at 430 per batch. To meet contractual obligations, the division must produce at least 10 batches of each part each month.
+At least 500 thousand clicks from users aged 18–25.
 
-The objective is to determine how many batches of each part to produce in order to maximize total monthly profit, subject to machine availability constraints.
+At least 600 thousand clicks from users older than 25.
+
+At least 250 thousand unique clicks from users aged 18–25.
+
+At least 300 thousand unique clicks from users older than 25.
+
+Each ad type has the following characteristics:
+
+Estimated percentage of clicks from 18–25-year-olds: 40% for ad type 1, 30% for ad type 2, and 70% for ad type 3.
+
+Estimated percentage of clicks from users over 25: 60% for ad type 1, 70% for ad type 2, and 30% for ad type 3.
+
+Estimated percentage of unique clicks: 40% for ad type 1, 75% for ad type 2, and 90% for ad type 3.
+
+Cost per 1000 clicks: 75 for ad type 1, 100 for ad type 2, and 120 for ad type 3.
+
+Maximum allowable number of clicks (in thousands): 600 for ad type 1, 300 for ad type 2, and 300 for ad type 3.
+
+The objective is to determine how many clicks to purchase from each ad type to minimize the total advertising cost while meeting all click and unique click goals.

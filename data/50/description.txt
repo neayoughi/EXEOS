@@ -1,1 +1,7 @@
-A small electric utility operates 3 power plants to supply 2 cities. Plant capacities (million kwh): plant 1 has 30, plant 2 has 25, plant 3 has 45. City peak demands (million kwh): city 1 needs 40, city 2 needs 60. Transmission costs (dollars per million kwh): from plant 1 to city 1 is 14 and to city 2 is 22; from plant 2 to city 1 is 18 and to city 2 is 12; from plant 3 to city 1 is 10 and to city 2 is 16. Choose shipments from plants to cities to minimize total transmission cost. For each plant, total shipped does not exceed its capacity. For each city, total received equals its demand. All shipments are nonnegative. The reported total cost is the minimized transmission cost.
+US soybean suppliers must ship soybeans from 3 terminal cities to 4 destination cities. The transportation cost per metric ton between each terminal and destination is given as follows: from terminal 1 the costs are 34, 49, 17, and 26; from terminal 2 the costs are 52, 64, 23, and 14; and from terminal 3 the costs are 20, 28, 12, and 17.
+
+The available supply of soybeans at the terminals is 150 tons at terminal 1, 100 tons at terminal 2, and 100 tons at terminal 3. The required demand at the destinations is 65 tons at destination 1, 70 tons at destination 2, 50 tons at destination 3, and 45 tons at destination 4.
+
+The goal is to determine the quantity of soybeans to transport from each terminal to each destination in order to meet all demands without exceeding available supplies, while minimizing total transportation costs.
+
+The solution specifies the quantity of soybeans shipped from each terminal to each destination and the total transportation cost.

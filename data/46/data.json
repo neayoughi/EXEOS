@@ -1,12 +1,12 @@
 {
-  "regular_cost": 30,
-  "overtime_cost": 45,
-  "assembly_time": 0.4,
-  "material_cost": 25,
-  "selling_price": 65,
-  "holding_cost": 4,
-  "salvage_value": 30,
-  "demand": [700, 1500, 2800, 1800],
-  "regular_labor": [450, 550, 600, 600],
-  "overtime_labor": [40, 200, 320, 160]
-}
+    "time_required": [
+      [2, 1, 3, 2],
+      [4, 2, 1, 2],
+      [6, 2, 1, 2]
+    ],
+    "machine_costs": [160, 10, 15],
+    "availability": [200, 300, 500],
+    "prices": [570, 250, 585, 430],
+    "min_batches": [10, 10, 10, 10]
+  }
+  

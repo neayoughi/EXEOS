@@ -1,25 +1,11 @@
-Custom Tees is planning an online advertising campaign using 3 different ad types across two web companies.
+A company produces 2 different types of steel using 3 different alloys.
 
-The company aims to achieve:
+Alloy 1 is available in 40 tons, contains 3% carbon and 1% nickel, and costs 380 per ton. Alloy 2 is available in 50 tons, contains 4% carbon and 1.5% nickel, and costs 400 per ton. Alloy 3 is available in 80 tons, contains 3.5% carbon and 1.8% nickel, and costs 440 per ton.
 
-At least 500 thousand clicks from users aged 18–25.
+Steel type 1 must contain at least 3.6% carbon and at most 1.5% nickel. Steel type 2 must contain at least 3.4% carbon and at most 1.7% nickel. In addition, the composition of any steel type must not include more than 40% of alloy 1.
 
-At least 600 thousand clicks from users older than 25.
+Each ton of steel type 1 is sold at 650, and each ton of steel type 2 is sold at 600.
 
-At least 250 thousand unique clicks from users aged 18–25.
+The goal is to determine how much of each alloy should be used in each type of steel, and how much of each steel type should be produced, to maximize total profit.
 
-At least 300 thousand unique clicks from users older than 25.
-
-Each ad type has the following characteristics:
-
-Estimated percentage of clicks from 18–25-year-olds: 40% for ad type 1, 30% for ad type 2, and 70% for ad type 3.
-
-Estimated percentage of clicks from users over 25: 60% for ad type 1, 70% for ad type 2, and 30% for ad type 3.
-
-Estimated percentage of unique clicks: 40% for ad type 1, 75% for ad type 2, and 90% for ad type 3.
-
-Cost per 1000 clicks: 75 for ad type 1, 100 for ad type 2, and 120 for ad type 3.
-
-Maximum allowable number of clicks (in thousands): 600 for ad type 1, 300 for ad type 2, and 300 for ad type 3.
-
-The objective is to determine how many clicks to purchase from each ad type to minimize the total advertising cost while meeting all click and unique click goals.
+Decision variables include the amount of each alloy used in each type of steel, the total amount of steel produced for each type, and the total profit.

@@ -1,16 +1,1 @@
-A division of an auto parts manufacturer produces P different parts using M different machines.
-
-Each batch of 100 units of part p requires time_required[m,p] hours on machine m.
-The division incurs a cost of machine_costs[m] per hour for using machine m.
-Machine m has an available capacity of availability[m] hours per month.
-
-Each batch of part p can be sold at a price of prices[p].
-To meet contractual obligations, the division must produce at least min_batches[p] batches of part p each month.
-
-Additionally, extra machine time can be purchased:
-- For machine m, up to max_extra[m] hours can be bought.
-- The cost of extra time is extra_costs[m] per hour.
-
-The objective is to determine how many batches of each part to produce and how much extra time (if any) to purchase for each machine, in order to maximize total profit.
-
-Refer to parameter names as used in the data.
+Custom Tees plans an online campaign across two web companies using A ad types. For each ad type a, the cost per thousand clicks is cost_{a}, the maximum purchasable clicks (in thousands) is max_click_{a}, the share of clicks from ages 18–25 is young_click_{a}, the share from ages over 25 is old_click_{a}, and the share of unique visitors is unique_click_{a}. The total budget is budget. Choose the purchased clicks clicks_{a} (in thousands) for each ad type to maximize total unique clicks. Ensure total spending does not exceed budget. Ensure total clicks from ages 18–25 meet goal_young and total clicks from ages over 25 meet goal_old. Ensure total unique clicks from ages 18–25 meet goal_unique_young and total unique clicks from ages over 25 meet goal_unique_old. Nonnegativity and the per-type upper bounds max_click_{a} apply to all clicks_{a}.
