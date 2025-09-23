@@ -1,35 +1,41 @@
-param T := 3;
-
-set IND := 1 2 3;
+param inputone: 1 2 3 :=
+1 0.1 0.1 0.2
+2 0.5 0.1 0.1
+3 0.5 0.2 0.2
+;
 
 param manpowerone :=
 1 0.6
 2 0.3
-3 0.2;
+3 0.2
+;
 
-param inputone : 1 2 3 :=
-1 0.1 0.1 0.2
-2 0.5 0.1 0.1
-3 0.5 0.2 0.2;
+param inputtwo: 1 2 3 :=
+1 0.0 0.1 0.2
+2 0.7 0.1 0.1
+3 0.9 0.2 0.2
+;
 
 param manpowertwo :=
 1 0.4
 2 0.2
-3 0.1;
+3 0.1
+;
 
-param inputtwo : 1 2 3 :=
-1 0.0 0.1 0.2
-2 0.7 0.1 0.1
-3 0.9 0.2 0.2;
-
-param stock_init :=
+param stock :=
 1 150
 2 80
-3 100;
+3 100
+;
 
-param capacity_init :=
+param capacity :=
 1 300
 2 350
-3 280;
+3 280
+;
 
-param manpower_limit := 470000000;
+param demand :=
+1 60000000
+2 60000000
+3 30000000
+;

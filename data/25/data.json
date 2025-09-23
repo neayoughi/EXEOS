@@ -10,5 +10,5 @@
     "ManpowerTwo": [0.4, 0.2, 0.1],
     "Stock": [150, 80, 100],
     "Capacity": [300, 350, 280],
-    "ManpowerLimit": 470000000
+    "Demand": [6e+07, 6e+07, 3e+07]
 }
