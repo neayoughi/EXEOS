@@ -1,0 +1,9 @@
+A transport company must send empty containers from its n depots to m ports. 
+
+The number of containers available at depot i is given by numdepot_i. The number of containers required at port j is given by numport_j. Containers are transported using barges, each of which can carry exactly two containers.
+
+The cost of transporting one barge is proportional to the distance traveled between depot i and port j, where the per-kilometer cost is given by price. The distances between depot i and port j are specified by distance_{i,j}.
+
+The objective is to determine how many containers to transport from each depot to each port in order to minimize the total transportation cost.
+
+Let number_{i,j} be the number of containers sent from depot i to port j.

@@ -1,0 +1,7 @@
+To operate a cafeteria efficiently, the manager must ensure adequate staffing based on daily staff requirements. The number of employees needed on day n is given by num_n. Each employee works n_working_days consecutively followed by n_resting_days off.
+
+The objective is to calculate the minimum number of employees required to satisfy the staffing requirements.
+
+The outputs include:
+- total_number: the total number of employees to employ.
+- is_work: a binary schedule indicating if each employee is working or resting on each day.

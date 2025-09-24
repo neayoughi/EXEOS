@@ -1,0 +1,12 @@
+param K := 2;
+param C := 10;
+
+param: value :=
+1 10
+2 20
+;
+
+param: size :=
+1 8
+2 6
+;

@@ -1,0 +1,13 @@
+A manufacturer wishes to produce 1000 lb of an alloy that consists of two metals: 30% metal A and 70% metal B. There are five alloys available for purchase, each with known compositions and prices. Alloy k contains a fraction ratio[k, m] of metal m (either A or B) and costs price_k dollars per pound.
+
+The manufacturer wants to determine the amount of each alloy to purchase, in order to produce the desired alloy while minimizing the total cost.
+
+The decision variables are the amounts of the five alloys to buy.
+
+Objective: Minimize the total cost of the purchased alloys.
+
+Subject to:
+- The total weight of purchased alloys equals 1000 lb.
+- The purchased alloys must contain exactly 300 lb of metal A.
+- The purchased alloys must contain exactly 700 lb of metal B.
+- Amounts of alloys purchased must be non-negative.
