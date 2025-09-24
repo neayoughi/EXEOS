@@ -1,0 +1,7 @@
+We are given a discrete random variable Z that can take integer values 0 through 6. The probabilities p_k for k = 0,…,6 are the decision variables. Under the constraints that probabilities sum to 1, the mean equals 3, the second moment equals 10, and all probabilities are nonnegative, find lower and upper bounds on the fourth moment of Z.
+1) sum_{k=0}^{6} p_k = 1
+2) sum_{k=0}^{6} k * p_k = 3
+3) sum_{k=0}^{6} k^2 * p_k = 10
+4) p_k >= 0 for k = 0,…,6
+
+Minimize and maximize sum_{k=0}^{6} k^4 * p_k.
