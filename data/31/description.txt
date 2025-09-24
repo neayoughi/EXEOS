@@ -1,5 +1,0 @@
-A balanced diet must be planned using different available foods, each with a unit price and a nutritional content in various nutrients. Let the price of food k be represented by price[k]. There are multiple essential nutrients, each of which must meet at least a minimum required daily intake, represented by demand[m] for nutrient m. The nutritional content of food k in nutrient m is represented by nutrition[k, m].
-
-The objective is to minimize the total cost of the foods purchased while satisfying the nutritional requirements.
-
-The decision variables are quantity[k], which represent the amount of each food k to be purchased.

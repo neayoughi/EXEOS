@@ -1,5 +1,0 @@
-A company needs to assign I projects to J consultants. Each consultant can be assigned up to a maximum of max_projects_per_consultant projects.
-
-Hiring consultant j incurs a fixed cost given by fixed_costs. Assigning project i to consultant j results in an additional cost defined by additional_costs.
-
-The objective is to determine the assignment of consultants to projects that minimizes the total cost, including both the fixed hiring costs and the assignment costs.

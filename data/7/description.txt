@@ -1,7 +1,0 @@
-A rocket travels along a straight path and we want to plan its motion over 20 time steps. At each step, the rocket's position, velocity, and acceleration are updated in discrete time. The initial position and velocity are 0 and 0, and the rocket must reach the final position 1 with final velocity 0 at time 20.
-
-The acceleration at each time step, denoted a[t], represents the thrust applied and is the main control variable. Since applying large thrust consumes more fuel, the objective is to minimize the maximum absolute value of acceleration applied over the time horizon.
-
-The rocket’s motion follows two update equations: the position at time t is equal to the previous position plus the previous velocity (x[t] = x[t-1] + v[t-1]), and the velocity is equal to the previous velocity plus the previous acceleration (v[t] = v[t-1] + a[t-1]) for all t from 1 to 20.
-
-The optimization problem is to determine the acceleration profile a[t] for all 20 time steps, such that the rocket satisfies the motion equations and boundary conditions, while the maximum absolute acceleration used (denoted max_abs_a) is as small as possible.

@@ -1,9 +1,0 @@
-Suppose there are 3 available currencies. Each currency i can be exchanged for currency j at an exchange rate given by the 3x3 matrix Rate = [[0.99, 0.9, 1.02], [0.95, 0.99, 0.92], [0.9, 0.91, 0.99]], where entry (i,j) is the rate from currency i to currency j. There is also a limit on the total amount of each currency that can be exchanged (either exchanged to or from another currency) on any given day: Limit = [1000.0, 200.0, 3000.0] for currencies 1, 2, and 3, respectively. At the start of the day, the available units are Start = [100.0, 50.0, 200.0] for currencies 1, 2, and 3, respectively.
-
-The objective is to determine how to exchange these currencies, using exchange variables x_{i,j} for all i,j in {1,2,3}, in order to maximize the total amount of currency 3 at the end of the day.
-
-No negative exchange amounts are allowed (x_{i,j} >= 0).
-
-For each currency i in {1,2,3}, the total exchanged amount cannot exceed its limit: 1000.0 for currency 1, 200.0 for currency 2, and 3000.0 for currency 3.
-
-Using the rate matrix above, it is assumed that for any cycle, the product of the corresponding rates is <= 1, so no arbitrage is possible.

@@ -1,5 +1,0 @@
-A division of an auto parts manufacturer produces P different parts using M different machines. Each batch of 100 units of part p requires time_required[m,p] hours on machine m. The cost of operating machine m is machine_costs[m] per hour. Each machine m has a maximum availability of availability[m] hours per month.
-
-The division sells part p in batches of 100 at a unit price of prices[p] per batch. To meet contractual obligations, the division must produce at least min_batches[p] batches of part p each month.
-
-The objective is to determine how many batches of each part to produce in order to maximize total monthly profit, subject to machine availability constraints.

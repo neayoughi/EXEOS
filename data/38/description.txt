@@ -1,5 +1,0 @@
-A user wants to back up important files onto floppy disks before going on vacation. Each floppy disk has a capacity of 3 GB. The user has 5 files with sizes 1 GB, 2 GB, 0.5 GB, 1.5 GB, and 2.5 GB. Each file must be stored entirely on a single floppy disk.
-
-There are no compression programs available, and it is assumed that there are enough floppy disks to store all files. The goal is to determine an assignment of files to floppy disks such that the number of disks used is minimized.
-
-The output consists of the total number of floppy disks used (n_disks) and a mapping (whichdisk) indicating the disk assigned to each file.

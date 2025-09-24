@@ -1,7 +1,0 @@
-An economy consists of three industries: coal, steel, and transport. Each unit produced by one of the industries (a unit is taken as £1’s worth of value of production) requires inputs from possibly its own industry as well as other industries. The required inputs as well as the manpower requirements (also measured in £) are given by the parameter inputone for each industry. There is a time lag in the economy so that the output in year t + 1 requires an input in year t.
-
-Output from an industry may also be used to build productive capacity for itself or other industries in future years. The inputs required to give unit increases (capacity for £1’s worth of extra production) in productive capacity are given in the parameter inputtwo, and manpower needed is given by manpowertwo. Input from an industry in year t results in an increase in productive capacity in year t + 2.
-
-Stocks of goods may be held from year to year. At present (year 0), the stocks of each industry are given by stock, and the productive capacities by capacity. There is a limited yearly manpower capacity, given by manpower_limit.
-
-The objective is to maximize total production in the last two years of the planning period. Decision variables include produce, representing the amount produced by each industry in each year, buildcapa, representing the amount used to build productive capacity for each industry in each year, and stockhold, representing the amount of stock of each industry held in each year.

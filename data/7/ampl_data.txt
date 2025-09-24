@@ -1,6 +1,0 @@
-param time := 20;
-
-param X0 := 0;
-param V0 := 0;
-param XT := 1;
-param VT := 0;

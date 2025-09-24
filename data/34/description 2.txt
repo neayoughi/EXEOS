@@ -1,5 +1,0 @@
-A small firm specializes in making five types of spare automobile parts. Each part is first cast from iron in the casting shop and then sent to the finishing shop, where holes are drilled, surfaces are turned, and edges are ground. 
-
-The required worker-hours per 100 units for each part in each of the two shops are given by the parameter `time`. The profit per 100 units for each part is given by the parameter `profit`. The casting and finishing shops have capacity constraints defined by the parameter `capacity`.
-
-The objective is to determine the quantities of each spare part to be made during the month so as to maximize total profit, while respecting the worker-hour capacity constraints in the casting and finishing shops.

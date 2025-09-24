@@ -1,5 +1,0 @@
-The town operates with 6 different shifts for police officers throughout the day. During each shift, a certain number of police officers must be on duty: 15 officers in shift 1, 13 officers in shift 2, 11 officers in shift 3, 11 officers in shift 4, 9 officers in shift 5, and 7 officers in shift 6.
-
-Each officer works for two consecutive shifts, starting from the shift they are assigned to. The cost incurred by the town for assigning an officer to start working at a shift is as follows: 500 for shift 1, 480 for shift 2, 450 for shift 3, 460 for shift 4, 470 for shift 5, and 490 for shift 6.
-
-The objective is to determine how many officers should be assigned to start work at each shift in order to satisfy the staffing requirements for all shifts while minimizing the total cost.

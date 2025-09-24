@@ -1,5 +1,0 @@
-Consider the problem of operating a warehouse, by buying and selling the stock of a certain commodity, in order to maximize profit over a certain length of time, say 3 months. The warehouse has a fixed capacity of 10 units, and there is a cost of 2 per unit for holding stock for one period. The selling price of the commodity in months 1, 2, and 3 is 1, 2, and 100, respectively. In months 1, 2, and 3 the purchase cost is 100, 1, and 100, respectively. The warehouse is originally empty and is required to be empty at the end of the last period.
-
-To formulate this problem, variables are introduced for each time period. Let stock_n denote the level of stock in the warehouse at the beginning of period n (n = 1, 2, 3). Let buyquantity_n denote the amount bought during period n, and let sellquantity_n denote the amount sold during period n.
-
-The objective is to determine the amount of buying and selling in each period to maximize the profit over the months.

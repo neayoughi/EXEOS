@@ -1,7 +1,0 @@
-{
-	"N": 3,
-	"Capacity": 10,
-	"HoldingCost": 2,
-	"Price": [1, 2, 100],
-	"Cost": [100, 1, 100]
-}

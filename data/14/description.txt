@@ -1,7 +1,0 @@
-We are given a set P ⊆ R^2, defined by 4 linear inequality constraints: P = { x ∈ R^2 | [1, 0]^T x ≤ 2; [-1, 0]^T x ≤ 2; [0, 1]^T x ≤ 3; [0, -1]^T x ≤ 5 }, where each coefficient vector is in R^2 and each scalar is real.
-
-We seek the largest possible Euclidean ball fully contained within P. This ball has center y ∈ R^2 and radius r ≥ 0. It is known as the Chebychev center of P.
-
-To ensure the ball of radius r centered at y lies entirely within P, it must satisfy the following condition for each constraint: [1, 0]^T y + r ≤ 2; [-1, 0]^T y + r ≤ 2; [0, 1]^T y + r ≤ 3; [0, -1]^T y + r ≤ 5.
-
-Our objective is to maximize the radius r.

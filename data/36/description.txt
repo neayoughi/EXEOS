@@ -1,5 +1,0 @@
-To operate a cafeteria efficiently, the manager must ensure adequate staffing based on daily staff requirements. The number of employees needed on each day is as follows: on day 1, 5 employees; on day 2, 10 employees; on day 3, 2 employees; on day 4, 3 employees; on day 5, 2 employees; and on day 6, 10 employees.
-
-Each employee works 5 consecutive days followed by 2 days off.
-
-The objective is to calculate the minimum number of employees required to satisfy the staffing requirements.

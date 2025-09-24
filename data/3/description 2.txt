@@ -1,9 +1,0 @@
-A state is planning its electricity capacity for the next T=12 years. For each year, the forecasted electricity demand is known, as is the capacity available from existing oil-fired plants. The state can choose to build additional coal-fired or nuclear power plants to meet future electricity needs.
-
-Coal-fired plants last for a set number of years, called the coal lifespan, and nuclear power plants last for a different lifespan. Once built, these plants remain in operation for the entirety of their lifespan. This means that in any given year, the total capacity from coal-fired or nuclear plants is the sum of all capacities added in previous years that are still within their respective lifespans.
-
-For each year, the total capacity to meet demand includes three parts: the oil-fired capacity that is already available, the active coal-fired capacity, and the active nuclear capacity. To ensure safety and political concerns are addressed, there is a limit on how much of the total capacity can be from nuclear power plants: no more than a fixed percentage of the total capacity can be nuclear in any given year.
-
-The goal is to develop a plan to build new coal and nuclear plants over the next T=12 years that minimizes the total cost of building these new plants. The plan must ensure that demand is met in every year, the nuclear capacity does not exceed the allowed percentage of the total, and the lifespans of coal and nuclear plants are properly accounted for.
-
-The data that supports this planning problem — such as demand forecasts, existing oil-fired capacity, and other relevant parameters — provided in data  for each year.
