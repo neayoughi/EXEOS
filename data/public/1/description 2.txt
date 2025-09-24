@@ -1,0 +1,7 @@
+A firm produces M different goods using N different raw materials. 
+
+Let Available_i, i = 1, ..., N, be the Available amount of the ith raw material. 
+
+The jth good, j = 1, ..., M, requires Requirements_ij units of the ith material and results in a price of Price_j per unit produced. 
+The firm faces the problem of deciding how much of each good to produce in order to maximize its total revenue.
+

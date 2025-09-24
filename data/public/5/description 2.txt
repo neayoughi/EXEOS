@@ -1,0 +1,3 @@
+A communication network consists of nodes connected by a specified number of links. Each link is defined by a list of link start nodes and a list of link end nodes. Each link has a capacity list and a per-bit cost list.
+
+The network must handle a specified number of flow requests. For each request, endpoints are given by a list of source nodes and a list of destination nodes, with required rates given by a data-rate list. Flow splitting across links is allowed. At each intermediate node, inflow equals outflow for each request (flow conservation). The total flow on any link cannot exceed its capacity. Objective: minimize total transmission cost using the per-bit cost list.

@@ -1,0 +1,11 @@
+set T := 1 2 3 4 5 6 7;
+
+param Period := 4;
+param Demand :=
+  1 0
+  2 5
+  3 9
+  4 15
+  5 4
+  6 7
+  7 3;

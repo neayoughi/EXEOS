@@ -1,0 +1,9 @@
+Digital Equipment Corporation (DEC) plans to produce and sell five types of computer systems in the upcoming quarter. These systems fall into two main families: general-purpose systems (GP_1, GP_2, GP_3) and workstation systems (WS_1, WS_2). Each system has different prices, as well as specific memory and disk drive requirements.
+
+DEC has to make production decisions within several constraints. First, they have a limited number of CPUs they can use due to production issues, so the total number of systems produced cannot exceed the maximum available CPUs. Disk drives are also limited, with their availability ranging between the minimum and maximum available disk drives, and the memory boards used in the systems have a similar availability range, between the minimum and maximum available memory boards.
+
+The company also faces demand limitations. Each system has a certain maximum number of units it can sell, and DEC must meet the existing preorders for each system. Additionally, the company has to ensure that overall production of general-purpose systems meets the general-purpose demand target, and workstation systems meet the workstation demand target.
+
+To manage shortages, DEC can substitute up to the allowable amount of alternative memory for regular memory boards, but this is only possible for the GP_1 system. Furthermore, some systems like GP_3 and WS_2 do not require disk drives at all, giving DEC some flexibility in how to use available resources.
+
+DEC’s goal is to decide how many units of each system to produce so they can maximize their profit, while ensuring they stay within the limits for CPUs, disk drives, and memory boards (including the permitted use of alternative memory). They must also make sure all preorders are fulfilled and that they meet the family-wide production targets for general-purpose and workstation systems.
