@@ -1,0 +1,15 @@
+A food manufacturer refines raw oils and blends them into a final product.
+
+Time scope is given by a parameter for the number of months. The set of raw oils is given by a parameter for the number of oils. Another parameter labels each oil’s category as vegetable or non-vegetable.
+
+For each month and each oil, a purchase-price parameter gives the cost per ton. A selling-price parameter gives the revenue per ton of final product.
+
+Two capacity parameters limit monthly refining: one for total vegetable oils and one for total non-vegetable oils. Refining has no loss and no cost.
+
+A storage-capacity parameter limits how many tons of each raw oil can be carried from one month to the next. A storage-cost parameter gives the holding cost per ton per month. The final product and the refined oils are not storable.
+
+A hardness-bounds parameter specifies the minimum and maximum acceptable hardness of the final blend. An oil-hardness parameter gives the hardness of each raw oil. Blend hardness is the linear combination of the oils’ hardness values weighted by their blend proportions.
+
+An initial-inventory parameter gives the starting tons of each raw oil. An end-inventory target parameter requires the same tons per oil at the end of the horizon.
+
+Decide, for each month and each oil, how many tons to buy, store, refine, and use in the blend to maximize total profit over the planning horizon, subject to purchase prices, selling price, refining capacities by category, storage capacity and cost, hardness bounds using the oil-hardness values, and the inventory balance with the specified start and end stocks.
