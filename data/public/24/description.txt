@@ -1,0 +1,9 @@
+A mining company plans to operate in the same area for the next five years. There are 4 mines in this area, but it can operate at most 3 mines in any one year. Even if a mine does not operate in a certain year, it must be kept open, and royalties are payable, if it is to be operated in the future. If a mine is not going to be worked again, it can be permanently closed, and no more royalties need to be paid. The yearly royalty payable for each mine that remains open is: mine 1 = 5,000,000; mine 2 = 4,000,000; mine 3 = 4,000,000; and mine 4 = 5,000,000.
+
+Each mine has an upper limit on the amount of ore that can be extracted in a year. These limits are: mine 1 = 2,000,000 tons, mine 2 = 2,500,000 tons, mine 3 = 1,300,000 tons, and mine 4 = 3,000,000 tons. The ores have qualities: mine 1 = 1.0, mine 2 = 0.7, mine 3 = 1.5, and mine 4 = 0.5. Blending is linear. For example, if equal quantities of two ores are combined, the resulting quality is the average of the two qualities.
+
+Each year, the total outputs must be combined to produce a blended ore of exactly the required quality for that year. The required qualities are: year 1 = 0.9, year 2 = 0.8, year 3 = 1.2, year 4 = 0.6, and year 5 = 1.0.
+
+The final blended ore sells for 10 per ton each year. Revenue and expenditure for future years are discounted at a rate of 0.1 per annum.
+
+Objective: maximize the discounted total profit over the five-year horizon by deciding which mines should be operated in each year and how much they should produce.

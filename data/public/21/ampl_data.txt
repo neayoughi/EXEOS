@@ -1,0 +1,68 @@
+#param K := 7;
+#param I := 6;
+#param M := 5;
+
+
+set PRODUCT := 1 2 3 4 5 6 7;
+set MONTH := 1 2 3 4 5 6;
+set MACH := 1 2 3 4 5;
+
+param MachinesPerType :=
+1 4
+2 2
+3 3
+4 1
+5 1;
+
+param Profit :=
+1 10
+2 6
+3 8
+4 4
+5 11
+6 9
+7 3;
+
+param StorePrice := 0.5;
+param KeepQuantity := 100;
+param WorkHours := 8.0;
+param WorkDaysPerMonth := 24;
+param MaxStorage := 100;
+
+# Time required on each machine type for each product (PRODUCT, MACH)
+param Time: 1 2 3 4 5 :=
+1 0.5 0.1 0.2 0.05 0.0
+2 0.7 0.2 0.0 0.03 0.0
+3 0.0 0.0 0.8 0.0 0.01
+4 0.0 0.3 0.0 0.07 0.0
+5 0.3 0.0 0.0 0.1 0.05
+6 0.2 0.6 0.0 0.0 0.0
+7 0.5 0.0 0.6 0.08 0.05;
+
+# Machines unavailable (downtime) for each machine type and month (MONTH, MACH)
+param Maintain: 1 2 3 4 5 :=
+1 1 0 0 0 0
+2 0 0 2 0 0
+3 0 0 0 1 0
+4 0 1 0 0 0
+5 1 1 0 0 0
+6 0 0 1 0 1;
+
+# Marketing limit for each product and month (PRODUCT, MONTH)
+param Limit: 1 2 3 4 5 6 :=
+1 500 600 300 200 0 500
+2 1000 500 600 300 100 500
+3 300 200 0 400 500 100
+4 300 0 0 500 100 300
+5 800 400 500 200 1000 1100
+6 200 300 400 0 300 500
+7 100 150 100 100 0 60;
+
+
+# Total downtime months required for each machine type
+param downtime :=
+1 1
+2 1
+3 1
+4 1
+5 1;

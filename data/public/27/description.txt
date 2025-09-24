@@ -1,0 +1,5 @@
+A quantity y depends on another quantity x. A set of 19 corresponding values for x and y has been collected: X = [0.0, 0.5, 1.0, 1.5, 1.9, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.6, 7.0, 7.6, 8.5, 9.0, 10.0], Y = [1.0, 0.9, 0.7, 1.5, 2.0, 2.4, 3.2, 2.0, 2.7, 3.5, 1.0, 4.0, 3.6, 2.7, 5.7, 4.6, 6.0, 6.8, 7.3].
+
+For k = 1 to 19, the k-th x and y values are the aligned elements of X and Y in the lists above.
+
+The objective is to fit the best straight line y = b x + a to these data points by minimizing the sum of absolute deviations of each observed y from the value predicted by the linear relationship across all 19 points.

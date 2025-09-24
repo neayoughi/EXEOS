@@ -1,0 +1,9 @@
+A mining company is planning to continue operations in a specific area for the next five years. There are n_mines mines in this area, but it can operate at most n_maxwork in any one year. Even if a mine does not operate in a certain year, it must be kept open, in the sense that royalties are payable, if it is to be operated in the future. If a mine is not going to be worked again, it can be permanently closed, and no more royalties need to be paid. The yearly royalty payable for each mine k that remains open is given by royalty_k.
+
+Each mine k has an upper limit, limit_k, on the amount of ore that can be extracted in a year. The ores from the different mines have varying quality, denoted by quality_k. The blending of ores from different mines results in a linear combination of the quality measurements. For example, if equal quantities of two ores were combined, the resulting quality would be the average of the individual qualities.
+
+Each year, the total outputs from each mine must be combined to produce a blended ore of exactly the stipulated required quality requiredquality_i for year i.
+
+The final blended ore sells for price per ton each year. Revenue and expenditure for future years are discounted at a rate of discount per annum.
+
+The objective is to maximize the discounted total profit over the planning horizon by deciding which mines should be operated in each year and how much they should produce.
