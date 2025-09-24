@@ -1,0 +1,27 @@
+param W := 4;
+
+param regular_cost := 30;
+param overtime_cost := 45;
+param assembly_time := 0.4;
+param material_cost := 25;
+param selling_price := 65;
+param holding_cost := 4;
+param salvage_value := 30;
+
+param demand :=
+1 700
+2 1500
+3 2800
+4 1800;
+
+param regular_labor :=
+1 450
+2 550
+3 600
+4 600;
+
+param overtime_labor :=
+1 40
+2 200
+3 320
+4 160;

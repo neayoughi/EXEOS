@@ -1,0 +1,5 @@
+{
+    "NumShifts": 6,
+    "OfficersNeeded": [15, 13, 11, 11, 9, 7],
+    "ShiftCosts": [500, 480, 450, 460, 470, 490]
+}

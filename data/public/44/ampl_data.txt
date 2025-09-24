@@ -1,0 +1,34 @@
+param A := 3;
+param S := 2;
+
+param available :=
+1 40
+2 50
+3 80;
+
+param carbon :=
+1 3
+2 4
+3 3.5;
+
+param nickel :=
+1 1
+2 1.5
+3 1.8;
+
+param alloy_prices :=
+1 380
+2 400
+3 440;
+
+param steel_prices :=
+1 650
+2 600;
+
+param carbon_min :=
+1 3.6
+2 3.4;
+
+param nickel_max :=
+1 1.5
+2 1.7;

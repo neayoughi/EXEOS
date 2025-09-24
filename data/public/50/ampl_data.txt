@@ -1,0 +1,16 @@
+param P := 3;
+param C := 2;
+
+param supply := 
+1 30
+2 25
+3 45;
+
+param demand := 
+1 40
+2 60;
+
+param transmission_costs : 1 2 :=
+1 14 22
+2 18 12
+3 10 16;

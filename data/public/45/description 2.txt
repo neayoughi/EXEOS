@@ -1,0 +1,3 @@
+The town operates with S different shifts for police officers throughout the day. During each shift s, a certain number of police officers (officers_needed_s) must be on duty. Each officer works for two consecutive shifts, starting from shift s. The cost incurred by the town for assigning an officer to start working at shift s is given by shift_cost_s.
+
+The objective is to determine how many officers should be assigned to start work at each shift in order to satisfy the staffing requirements for all shifts while minimizing the total cost.

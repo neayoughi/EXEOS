@@ -1,0 +1,12 @@
+  {
+    "goal_young": 500,
+    "goal_old": 600,
+    "goal_unique_young": 250,
+    "goal_unique_old": 300,
+    "young_clicks": [40, 30, 70],
+    "old_clicks": [60, 70, 30],
+    "costs": [75, 100, 120],
+    "max_clicks": [600, 300, 300],
+    "unique_clicks": [40, 75, 90]
+}
+  
