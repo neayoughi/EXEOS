@@ -1,0 +1,12 @@
+{
+    "T": 4,
+    "Demands": [450, 700, 500, 750],
+    "UnloadCosts": [75, 100, 105, 130],
+    "UnloadCapacity": [800, 500, 450, 700],
+    "HoldingCost": 20,
+    "MaxContainer": 500,
+    "InitContainer": 200,
+    "NumCranes": 4,
+    "CraneCapacity": 200,
+    "CraneCost": 1000
+}

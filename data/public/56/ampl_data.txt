@@ -1,0 +1,20 @@
+param N := 6;
+set LANGUAGES := FR AR IT GE RU CH SP PO;
+
+param: cost :=
+1 12000
+2 16000
+3 13000
+4 15000
+5 9000
+6 7000
+;
+
+set TranslatorLanguages[1] := FR AR IT;
+set TranslatorLanguages[2] := GE RU CH;
+set TranslatorLanguages[3] := AR CH;
+set TranslatorLanguages[4] := FR SP IT PO;
+set TranslatorLanguages[5] := FR GE RU SP;
+set TranslatorLanguages[6] := GE SP PO;
+
+set RequiredLanguages := FR AR GE RU SP CH IT PO;

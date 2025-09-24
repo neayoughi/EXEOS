@@ -1,0 +1,9 @@
+A division of an auto parts manufacturer produces NumParts different parts using NumMachines different machines.
+
+Producing a batch of 100 units of part p requires TimeRequired[m, p] hours on machine m. Each machine m has a per-hour usage cost specified in MachineCosts[m].
+
+Machines 2 through NumMachines have monthly time limits given by Availability[m]. However, machine 1 is outsourced: it has no availability constraint, and its usage cost depends on the number of hours used. Specifically, it costs StandardCost per hour up to OvertimeHour[1] hours, and OvertimeCost per hour beyond that.
+
+Each part p has a selling price specified in Prices[p] per batch of 100 units. The company must produce at least MinBatches[p] batches of each part per month to fulfill contractual obligations.
+
+The objective is to determine how many batches of each part to produce in order to maximize the total monthly profit.

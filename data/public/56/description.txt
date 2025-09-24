@@ -1,0 +1,17 @@
+A team of translators is being assembled for the Summer Olympics to translate from English into eight required languages: French (FR), Arabic (AR), German (GE), Russian (RU), Spanish (SP), Chinese (CH), Italian (IT), and Portuguese (PO).
+
+There are six available translators, each with a hiring cost and a set of languages they can translate into:
+
+Translator 1 costs 12,000 and can translate into French, Arabic, and Italian.
+
+Translator 2 costs 16,000 and can translate into German, Russian, and Chinese.
+
+Translator 3 costs 13,000 and can translate into Arabic and Chinese.
+
+Translator 4 costs 15,000 and can translate into French, Spanish, Italian, and Portuguese.
+
+Translator 5 costs 9,000 and can translate into French, German, Russian, and Spanish.
+
+Translator 6 costs 7,000 and can translate into German, Spanish, and Portuguese.
+
+The objective is to determine the minimum-cost subset of translators such that all eight required languages are covered.

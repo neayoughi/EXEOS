@@ -1,0 +1,20 @@
+{
+  "processing_times": {
+      "central": {
+          "isolate": [10, 6, 8],
+          "scan": [6, 4, 6]
+      },
+      "distributed": {
+          "isolate": [12, 9, 12],
+          "scan": [18, 10, 15]
+      }
+  },
+  "costs": {
+      "central": 150,
+      "distributed": 70
+  },
+  "max_hours": {
+      "central_max_hours": 16,
+      "distributed_max_hours": 33
+  }
+}

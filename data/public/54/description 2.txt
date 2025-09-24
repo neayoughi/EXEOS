@@ -1,0 +1,9 @@
+A seaport manages container logistics over T months. Each month, containers are unloaded from rail cars, stored in a yard, and later loaded onto ships. The number of containers demanded by ships each month is given by the parameter Demands. This demand must be fulfilled monthly.
+
+Unloading each container incurs a cost specified by UnloadCosts. However, the number of containers that can be unloaded each month is limited by UnloadCapacity.
+
+If containers are held in the yard until the next month, a HoldingCost is applied per container. The yard has a maximum holding capacity defined by MaxContainer. Initially, the yard holds InitContainer containers, and it must be empty at the end of the planning horizon.
+
+Containers are loaded onto ships using rented cranes. A maximum of NumCranes cranes can be rented each month. Each crane has a CraneCapacity, and the cost of renting each crane is CraneCost.
+
+The objective is to determine how many containers to unload and how many cranes to rent each month in order to minimize the total cost, which includes unloading, storage, and crane rental costs.

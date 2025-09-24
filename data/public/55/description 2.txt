@@ -1,0 +1,5 @@
+A division of an auto parts manufacturer produces 4 different parts using 3 different machines. Each batch of 100 units of part p requires a specific number of machine hours on machine m, as defined by the parameter time_required. The manufacturer pays an hourly operating cost for each machine, given by machine_costs. Each machine m has a limited number of hours available per month, defined by availability.
+
+Part p generates revenue based on its selling price per batch, specified in the prices parameter. For machine 1 only, a setup time must be added before it can produce each part p, defined by setup_time. No setup time is required on the other machines.
+
+There are no minimum production requirements for any part. The goal is to determine the number of batches of each part to produce monthly in order to maximize profit.

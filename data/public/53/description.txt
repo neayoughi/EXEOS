@@ -1,0 +1,16 @@
+A delivery person starts at the intersection of 1st Avenue and 1st Street and needs to reach the intersection of 2nd Avenue and 3rd Street. The area between these points forms a 2 × 1 grid.
+
+Each block in the grid has a specific walking time, which varies due to rush-hour pedestrian traffic. The delivery person may only walk north or west.
+
+At each stage of the journey, the delivery person must decide whether to walk north or west. When at the intersection of Avenue w and Street n:
+
+The time required to move west (to (w+1, n)) is given as follows:
+• At Street 1, Avenue 1 → 3.5 minutes, Avenue 2 → 4.5 minutes
+• At Street 2, Avenue 1 → 4 minutes, Avenue 2 → 4 minutes
+• At Street 3, Avenue 1 → 5 minutes, Avenue 2 → 4 minutes
+
+The time required to move north (to (w, n+1)) is given as follows:
+• At Street 1, Avenue 1 → 10 minutes, Avenue 2 → 10 minutes, Avenue 3 → 9 minutes
+• At Street 2, Avenue 1 → 9 minutes, Avenue 2 → 9 minutes, Avenue 3 → 12 minutes
+
+The objective is to find the optimal path that minimizes the total travel time from the start to the destination.

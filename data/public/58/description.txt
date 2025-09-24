@@ -1,0 +1,11 @@
+A network is facing an intrusion that requires immediate intervention. The network is divided into 3 clusters. For each cluster, one of two intervention types must be applied: either "isolate" or "scan". Each cluster must be treated with only one type of intervention.
+
+Each intervention can be executed using one of two processing methods: centrally or through distributed nodes. The processing time varies by cluster, intervention type, and processing method.
+
+For central processing, the required hours are as follows: isolating takes 10, 6, and 8 hours for clusters 1, 2, and 3, respectively, while scanning takes 6, 4, and 6 hours for these clusters. For distributed processing, isolating takes 12, 9, and 12 hours for clusters 1, 2, and 3, respectively, while scanning takes 18, 10, and 15 hours.
+
+The cost of using central processing is 150 per hour, and the cost of using distributed processing is 70 per hour. The total hours available are limited to 16 for central processing and 33 for distributed processing.
+
+The objective is to assign an intervention type and processing method to each cluster in order to minimize the total intervention cost, while respecting the time limits on central and distributed processing.
+
+The output includes the chosen intervention type and processing method for each cluster and the resulting total cost.
