@@ -1,0 +1,8 @@
+Suppose there are N available currencies. Each currency i can be exchanged for currency j at an exchange rate of rate_{i,j}. There is also a limit limit_i on the total amount of currency i that can be exchanged (either exchanged to or from another currency) on any given day. At the start of the day, there are start_i units of currency i available.
+
+The objective is to determine how to exchange these currencies, using a set of exchange variables x_{i,j} representing the amount of currency i exchanged to currency j, in order to maximize the total amount of currency N at the end of the day.
+
+Key Assumptions:
+- No negative exchange amounts are allowed (x_{i,j} >= 0).
+- The total exchanged amount of each currency i cannot exceed limit_i.
+- The system does not allow for wealth multiplication through cycles (i.e., any cycle of exchanges will not result in more value than at the start).

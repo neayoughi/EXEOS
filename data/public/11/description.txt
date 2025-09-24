@@ -1,0 +1,9 @@
+We have a straight road divided into 3 segments, which we aim to illuminate using 2 lamps. Each lamp's power can be adjusted. The amount of light received by each segment depends on the two lamp powers and fixed coefficients that describe how strongly each lamp contributes to each segment.
+
+The goal is to choose the lamp powers so that the actual illumination in each segment closely matches the desired illumination levels. We measure closeness by summing the absolute errors between desired and actual illumination in the 3 segments and we minimize this total.
+Illumination coefficients for each segment–lamp pair (segment × lamp):
+[[0.5, 0.3],
+[0.2, 0.4],
+[0.1, 0.6]].
+Desired illumination for the 3 segments: [14, 3, 12].
+We determine the powers of the two lamps that achieve this minimum total absolute error.

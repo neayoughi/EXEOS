@@ -1,0 +1,12 @@
+Consider a school district with N neighborhoods, S schools, and G grades at each school.
+
+Each school s has a capacity of capacity_{s,g} for grade g. In each neighborhood n, the student population of grade g is population_{n,g}. Finally, the distance of school s from neighborhood n is Distance_{n,s}.
+
+The objective is to assign all students to schools while minimizing the total distance traveled by all students. We may ignore the fact that the number of students must be integers.
+
+Let x_{n,s,g} be the number of students of grade g in neighborhood n assigned to school s. The goal is to determine the optimal values of x_{n,s,g} such that:
+
+1. For each grade g in each neighborhood n, the total number of assigned students matches the population of that grade in that neighborhood.
+2. For each school s and each grade g, the total number of students assigned to that school in that grade does not exceed its capacity.
+3. The total distance traveled by students is minimized.
+
