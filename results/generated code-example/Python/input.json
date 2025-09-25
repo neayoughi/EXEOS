@@ -1,0 +1,79 @@
+{
+    "n": 2,
+    "m": 3,
+    "Products": [
+        {
+            "Product": "FG-A"
+        },
+        {
+            "Product": "FG-B"
+        }
+    ],
+    "Components": [
+        {
+            "Component": "Comp-X1"
+        },
+        {
+            "Component": "Comp-X2"
+        },
+        {
+            "Component": "Comp-X3"
+        }
+    ],
+    "BOM": [
+        {
+            "Product": "FG-A",
+            "Component": "Comp-X1",
+            "UnitsRequired": 1
+        },
+        {
+            "Product": "FG-A",
+            "Component": "Comp-X2",
+            "UnitsRequired": 1
+        },
+        {
+            "Product": "FG-A",
+            "Component": "Comp-X3",
+            "UnitsRequired": 0
+        },
+        {
+            "Product": "FG-B",
+            "Component": "Comp-X1",
+            "UnitsRequired": 1
+        },
+        {
+            "Product": "FG-B",
+            "Component": "Comp-X2",
+            "UnitsRequired": 2
+        },
+        {
+            "Product": "FG-B",
+            "Component": "Comp-X3",
+            "UnitsRequired": 1
+        }
+    ],
+    "Inventory": [
+        {
+            "Component": "Comp-X1",
+            "OnHand": 8
+        },
+        {
+            "Component": "Comp-X2",
+            "OnHand": 10
+        },
+        {
+            "Component": "Comp-X3",
+            "OnHand": 3
+        }
+    ],
+    "Prices": [
+        {
+            "Product": "FG-A",
+            "SellingPrice": 10
+        },
+        {
+            "Product": "FG-B",
+            "SellingPrice": 15
+        }
+    ]
+}

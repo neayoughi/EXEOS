@@ -1,0 +1,13 @@
+set PROD := FG-A FG-B;
+set COMP := Comp-X1 Comp-X2 Comp-X3;
+param price :=
+FG-A  10
+FG-B  15;
+param inventory :=
+Comp-X1  8
+Comp-X2 10
+Comp-X3  3;
+param bom : FG-A   FG-B :=
+Comp-X1    1      1
+Comp-X2    1      2
+Comp-X3    0      1

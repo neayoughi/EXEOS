@@ -1,0 +1,9 @@
+Gurobi 12.0.2: Gurobi 12.0.2: optimal solution; objective 90
+2 simplex iterations
+Variable: Produce
+   index0    | Produce.val 
+   'FG-A'    |      6      
+   'FG-B'    |      2      
+
+
+
