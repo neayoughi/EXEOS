@@ -1,3 +1,4 @@
+# app_backend.py
 import os
 import json
 import time
@@ -21,24 +22,23 @@ def build_input_bundle(base_dir: str,
                        data_obj: Optional[Dict[str, Any]],
                        ampl_dat_text: Optional[str]) -> Dict[str, str]:
     """
-    Creates the input directory with all files expected by the generators.
-    Accepts JSON data and optional AMPL .dat text to seed AMPL prompting.
-    Returns paths for input_dir and log_dir.
+    Create the input directory with all files expected by the generators.
+    Accept JSON data and optional AMPL .dat text to seed AMPL prompts.
+    Return paths for input_dir and log_dir.
     """
     ts = time.strftime('%Y%m%d_%H%M%S')
     log_dir = _ensure_dir(os.path.join("logs", f"run_{ts}"))
     input_dir = _ensure_dir(os.path.join(log_dir, "input"))
 
-    # Persist primary inputs
+    # Primary inputs
     _write(os.path.join(input_dir, "description.txt"), nl_description)
     _write(os.path.join(input_dir, "data.json"), data_obj or {})
 
-    # If user supplied a .dat file, store it and also mirror into ampl_data.txt for prompting
+    # Optional AMPL .dat seed
     if ampl_dat_text and ampl_dat_text.strip():
         _write(os.path.join(input_dir, "ampl_data.txt"), ampl_dat_text)
         _write(os.path.join(input_dir, "data.dat"), ampl_dat_text)
     else:
-        # Lightweight seed if no .dat was provided
         _write(
             os.path.join(input_dir, "ampl_data.txt"),
             "# Optional AMPL-style data context for the LLM.\n"
@@ -51,9 +51,10 @@ def run_pipeline(nl_description: str,
                  ampl_dat_text: Optional[str] = None,
                  model: str = "gpt-4-1106-preview",
                  refinement: bool = True,
-                 maxtry: int = 2) -> Dict[str, Any]:
+                 max_refine: int = 2,
+                 structure: bool = False) -> Dict[str, Any]:
     """
-    Orchestrates: NL -> structured -> AMPL + Python generation -> solve -> debug loops -> results.
+    Orchestrate: NL → optional structuring → AMPL + Python generation → solve → refinement → results.
     """
     bundles = build_input_bundle(base_dir=".",
                                  nl_description=nl_description,
@@ -61,42 +62,54 @@ def run_pipeline(nl_description: str,
                                  ampl_dat_text=ampl_dat_text)
     input_dir, log_dir = bundles["input_dir"], bundles["log_dir"]
 
-    # 1) Structure the NL
-    prompt = struct_generate_prompt(nl_description, json.dumps(data or {}, indent=2))
-    structured = struct_process_prompt(prompt, model=model, log_dir=log_dir, use_logprobs=False, run_number=1)
+    structured: Dict[str, Any] = {}
+    s_path_input = os.path.join(input_dir, "structured_description.json")
 
-    # Build input_targets.json expected by downstream generators
-    input_targets = {
-        "description": structured.get("description", nl_description),
-        "objective": structured.get("objective", ""),
-        "constraints": structured.get("constraints", []),
-        "parameter": structured.get("parameter", [])
-    }
-    _write(os.path.join(input_dir, "input_targets.json"), input_targets)
+    if structure:
+        prompt = struct_generate_prompt(nl_description, json.dumps(data or {}, indent=2))
+        structured = struct_process_prompt(prompt, model=model, log_dir=log_dir, use_logprobs=False, run_number=1)
+        targets = {
+            "description": structured.get("description", nl_description),
+            "objective": structured.get("objective", ""),
+            "constraints": structured.get("constraints", []),
+            "parameter": structured.get("parameter", [])
+        }
+        _write(s_path_input, targets)
+    else:
+        # Plain fallback, keep the same schema
+        targets = {
+            "description": nl_description,
+            "objective": "",
+            "constraints": [],
+            "parameter": []
+        }
+        _write(s_path_input, targets)
 
-    # 2) AMPL generation + solve + refinement loop
-    ampl_mod, ampl_dat, ampl_solution_file, ampl_refinement_attempts, ampl_llm_calls = generate_ampl_files(
+    # AMPL generation → solve → refinement
+    ampl_mod, ampl_dat, ampl_solution_file, ampl_refine_attempts, ampl_llm_calls = generate_ampl_files(
         input_dir=input_dir,
         model=model,
         log_dir=_ensure_dir(os.path.join(log_dir, "ampl")),
+        use_logprobs=False,
         run_number=1,
         refinement=refinement,
-        maxtry=maxtry
+        max_refine=max_refine
     )
     ampl_status = parse_ampl_solution(ampl_solution_file)
 
-    # 3) Python(Gurobi) generation + solve + refinement loop
+    # Python (Gurobi) generation → solve → refinement
     py_code_path, py_solution_json, py_attempts, py_llm_calls = generate_gurobi_code(
         input_dir=input_dir,
         model=model,
         log_dir=_ensure_dir(os.path.join(log_dir, "python")),
+        use_logprobs=False,
         refinement=refinement,
-        maxtry=maxtry
+        max_refine=max_refine
     )
     with open(py_solution_json, "r", encoding="utf-8") as f:
         py_status = json.load(f)
 
-    # 4) Package results
+    # Package results
     result = {
         "log_dir": log_dir,
         "structured": structured,
@@ -105,7 +118,7 @@ def run_pipeline(nl_description: str,
             "data_path": ampl_dat,
             "solution_path": ampl_solution_file,
             "status": ampl_status,
-            "refinement_attempts": ampl_refinement_attempts,
+            "refinement_attempts": ampl_refine_attempts,
             "llm_calls": ampl_llm_calls
         },
         "python": {
@@ -134,8 +147,9 @@ def main():
     )
 
     parser.add_argument("--model", default="gpt-4-1106-preview")
+    parser.add_argument("--structure", action="store_true")
     parser.add_argument("--refinement", action="store_true")
-    parser.add_argument("--maxtry", type=int, default=2)
+    parser.add_argument("--max_refine", type=int, default=2)
     args = parser.parse_args()
 
     nl_text = open(args.nl_file, "r", encoding="utf-8").read() if args.nl_file else args.nl
@@ -147,7 +161,8 @@ def main():
             if path.lower().endswith(".json"):
                 with open(path, "r", encoding="utf-8") as f:
                     data_obj = json.load(f)
-            elif path.lower().endswith(".dat"):
+            # elif path.lower().endswith(".dat"):
+            elif path.lower().endswith((".dat", ".txt")):
                 with open(path, "r", encoding="utf-8") as f:
                     ampl_dat_text = f.read()
 
@@ -157,7 +172,8 @@ def main():
         ampl_dat_text=ampl_dat_text,
         model=args.model,
         refinement=args.refinement,
-        maxtry=args.maxtry
+        max_refine=args.max_refine,
+        structure=args.structure
     )
     print(json.dumps(out, indent=2))
 

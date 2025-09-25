@@ -109,27 +109,28 @@ Data:
 def generate_prompt(description: str, data: str) -> str:
     return PROMPT_TEMPLATE.format(description=description, data=data)
 
-def process_prompt(prompt: str, model: str, log_dir: str = None, run_number: int = None) -> dict:
+def process_prompt(prompt: str, model: str, log_dir: str = None, use_logprobs: bool = False, run_number: int = None) -> dict:
     """
     Uses the configured LLM to produce structured JSON. Retries up to 3 times on JSON parsing errors.
     """
     attempts = 3
-    # Prepare LLM and message buffer
-    llm = get_llm(model, api_key=CONFIG.get("openai_api_key"), project_id="", location="") # Your GCP project_id="", location=""
+
+    llm = get_llm(model)
+
     from langchain_core.messages import HumanMessage, AIMessage
     messages = []
 
     while attempts > 0:
         try:
             messages.append(HumanMessage(content=prompt))
-            content = llm_call(llm, messages, log_dir=log_dir)
+            content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
             # Extract JSON payload if fenced
             decision = content.strip()
             if "```json" in decision:
                 decision = decision.split("```json")[1].split("```")[0]
             # Normalize a few characters
             decision = decision.replace("\\u2212", "-").replace("\u2212", "-")
-            # Avoid escaping collapse for backslashes in LaTeX-style tokens
+
             result = json.loads(decision)
             return result
         except Exception as e:
@@ -146,7 +147,7 @@ def main():
     parser.add_argument("--description", required=True, help="Path to problem description .txt file")
     parser.add_argument("--data", required=True, help="Path to data .json or .csv file")
     parser.add_argument("--model", default="gpt-4-1106-preview", help="Model name")
-    # parser.add_argument("--logprob", action="store_true", help="Enable log probability output")
+    parser.add_argument("--logprob", action="store_true", help="Enable log probability output")
     parser.add_argument("--logs", default=None, help="Directory to save output logs")
     parser.add_argument("--run_number", type=int, default=None, help="Run number for seeding the LLM call")
     args = parser.parse_args()
@@ -160,7 +161,7 @@ def main():
         data_text = f.read()
 
     prompt = generate_prompt(description_text, data_text)
-    structured_output = process_prompt(prompt, args.model, log_dir, run_number=args.run_number)
+    structured_output = process_prompt(prompt, args.model, log_dir, args.logprob, run_number=args.run_number)
 
     print(json.dumps(structured_output, indent=2))
 

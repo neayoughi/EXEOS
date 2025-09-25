@@ -5,9 +5,8 @@ import shutil
 import time
 import argparse
 import re
-from llm_utils import get_llm, CONFIG, llm_call
+from llm_utils import get_llm, llm_call
 from langchain_core.messages import HumanMessage, AIMessage
-
 
 PROMPT_DIR = os.getenv("EXEOS_PROMPT_DIR", "prompt")
 
@@ -24,11 +23,44 @@ def _safe_read(path, default=""):
     except FileNotFoundError:
         return default
 
+def _maybe_structure(input_dir, model, log_dir, use_structuring):
+    it_path = os.path.join(input_dir, "input_targets.json")
+    if not use_structuring and os.path.exists(it_path):
+        with open(it_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    if use_structuring:
+        struct_log = os.path.join(log_dir, "struct")
+        os.makedirs(struct_log, exist_ok=True)
+        desc_path = os.path.join(input_dir, "description.txt")
+        data_path = os.path.join(input_dir, "data.json")
+        subprocess.run(
+            ["python", "nl_to_structured.py",
+             "--description", desc_path,
+             "--data", data_path,
+             "--model", model,
+             "--logs", struct_log],
+            check=True,
+            cwd="."
+        )
+        out_json = os.path.join(struct_log, "structured_description.json")
+        with open(out_json, "r", encoding="utf-8") as f:
+            s = json.load(f)
+        targets = {
+            "background": "",
+            "description": s.get("description", _safe_read(desc_path, "")),
+            "objective": s.get("objective", ""),
+            "constraints": s.get("constraints", []),
+            "parameter": s.get("parameter", [])
+        }
+        with open(it_path, "w", encoding="utf-8") as f:
+            json.dump(targets, f, indent=2)
+        return targets
+
+    desc_text = _safe_read(os.path.join(input_dir, "description.txt"), "")
+    return {"background": "", "description": desc_text, "objective": "", "constraints": [], "parameter": []}
+
 def clean_code(code):
-    """
-    Clean Python code by removing code block markers (e.g., ```python, ```) while preserving indentation.
-    Remove trailing whitespace and unnecessary empty lines.
-    """
     code = re.sub(r'```python\s*\n|```(?:\s*\n|$)', '', code)
     lines = code.splitlines()
     cleaned_lines = [line.rstrip() for line in lines if line.strip()]
@@ -64,7 +96,7 @@ def parse_solution(output_text, error_text):
         if line.startswith("Optimal Objective Value:"):
             try:
                 solution["status"] = "optimal"
-                solution["objective_value"] = float(line.split(":")[1].strip())
+                solution["objective_value"] = float(line.split(":", 1)[1].strip())
                 solution["variables"] = {}
                 for var_line in lines[i + 1:]:
                     var_line = var_line.strip()
@@ -85,18 +117,26 @@ def parse_solution(output_text, error_text):
 
     return solution
 
-def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=False, maxtry=1):
-    with open(os.path.join(input_dir, "input_targets.json"), "r", encoding="utf-8") as f:
-        target = json.load(f)
+def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=None, refinement=False, max_refine=1, structure=False):
+    target = _maybe_structure(input_dir, model, log_dir, use_structuring=structure)
+
     with open(os.path.join(input_dir, "data.json"), "r", encoding="utf-8") as f:
         data = json.load(f)
+    py_snippet = _safe_read(os.path.join(input_dir, "data.json"), "").strip()
 
     guidelines  = _read_prompt("gurobi_guidelines.txt", "")
-    instruction = _read_prompt("gurobi_instruction.txt",
-                             "Write a complete Python script using Gurobi. Load JSON from 'input.json'. Build model, variables, objective, constraints. Optimize. Print 'Optimal Objective Value: <value>' then one '<var>: <value>' per line.")
+    instruction = _read_prompt(
+        "gurobi_instruction.txt",
+        "Write a complete Python script using Gurobi. Load JSON from 'input.json'. "
+        "Build model, variables, objective, constraints. Optimize. "
+        "Print 'Optimal Objective Value: <value>' then one '<var>: <value>' per line."
+    )
     example     = _read_prompt("example.txt", "# Example omitted.")
-    refinement_template = _read_prompt("python_refinement_prompt.txt", "")
-
+    refine_tmpl = _read_prompt(
+        "Python_refinement_promt.txt",
+        "The Python optimization script failed.\nError:\n{ERROR}\n\n"
+        "Refine the code. Keep the same CLI and file I/O. Return only raw Python code."
+    )
 
     description_target = target.get("description", "")
     objective_target = target.get("objective", "")
@@ -107,19 +147,22 @@ def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=
         f"Instructions:\n{instruction}\n\n"
         f"Gurobi Guidelines:\n{guidelines}\n\n"
         f"Example Gurobi Code:\n{example}\n\n"
-        f"Input Data:\n{json.dumps(data, indent=2)}\n\n"
         f"Problem Description:\n{description_target}\n\n"
         f"Parameters:\n{json.dumps(parameters_target, indent=2)}\n\n"
         f"Objective:\n{objective_target}\n\n"
         f"Constraints:\n{json.dumps(constraints_target, indent=2)}\n\n"
         "Generate a complete Python script using the Gurobi Python API to formulate and solve the optimization problem. "
-        "Output only the raw Python code without any code block markers. "
-        "Ensure the code is properly indented. "
+        "Output only the raw Python code without code fences. "
         "The script must load data from 'input.json', define the model, variables, objective, constraints, optimize, "
         "print results as 'Optimal Objective Value: <value>' and '<var_name>: <value>' lines, and export an MPS file."
     )
+    if py_snippet:
+        initial_prompt += (
+                "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .json):\n"
+                + py_snippet[:4000]  # guard size if large
+        )
 
-    llm = get_llm(model, api_key=CONFIG["openai_api_key"], project_id="", location="") # your GCP project_id="", location=""
+    llm = get_llm(model)
     messages = []
     conversation_log = []
     llm_call_count = 0
@@ -128,7 +171,7 @@ def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=
         nonlocal llm_call_count, conversation_log
         conversation_log.append({"role": "user", "content": prompt})
         messages.append(HumanMessage(content=prompt))
-        content = llm_call(llm, messages, log_dir=log_dir)
+        content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
         llm_call_count += 1
         conversation_log.append({"role": "assistant", "content": content})
         messages.append(AIMessage(content=content))
@@ -136,7 +179,6 @@ def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=
 
     generated_code = send_message(initial_prompt)
     generated_code = clean_code(generated_code)
-
 
     code_path = os.path.join(log_dir, "generated_code.py")
     if refinement:
@@ -152,8 +194,9 @@ def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=
 
     solution = None
     attempt = 0
-    while attempt <= maxtry:
-        current_code_path = code_path if not refinement or attempt == 0 else os.path.join(log_dir, f"generated_code_attempt_{attempt}.py")
+    max_attempts = max_refine if refinement else 0
+    while attempt <= max_attempts:
+        current_code_path = code_path if attempt == 0 else os.path.join(log_dir, f"generated_code_attempt_{attempt}.py")
         try:
             result = subprocess.run(
                 ["python3", os.path.basename(current_code_path)],
@@ -163,40 +206,35 @@ def generate_gurobi_code(input_dir, model, log_dir, run_number=None, refinement=
                 text=True,
                 timeout=60
             )
-            if result.returncode == 0:
-                output_text = result.stdout
-                error_text = ""
-            else:
-                output_text = ""
-                error_text = result.stderr
+            output_text = result.stdout if result.returncode == 0 else ""
+            error_text = "" if result.returncode == 0 else result.stderr
             solution = parse_solution(output_text, error_text)
-            if solution["status"] not in ["error", "syntax_error"] or not refinement or attempt >= maxtry:
-                break
-            refinement_prompt = refinement_template.format(
-                DESCRIPTION=description_target,
-                PARAMETERS=json.dumps(parameters_target, indent=2),
-                OBJECTIVE=objective_target,
-                CONSTRAINTS=json.dumps(constraints_target, indent=2),
-                INPUT_DATA=json.dumps(data, indent=2),
-                PREVIOUS_CODE=generated_code,
-                ERROR_MESSAGE=error_text,
-                ATTEMPT=attempt + 1,
-                GUROBI_GUIDELINE=guidelines
-            )
-            generated_code = send_message(refinement_prompt)
-            if "---CODE---" in generated_code:
-                generated_code = generated_code.split("---CODE---")[1].strip()
-            generated_code = clean_code(generated_code)
-            new_code_path = os.path.join(log_dir, f"generated_code_attempt_{attempt + 1}.py")
-            with open(new_code_path, "w", encoding="utf-8") as f:
-                f.write(generated_code)
+
+            if solution["status"] in ["error", "syntax_error"] and refinement and attempt < max_refine:
+                refine_prompt = refine_tmpl.format(
+                    ERROR=error_text or "Unknown error",
+                    CODE=generated_code
+                )
+                if py_snippet:
+                    initial_prompt += (
+                            "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .json):\n"
+                            + py_snippet[:4000]  # guard size if large
+                    )
+                generated_code = send_message(refine_prompt)
+                generated_code = clean_code(generated_code)
+                new_code_path = os.path.join(log_dir, f"generated_code_attempt_{attempt + 1}.py")
+                with open(new_code_path, "w", encoding="utf-8") as f:
+                    f.write(generated_code)
+                attempt += 1
+                continue
+
+            break
         except subprocess.TimeoutExpired:
             solution = {"status": "error", "error_message": "Execution timed out after 60 seconds", "error_type": "Runtime", "runtime": 1}
             break
         except Exception as e:
             solution = {"status": "error", "error_message": str(e), "error_type": "Runtime", "runtime": 1}
             break
-        attempt += 1
 
     solution_json_path = os.path.join(log_dir, "solution.json")
     with open(solution_json_path, "w", encoding="utf-8") as f:
@@ -212,15 +250,16 @@ def main():
     parser.add_argument("--input_dir", required=True, help="Path to input directory")
     parser.add_argument("--model", default="gpt-4-1106-preview", help="LLM model name")
     parser.add_argument("--log_dir", required=True, help="Directory to save logs and outputs")
-    # parser.add_argument("--use_logprobs", action="store_true", help="Enable log probabilities")
-    parser.add_argument("--refinement", action="store_true", help="Enable refinement mode")
-    parser.add_argument("--maxtry", type=int, default=1, help="Maximum number of refinement attempts")
+    parser.add_argument("--use_logprobs", action="store_true", help="Enable log probabilities")
+    parser.add_argument("--refinement", action="store_true", help="Turn on refinement loop")
+    parser.add_argument("--max_refine", type=int, default=1, help="Maximum number of refinement attempts")
+    parser.add_argument("--structure", action="store_true", help="First structure the NL description")
     args = parser.parse_args()
 
     os.makedirs(args.log_dir, exist_ok=True)
     code_path, solution_path, attempts, llm_calls = generate_gurobi_code(
-        args.input_dir, args.model, args.log_dir,  refinement=args.refinement,
-        maxtry=args.maxtry
+        args.input_dir, args.model, args.log_dir, args.use_logprobs,
+        refinement=args.refinement, max_refine=args.max_refine, structure=args.structure
     )
     print(f"Generated code saved to: {code_path}")
     print(f"Solution saved to: {solution_path}")

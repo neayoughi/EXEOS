@@ -1,3 +1,4 @@
+# ampl_generator.py
 import argparse
 import os
 import json
@@ -5,14 +6,9 @@ import subprocess
 import textwrap
 import time
 import re
-import sys
-import csv
-from llm_utils import get_llm, CONFIG
+from llm_utils import get_llm
 from langchain_core.messages import HumanMessage, AIMessage
-from amplpy import AMPL, AMPLException
-from langchain_openai import ChatOpenAI
 from llm_utils import llm_call
-
 
 PROMPT_DIR = os.getenv("EXEOS_PROMPT_DIR", "prompt")
 
@@ -22,13 +18,41 @@ def _read_prompt(filename, default=""):
         return _safe_read(p1, default)
     return _safe_read(filename, default)
 
-
 def _safe_read(path, default=""):
     try:
         with open(path, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return default
+
+def _load_targets(input_dir):
+    """Load structured_description.json if present, else fall back to raw description."""
+    p = os.path.join(input_dir, "structured_description.json")
+    if os.path.exists(p):
+        with open(p, "r", encoding="utf-8") as f:
+            return json.load(f)
+    desc_text = _safe_read(os.path.join(input_dir, "description.txt"), "")
+    return {"description": desc_text, "objective": "", "constraints": [], "parameter": []}
+
+def _select_data_for_solve(input_dir: str, log_dir: str) -> str:
+    """
+    Choose the .dat used for solving. Prefer input/data.dat, else input/ampl_data.txt.
+    Copy the chosen text into logs/.../ampl/data.dat and return that path.
+    """
+    dst = os.path.join(log_dir, "data.dat")
+    p_dat = os.path.join(input_dir, "data.dat")
+    p_txt = os.path.join(input_dir, "ampl_data.txt")
+    if os.path.exists(p_dat):
+        with open(p_dat, "r", encoding="utf-8") as fsrc, open(dst, "w", encoding="utf-8") as fdst:
+            fdst.write(fsrc.read())
+        return dst
+    if os.path.exists(p_txt):
+        with open(p_txt, "r", encoding="utf-8") as fsrc, open(dst, "w", encoding="utf-8") as fdst:
+            fdst.write(fsrc.read())
+        return dst
+    # No user data present; create empty .dat so model can compile
+    open(dst, "w", encoding="utf-8").close()
+    return dst
 
 def clean_code(code, is_model=False):
     """
@@ -48,7 +72,6 @@ def clean_code(code, is_model=False):
 def parse_ampl_solution(solution_path):
     """
     Parse AMPL solution file to determine status and extract relevant information.
-    Handles optimal solutions, license errors, syntax errors, and other exceptions.
     """
     try:
         with open(solution_path, 'r', encoding="utf-8") as f:
@@ -70,19 +93,6 @@ def parse_ampl_solution(solution_path):
     else:
         return {"status": "unknown", "error_message": content, "error_type": "Runtime", "runtime": 0, "compile": 0}
 
-def parse_ampl_response(response):
-    """
-    Parse AMPL response to separate model and data parts.
-    """
-    if "---MODEL---" in response and "---DATA---" in response:
-        model_part = response.split("---MODEL---")[1].split("---DATA---")[0].strip()
-        data_part = response.split("---DATA---")[1].strip()
-    else:
-        model_part = response.split("---DATA---")[0].strip() if "---DATA---" in response else response.strip()
-        data_part = response.split("---DATA---")[1].strip() if "---DATA---" in response else ""
-    return model_part, data_part
-
-# Updated solve_ampl function
 def solve_ampl(log_dir, model_file='model.mod', data_file='data.dat', solution_file='ampl_solution.txt'):
     ampl_exec = os.path.join(log_dir, 'execute_ampl.py')
     ampl_code = textwrap.dedent(f"""\
@@ -139,40 +149,47 @@ def solve_ampl(log_dir, model_file='model.mod', data_file='data.dat', solution_f
 
     return result_file_path
 
-def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_number=None, debug=False, maxtry=1, self_reflection=False, max_semantic_try=1):
-    with open(os.path.join(input_dir, "input_targets.json"), "r", encoding="utf-8") as f:
-        target = json.load(f)
-    with open(os.path.join(input_dir, "data.json"), "r", encoding="utf-8") as f:
-        data = json.load(f)
-    ampl_data = _safe_read(os.path.join(input_dir, "ampl_data.txt"), "")
-    nl_description = _safe_read(os.path.join(input_dir, "description.txt"), "")
+def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_number=None, refinement=False, max_refine=1):
+    # Load targets prepared by backend
+    target = _load_targets(input_dir)
 
-    guideline   = _read_prompt("ampl_guideline.txt")
+    # Always use user-supplied data for solving
+    dat_file_path = _select_data_for_solve(input_dir, log_dir)
+    ampl_snippet = _safe_read(os.path.join(input_dir, "ampl_data.txt"), "").strip()
+
     instruction = _read_prompt("ampl_instruction.txt")
-    refinement_template       = _read_prompt("refinement_prompt.txt",       "Fix the AMPL model and data based on this error:\n{ERROR_MESSAGE}\nReturn only ---MODEL--- then ---DATA---.")
-
+    guideline  = _read_prompt("ampl_guideline.txt")
+    ampl_refine_template = _read_prompt(
+        "ampl_refinement_prompt.txt",
+        "Refine the AMPL model based on this error:\n{ERROR_MESSAGE}\n"
+        "Return only the model section."
+    )
 
     description_target = target.get("description", "")
     objective_target = target.get("objective", "")
     constraints_target = target.get("constraints", [])
     parameters_target = target.get("parameter", [])
 
+
     initial_prompt = (
         f"Instructions:\n{instruction}\n\n"
-        f"Input Data:\n{json.dumps(data, indent=2)}\n\n"
-        f"Ampl Data:\n{ampl_data}\n\n"
+        f"Ampl Guideline:\n{guideline}\n\n"
         f"Problem Description:\n{description_target}\n\n"
         f"Parameters:\n{json.dumps(parameters_target, indent=2)}\n\n"
         f"Objective:\n{objective_target}\n\n"
         f"Constraints:\n{json.dumps(constraints_target, indent=2)}\n\n"
         f"Run Number: {run_number}\n\n"
-        "Generate the complete AMPL model file (.mod) and data file (.dat). "
-        "Output the raw AMPL code without any code block markers. "
-        "The output must have two sections: first the model code, then the data code, "
-        "separated by the exact labels '---MODEL---' and '---DATA---'."
+        "Generate only the AMPL model file (.mod). "
+        "Output raw AMPL code. No data section."
     )
+    if ampl_snippet:
+        initial_prompt += (
+                "\n\nREAD-ONLY DATA CONTEXT: Generate a fully-functional AMPL model (.mod) **and** matching data file (.dat) for the optimization problem. (do not reprint; do not generate a .dat):\n"
+                + ampl_snippet[:4000]  # guard size if large
+        )
 
-    llm = get_llm(model, api_key=CONFIG["openai_api_key"], project_id="", location="") # Your GCP project_id="", location=""
+    llm = get_llm(model)
+
     messages = []
     conversation_log = []
     llm_call_count = 0
@@ -187,64 +204,66 @@ def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_numbe
         messages.append(AIMessage(content=content))
         return content
 
+    # Initial model generation
     generated_code = send_message(initial_prompt)
-    model_part, data_part = parse_ampl_response(generated_code)
 
-    model_part = clean_code(model_part, is_model=True)
-    data_part = clean_code(data_part, is_model=False)
+    model_part_only = generated_code.split("---DATA---")[0].replace("---MODEL---", "").strip()
+    model_part_only = clean_code(model_part_only, is_model=True)
+
     mod_file_path = os.path.join(log_dir, "model.mod")
-    dat_file_path = os.path.join(log_dir, "data.dat")
     with open(mod_file_path, "w", encoding="utf-8") as mod_file:
-        mod_file.write(model_part)
-    with open(dat_file_path, "w", encoding="utf-8") as dat_file:
-        dat_file.write(data_part)
+        mod_file.write(model_part_only)
 
-    solution_result = solve_ampl(log_dir, model_file='model.mod', data_file='data.dat', solution_file='initial_solution.txt')
+    # Solve using the selected user data
+    solution_result = solve_ampl(log_dir, model_file='model.mod', data_file=os.path.basename(dat_file_path), solution_file='initial_solution.txt')
     initial_solution = parse_ampl_solution(solution_result)
     final_solution_path = solution_result
     refinement_attempts = 0
 
+
     if refinement and initial_solution["status"] in ["error", "syntax_error", "unknown"]:
-        for attempt in range(1, maxtry + 1):
+        for attempt in range(1, max_refine + 1):
             refinement_attempts = attempt
             with open(solution_result, 'r', encoding="utf-8") as f:
                 error_message = f.read()
 
-            refinement_prompt = refinement_template.format(
-                PREVIOUS_MODEL=model_part,
-                PREVIOUS_DATA=data_part,
+            refine_prompt = ampl_refine_template.format(
+                PREVIOUS_MODEL=model_part_only,
                 ERROR_MESSAGE=error_message,
                 ATTEMPT=attempt,
-                AMPL_GUIDELINE=guideline,
-                INPUT_DATA=json.dumps(data, indent=2),
-                AMPL_DATA=ampl_data,
+                AMPL_GUIDELINE_GIST=guideline,
                 DESCRIPTION=description_target,
                 PARAMETERS=json.dumps(parameters_target, indent=2),
                 OBJECTIVE=objective_target,
                 CONSTRAINTS=json.dumps(constraints_target, indent=2)
             )
+            if ampl_snippet:
+                refine_prompt += (
+                        "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .dat):\n"
+                        + ampl_snippet[:4000]  # guard size if large
+                )
 
-            generated_code = send_message(refinement_prompt)
-            corrected_model, corrected_data = parse_ampl_response(generated_code)
-
+            generated_code = send_message(refine_prompt)
+            corrected_model = generated_code.split("---DATA---")[0].replace("---MODEL---", "").strip()
             corrected_model = clean_code(corrected_model, is_model=True)
-            corrected_data = clean_code(corrected_data, is_model=False)
-            refinement_mod_path = os.path.join(log_dir, f'model-refinement_attempt_{attempt}.mod')
-            refinement_dat_path = os.path.join(log_dir, f'data-refinement_attempt_{attempt}.dat')
-            with open(refinement_mod_path, 'w', encoding="utf-8") as f:
+
+            refine_mod_path = os.path.join(log_dir, f'model-refinement_attempt_{attempt}.mod')
+            with open(refine_mod_path, 'w', encoding="utf-8") as f:
                 f.write(corrected_model)
-            with open(refinement_dat_path, 'w', encoding="utf-8") as f:
-                f.write(corrected_data)
 
-            refinement_solution_path = solve_ampl(log_dir, model_file=f'model-refinement_attempt_{attempt}.mod', data_file=f'data-refinement_attempt_{attempt}.dat', solution_file=f'refinement_solution_attempt_{attempt}.txt')
-            refinement_solution = parse_ampl_solution(refinement_solution_path)
+            refine_solution_path = solve_ampl(
+                log_dir,
+                model_file=os.path.basename(refine_mod_path),
+                data_file=os.path.basename(dat_file_path),
+                solution_file=f'refinement_solution_attempt_{attempt}.txt'
+            )
+            refine_solution = parse_ampl_solution(refine_solution_path)
 
-            if refinement_solution["status"] not in ["error", "syntax_error", "unknown"]:
-                final_solution_path = refinement_solution_path
+            if refine_solution["status"] not in ["error", "syntax_error", "unknown"]:
+                final_solution_path = refine_solution_path
                 break
-            solution_result = refinement_solution_path
-
-
+            solution_result = refine_solution_path
+            model_part_only = corrected_model  # carry forward best-known model
 
     final_solution_file = os.path.join(log_dir, 'final_solution.txt')
     with open(final_solution_path, 'r', encoding="utf-8") as src, open(final_solution_file, 'w', encoding="utf-8") as dst:
@@ -259,31 +278,31 @@ def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_numbe
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate AMPL model and data files for an optimization problem."
+        description="Generate AMPL model and solve using user data."
     )
     parser.add_argument("--input_dir", required=True, help="Path to the problem instance directory")
-    parser.add_argument("--model", default="gpt-4-1106-preview", help="Model name (e.g., gpt-4o, vertex-gemini)")
-    # parser.add_argument("--logprob", action="store_true", help="Enable log probability output")
+    parser.add_argument("--model", default="gpt-4-1106-preview", help="Model name")
+    parser.add_argument("--logprob", action="store_true", help="Turn on log probability output")
     parser.add_argument("--logs", default=None, help="Directory to save output logs")
-    parser.add_argument("--refinement", action="store_true", help="Enable refinement mode")
-    parser.add_argument("--maxtry", type=int, default=1, help="Maximum number of refinement attempts")
-  =
+    parser.add_argument("--refinement", action="store_true", help="Turn on refinement loop")
+    parser.add_argument("--max_refine", type=int, default=1, help="Maximum number of refinement attempts")
     args = parser.parse_args()
 
     log_dir = args.logs or os.path.join("logs", f"log_{time.strftime('%Y%m%d_%H%M%S')}")
     os.makedirs(log_dir, exist_ok=True)
 
     mod_path, dat_path, final_solution_path, refinement_attempts, llm_call_count = generate_ampl_files(
-        args.input_dir, args.model, log_dir, run_number=1,
-        refinement=args.refinement, maxtry=args.maxtry
+        args.input_dir, args.model, log_dir, args.logprob, run_number=1,
+        refinement=args.refinement, max_refine=args.max_refine
     )
 
     print("AMPL files generated:")
     print("Model file:", mod_path)
-    print("Data file:", dat_path)
+    print("Data file used for solve:", dat_path)
     print("Final solution file:", final_solution_path)
-    print("refinement attempts:", refinement_attempts)
+    print("Refinement attempts:", refinement_attempts)
     print("LLM calls:", llm_call_count)
 
 if __name__ == "__main__":
     main()
+
