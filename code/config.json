@@ -1,8 +1,8 @@
 {
     "openai_api_key": "",
     "openai_org_id": "",
-    "together_api_key": "",
-    "mistral_api_key": "",
-    "vertex_api_key": ""
+    "vertex_api_key": "",
+    "gcp_project_id": "",
+    "gcp_location": ""
 }
 
