@@ -19,7 +19,7 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
 - **supplementary**: Contains prompt outlines and results PDFs.
   - `Prompt outlines`: complements SECTION 4 – OUR APPROACH of the paper.
   - `Results`: complements RESULTS in SECTION 5 of the paper.
-- **data**: Public dataset with 60 NL optimization problems from textbooks [Source](https://openreview.net/forum?id=YT1dtdLvSN).
+- **data**: Public dataset with 60 NL optimization problems from textbooks.
   - `description.txt`: NL problem description with embedded data references.
   - `description2.txt`: NL problem description without explicit data (our approach).
   - Data files in JSON format (`data.json`) and AMPL format (`ampl-data.txt`).
@@ -80,6 +80,7 @@ Run the pipeline via `app.py` to process an NL optimization problem. It generate
  - `ampl/`: AMPL .mod, solver output, solution files.
  - `python/`: Generated Python file, stdout/stderr logs, parsed `solution.json`.
  - `pipeline_result.json`: Top-level summary.
+
 
 
 
