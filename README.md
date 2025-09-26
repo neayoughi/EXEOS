@@ -60,7 +60,7 @@ Note: Some tools like AMPL and Gurobi require licenses for full functionality. L
 Run the pipeline via `app.py` to process an NL optimization problem. It generates structured output, AMPL/Python specifications, solves them, and refines on errors.
 
 ### Basic Usage
-`python app.py --nl_file path/to/description.txt --data_file path/to/data.json [path/to/ample-data.txt] `
+`python app.py --nl_file path/to/description.txt --data_file path/to/data.json path/to/ample_data.txt `
 - If providing AMPL data, the app writes it to input/data.dat, the AMPL solver uses data.dat.
 
 ### CLI Options
@@ -76,7 +76,7 @@ Run the pipeline via `app.py` to process an NL optimization problem. It generate
 
  Outputs are saved in `logs/run_<timestamp>/`:
  
- - `input/`: `description.txt`, `data.json`, `ampl_data.txt` and `data.dat`, `structured_description.json`.
+ - `input/`: `description.txt`, `data.json`, `ampl_data.txt` and `ampl_data.txt`, `structured_description.json`.
  - `ampl/`: AMPL .mod, solver output, solution files.
  - `python/`: Generated Python file, stdout/stderr logs, parsed `solution.json`.
  - `pipeline_result.json`: Top-level summary.
