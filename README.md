@@ -72,7 +72,7 @@ Run the pipeline via `app.py` to process an NL optimization problem. It generate
 - `--max_refine` (default: 2): Max refinement attempts.
 
 ### Example
-`python app.py --nl_file description.txt --data_file data.json data.dat --structure --refinement --max_refine 3`
+`python app.py --nl_file description.txt --data_file data.json ampl_data.txt --structure --refinement --max_refine 3`
 
  Outputs are saved in `logs/run_<timestamp>/`:
  
