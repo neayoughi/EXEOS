@@ -155,7 +155,7 @@ def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_numbe
 
     # Always use user-supplied data for solving
     dat_file_path = _select_data_for_solve(input_dir, log_dir)
-    ampl_snippet = _safe_read(os.path.join(input_dir, "ampl_data.txt"), "").strip()
+    ampl_snippet = _safe_read(os.path.join(input_dir, "data.dat"), "").strip()
 
     instruction = _read_prompt("ampl_instruction.txt")
     guideline  = _read_prompt("ampl_guideline.txt")

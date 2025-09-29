@@ -133,7 +133,7 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
     )
     example     = _read_prompt("example.txt", "# Example omitted.")
     refine_tmpl = _read_prompt(
-        "Python_refinement_promt.txt",
+        "Python_refinement_prompt.txt",
         "The Python optimization script failed.\nError:\n{ERROR}\n\n"
         "Refine the code. Keep the same CLI and file I/O. Return only raw Python code."
     )
