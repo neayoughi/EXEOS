@@ -55,18 +55,40 @@ def _select_data_for_solve(input_dir: str, log_dir: str) -> str:
     return dst
 
 def clean_code(code, is_model=False):
-    """
-    Clean AMPL code by removing unnecessary whitespace and separator markers.
-    For model files, ensure ---MODEL--- and ---DATA--- markers are excluded.
-    """
     code = code.strip()
+
     if is_model:
+        # Strip any explicit markers if present
         if "---MODEL---" in code:
-            code = code.split("---MODEL---")[0].strip()
+            code = code.split("---MODEL---", 1)[1]
         if "---DATA---" in code:
-            code = code.split("---DATA---")[0].strip()
-    code = re.sub(r'\s*;\s*$', '', code.strip())
-    code = '\n'.join(line.strip() for line in code.splitlines() if line.strip())
+            code = code.split("---DATA---", 1)[0]
+
+        lines = [ln.rstrip() for ln in code.splitlines() if ln.strip()]
+
+        ampl_starts = ("set ", "param ", "var ", "dvar ", "maximize", "minimize",
+                       "subject to", "s.t.")
+
+        kept = []
+        started = False
+        for ln in lines:
+            t = ln.lstrip()
+            if not started:
+                if any(t.lower().startswith(k) for k in ampl_starts):
+                    started = True
+                    kept.append(t)
+                else:
+                    # Drop leading prose / explanations
+                    continue
+            else:
+                kept.append(t)
+
+        code = "\n".join(kept)
+    else:
+        lines = [ln.rstrip() for ln in code.splitlines() if ln.strip()]
+        code = "\n".join(lines)
+
+    # Do NOT strip the final semicolon globally; AMPL needs semicolons.
     return code
 
 def parse_ampl_solution(solution_path):
