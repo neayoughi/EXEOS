@@ -2,14 +2,53 @@ import os
 import json
 import argparse
 import time
-from llm_utils import CONFIG, get_llm, llm_call
+import os
+import sys
+# Handle both direct import and package import scenarios
+try:
+    from llm_utils import CONFIG, get_llm, llm_call
+except ImportError:
+    # Try relative import within the package
+    try:
+        from .llm_utils import CONFIG, get_llm, llm_call
+    except ImportError:
+        # Try with the parent directory in path
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        if current_dir not in sys.path:
+            sys.path.insert(0, current_dir)
+        from llm_utils import CONFIG, get_llm, llm_call
 from langchain_core.messages import HumanMessage, AIMessage
+
+
+def _extract_json_object(text):
+    """
+    Return first valid top-level JSON object substring.
+    More robust for Gemini/OpenAI output with extra text.
+    """
+    start = text.find("{")
+    if start == -1:
+        return None
+
+    depth = 0
+    for i in range(start, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                candidate = text[start:i+1]
+                try:
+                    json.loads(candidate)
+                    return candidate
+                except Exception:
+                    pass
+    return None
 
 PROMPT_TEMPLATE = r"""Extract the following information from the given natural language optimization problem description.
 
 Your tasks are:
 1. Identify and extract all parameters. For each parameter, provide:
-   - **symbol**: the parameter's symbol.
+   - **symbol**: the parameter's symbol. symbol must be a simple identifier without subscripts; describe indices only in dimension
    - **definition**: a brief explanation of what it represents.
    - **dimension**: a list indicating the dimensions (if any).
 2. Rewrite the problem description so that every parameter is referenced using symbolic notation (e.g., \param{{symbol}} or \param{{symbol}}_i).
@@ -74,7 +113,7 @@ Answer:
       "dimension": ["NumWarehouses", "NumPlants"]
     }}
   ],
-  "description": "Our company has \param{{NumPlants}} plants and \param{{NumWarehouses}} warehouses. The fixed cost for keeping plant i open is \param{{fixedCosts}}_i. Each plant i has capacity \param{{capacity}}_i. The cost of transporting from plant i to warehouse j is \param{{transCosts}}_{{j,i}}. Each warehouse j has a demand of \param{{demand}}_j. Decide which plants to close and how much to ship to minimize total cost.",
+  "description": "Our company has \\param{{NumPlants}} plants and \\param{{NumWarehouses}} warehouses. The fixed cost for keeping plant i open is \\param{{fixedCosts}}_i. Each plant i has capacity \\param{{capacity}}_i. The cost of transporting from plant i to warehouse j is \\param{{transCosts}}_{{j,i}}. Each warehouse j has a demand of \\param{{demand}}_j. Decide which plants to close and how much to ship to minimize total cost.",
   "constraints": [
     "Each warehouse's demand must be fully satisfied by the sum of products shipped from all open plants",
     "Total shipment from each plant must not exceed its capacity if it remains open",
@@ -109,7 +148,7 @@ Data:
 def generate_prompt(description: str, data: str) -> str:
     return PROMPT_TEMPLATE.format(description=description, data=data)
 
-def process_prompt(prompt: str, model: str, log_dir: str = None, use_logprobs: bool = False, run_number: int = None) -> dict:
+def process_prompt(prompt: str, model: str, log_dir: str = None, use_logprobs: bool = True, run_number: int = None) -> dict:
     """
     Uses the configured LLM to produce structured JSON. Retries up to 3 times on JSON parsing errors.
     """
@@ -124,19 +163,37 @@ def process_prompt(prompt: str, model: str, log_dir: str = None, use_logprobs: b
         try:
             messages.append(HumanMessage(content=prompt))
             content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
-            # Extract JSON payload if fenced
-            decision = content.strip()
-            if "```json" in decision:
-                decision = decision.split("```json")[1].split("```")[0]
-            # Normalize a few characters
-            decision = decision.replace("\\u2212", "-").replace("\u2212", "-")
 
-            result = json.loads(decision)
-            return result
-        except Exception as e:
+            raw = content.strip()
+
+            # --- Try to isolate fenced JSON first ---
+            if "```json" in raw:
+                try_block = raw.split("```json")[1].split("```")[0]
+                try:
+                    return json.loads(try_block)
+                except Exception:
+                    pass
+
+            # --- salvage JSON using brace matching ---
+            candidate = _extract_json_object(raw)   
+            if candidate:
+                return json.loads(candidate)
+
+            # If no valid JSON found
             attempts -= 1
             if attempts == 0:
-                raise
+                raise ValueError("Failed to extract valid JSON from structuring output.")
+        except Exception:
+            attempts -= 1
+            if attempts == 0:
+                # Final fallback (same keys as before)
+                return {
+                    "parameter": [],
+                    "description": "",
+                    "constraints": [],
+                    "objective": "",
+                    "variables": []
+                }
     # Fallback, should not reach
     return {"parameter": [], "description": "", "constraints": [], "objective": "", "variables": []}
 
