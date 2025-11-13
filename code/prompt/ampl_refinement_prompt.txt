@@ -33,7 +33,9 @@ Take a deep breath and think step-by-step and work on this problem.
 YOUR TASKS
 1. **Explain** (briefly) what each error message means.  
 2. **Locate** the lines in the model or data most likely causing the errors.  
-3. **Produce** a corrected, full AMPL solution that fixes every issue and still follows best-practice guidelines.
+3. **Generate** a corrected, full AMPL solution that fixes every issue and still follows best-practice guidelines.
+4. **Fix** the AMPL model so that it compiles and reflects the described problem.
+5. Use the same sets, params, variables, objective, and constraint intent where possible.
 
 AMPL GUIDELINE GIST:
 {AMPL_GUIDELINE_GIST}
@@ -46,3 +48,9 @@ After your explanation, output only raw AMPL code with the exact sentinel lines:
 
 Do **not** include Markdown fences, comments, or extra prose inside the code blocks.  
 Ensure the corrected code compiles in AMPL and solves successfully with GUROBI.
+
+Output rules (very important):
+- Return ONLY valid AMPL model code.
+- No English explanation, no comments, no markdown, no ``` fences.
+- Do not output any data section.
+- The first nonblank line of your reply must be an AMPL statement (e.g., 'set', 'param', 'var', 'maximize', 'minimize', or 'subject to').
