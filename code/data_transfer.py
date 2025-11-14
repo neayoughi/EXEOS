@@ -86,38 +86,83 @@ def _extract_json_object(s: str) -> Optional[str]:  # [NEW]
                     pass
     return None
 
-def _clean_dat(s: str) -> str:  # [NEW]
+# def _clean_dat(s: str) -> str:  # [NEW]
+#     """
+#     Keep only AMPL-like param blocks.
+#     Rules:
+#       - Drop code fences, markdown, prose.
+#       - Keep from first 'param ' onward.
+#       - Remove leading non-param lines.
+#       - Remove trailing non-; junk.
+#     """
+#     s = _strip_code_fences(s)
+#     # If sections exist, we already isolated; else find from first 'param '
+#     idx = s.lower().find("param ")
+#     if idx >= 0:
+#         s = s[idx:]
+#     # Remove obvious markdown bullets and headings
+#     lines = [ln for ln in s.splitlines() if not ln.strip().startswith(("#", "-", "*"))]
+#     # Keep lines that look like AMPL param content or blank separators
+#     kept = []
+#     for ln in lines:
+#         t = ln.strip()
+#         if not t:
+#             kept.append("")
+#             continue
+#         if t.lower().startswith("param ") or re.match(r"^\d+(\s+\S+)*;?$", t) or t.endswith(";") or ":" in t:
+#             kept.append(ln)
+#         # else drop
+#     cleaned = "\n".join(kept).strip()
+#     # Ensure it ends after the last semicolon if any
+#     last_semi = cleaned.rfind(";")
+#     if last_semi != -1:
+#         cleaned = cleaned[: last_semi + 1]
+#     return cleaned.strip()
+
+def _clean_dat(s: str) -> str:  # [UPDATED]
     """
-    Keep only AMPL-like param blocks.
-    Rules:
-      - Drop code fences, markdown, prose.
-      - Keep from first 'param ' onward.
-      - Remove leading non-param lines.
-      - Remove trailing non-; junk.
+    Keep AMPL-like param blocks.
+
+    Steps:
+      - Drop code fences and markdown.
+      - Start from first 'param ' if present.
+      - Remove obvious markdown bullets and headings.
+      - Keep remaining lines.
+      - Trim any text after the last semicolon.
     """
     s = _strip_code_fences(s)
-    # If sections exist, we already isolated; else find from first 'param '
+
+    # If sections exist, they are already isolated; else start from first 'param '
     idx = s.lower().find("param ")
     if idx >= 0:
         s = s[idx:]
-    # Remove obvious markdown bullets and headings
-    lines = [ln for ln in s.splitlines() if not ln.strip().startswith(("#", "-", "*"))]
-    # Keep lines that look like AMPL param content or blank separators
+
+    lines = s.splitlines()
     kept = []
+
     for ln in lines:
         t = ln.strip()
+
+        # Skip empty lines from the cleaner; they are not useful in the final .dat
         if not t:
-            kept.append("")
             continue
-        if t.lower().startswith("param ") or re.match(r"^\d+(\s+\S+)*;?$", t) or t.endswith(";") or ":" in t:
-            kept.append(ln)
-        # else drop
+
+        # Remove common markdown bullets and headings
+        if t.startswith("#") or t.startswith("*") or t.startswith("- "):
+            continue
+
+        # Keep everything else, including symbolic-index data rows like "FG_A 20"
+        kept.append(ln)
+
     cleaned = "\n".join(kept).strip()
+
     # Ensure it ends after the last semicolon if any
     last_semi = cleaned.rfind(";")
     if last_semi != -1:
         cleaned = cleaned[: last_semi + 1]
+
     return cleaned.strip()
+
 
 def _split_sections(text: str) -> Tuple[str, str]:  # [NEW]
     """
