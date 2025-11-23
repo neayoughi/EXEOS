@@ -12,8 +12,43 @@ from langchain_core.messages import HumanMessage
 # =========================
 # LLM prompt
 # =========================
+# _PROMPT_TEMPLATE = """
+# You will match user-provided data parameter names to symbols used in a target schema of parameters.
+
+# ### TARGET STRUCTURE (read-only)
+# {structured}
+
+# ### USER DATA JSON (read-only; keys and shapes may not match target)
+# {data_json}
+
+# ### AMPL DATA TEMPLATE (read-only)
+# {ampl_text}
+
+# TASK
+
+# 1) Produce a JSON object where:
+#    - The top-level keys are exactly the parameter symbols from TARGET STRUCTURE.
+#    - The values come from USER DATA JSON.
+#    - You keep every numeric value, index shape, and ordering from USER DATA JSON.
+#    - You only move data between keys when the meaning matches a symbol from TARGET STRUCTURE.
+
+# 2) Produce an AMPL data text for the `.dat` file where:
+#    - You start from the AMPL DATA TEMPLATE.
+#    - You keep all numeric values, all indices, all dates, all line breaks, and the order of blocks exactly as in the template.
+#    - You only change parameter and set names so they match the symbols and set names from TARGET STRUCTURE where that mapping is clear.
+#    - You must not introduce new parameters, remove parameters, or change any numeric literal.
+#    - You must not re-index or compress tables; every line after each parameter name must stay identical except for the renamed identifier at the beginning.
+
+# 3) Parameters or sets that do not appear in TARGET STRUCTURE stay unchanged in both JSON and AMPL.
+
+# OUTPUT FORMAT (strict):
+# ---JSON---
+# {{json here}}
+# ---DAT---
+# {{dat here}}
+# """
 _PROMPT_TEMPLATE = """
-You will match user-provided data parameters names to symbols used in a target schema of parameters.
+You will match user-provided data parameter names to symbols used in a target schema of parameters.
 
 ### TARGET STRUCTURE (read-only)
 {structured}
@@ -21,14 +56,28 @@ You will match user-provided data parameters names to symbols used in a target s
 ### USER DATA JSON (read-only; keys and shapes may not match target)
 {data_json}
 
-### OPTIONAL AMPL .dat CONTEXT (read-only)
+### AMPL DATA TEMPLATE (read-only)
 {ampl_text}
 
 TASK
-1) Produce a JSON data format where keys are exactly the parameter symbols from TARGET STRUCTURE and values carry the aligned numeric data.
-   - If a parameter has dimension names like "NumX", include those "NumX" keys as integer sizes in the JSON.
-2) Produce an AMPL .dat text that declares each "Num*" size as scalar params and then declares each parameter with the correct layout.
-3) Keep numeric-only content. Do not invent entities beyond what is inferable from the inputs.
+
+1) Produce a JSON object where:
+   - The top-level keys are exactly the parameter symbols from TARGET STRUCTURE for which you can find data in USER DATA JSON.
+   - The values come from USER DATA JSON.
+   - You keep every numeric value, index shape, and ordering from USER DATA JSON. Do not change signs, scales, or magnitudes.
+   - You only move data between keys when the meaning matches a symbol from TARGET STRUCTURE.
+
+2) Produce an AMPL data text for the `.dat` file where:
+   - You start from the AMPL DATA TEMPLATE.
+   - You keep all numeric values, all indices, all dates, all line breaks, and the order of blocks exactly as in the template.
+   - You only change parameter and set names so they match the symbols and set names from TARGET STRUCTURE where that mapping is clear.
+   - If a parameter declaration in the template has no corresponding symbol in TARGET STRUCTURE, you remove that entire parameter block from the AMPL output.
+   - You keep set declarations even when the set name does not appear in TARGET STRUCTURE.
+   - You must not introduce new parameters, remove parameters that do correspond to TARGET STRUCTURE, or change any numeric literal.
+   - You must not re-index or compress tables; every line after each parameter name must stay identical except for the renamed identifier at the beginning.
+
+3) Parameters that do not appear in TARGET STRUCTURE must be omitted from the AMPL output.
+   Sets that do not appear in TARGET STRUCTURE stay unchanged in AMPL.
 
 OUTPUT FORMAT (strict):
 ---JSON---
@@ -36,6 +85,7 @@ OUTPUT FORMAT (strict):
 ---DAT---
 {{dat here}}
 """
+
 
 # =========================
 # IO helpers
@@ -119,44 +169,47 @@ def _extract_json_object(s: str) -> Optional[str]:  # [NEW]
 #         cleaned = cleaned[: last_semi + 1]
 #     return cleaned.strip()
 
-def _clean_dat(s: str) -> str:  # [UPDATED]
+def _clean_dat(s: str) -> str:
     """
-    Keep AMPL-like param blocks.
-
-    Steps:
-      - Drop code fences and markdown.
-      - Start from first 'param ' if present.
-      - Remove obvious markdown bullets and headings.
-      - Keep remaining lines.
-      - Trim any text after the last semicolon.
+    Keep AMPL-style set/param blocks.
+    Rules:
+      - Drop code fences, markdown, prose.
+      - Keep from the first 'set ' or 'param ' onward.
+      - Keep lines that look like AMPL set/param content.
     """
     s = _strip_code_fences(s)
 
-    # If sections exist, they are already isolated; else start from first 'param '
-    idx = s.lower().find("param ")
-    if idx >= 0:
-        s = s[idx:]
+    # Start from earliest occurrence of 'set ' or 'param '
+    lower = s.lower()
+    idx_set = lower.find("set ")
+    idx_param = lower.find("param ")
+    starts = [i for i in (idx_set, idx_param) if i >= 0]
+    if starts:
+        s = s[min(starts):]
 
-    lines = s.splitlines()
+    # Remove obvious markdown bullets and headings
+    lines = [ln for ln in s.splitlines()
+             if not ln.strip().startswith(("#", "-", "*"))]
+
     kept = []
-
     for ln in lines:
         t = ln.strip()
-
-        # Skip empty lines from the cleaner; they are not useful in the final .dat
         if not t:
+            kept.append("")
             continue
 
-        # Remove common markdown bullets and headings
-        if t.startswith("#") or t.startswith("*") or t.startswith("- "):
+        # Keep set and param declarations
+        if t.lower().startswith("set ") or t.lower().startswith("param "):
+            kept.append(ln)
             continue
 
-        # Keep everything else, including symbolic-index data rows like "FG_A 20"
-        kept.append(ln)
+        # Keep rows that look like AMPL data or headers
+        if re.match(r"^\S+(\s+\S+)*;?$", t) or ":" in t or t.endswith(";"):
+            kept.append(ln)
 
     cleaned = "\n".join(kept).strip()
 
-    # Ensure it ends after the last semicolon if any
+    # Truncate after last semicolon, if any
     last_semi = cleaned.rfind(";")
     if last_semi != -1:
         cleaned = cleaned[: last_semi + 1]
