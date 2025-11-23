@@ -134,8 +134,15 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
     example     = _read_prompt("example.txt", "# Example omitted.")
     refine_tmpl = _read_prompt(
         "Python_refinement_prompt.txt",
-        "The Python optimization script failed.\nError:\n{ERROR}\n\n"
-        "Refine the code. Keep the same CLI and file I/O. Return only raw Python code."
+        "The Python optimization script failed.\n\n"
+        "Problem description:\n{DESCRIPTION}\n\n"
+        "Parameters:\n{PARAMETERS}\n\n"
+        "Objective:\n{OBJECTIVE}\n\n"
+        "Constraints:\n{CONSTRAINTS}\n\n"
+        "Previous model:\n{PREVIOUS_MODEL}\n\n"
+        "Error log:\n{ERROR_MESSAGE}\n\n"
+        "Attempt {ATTEMPT}\n\n"
+        "{GUIDELINE}\n"
     )
 
     description_target = target.get("description", "")
@@ -212,14 +219,20 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
 
             if solution["status"] in ["error", "syntax_error"] and refinement and attempt < max_refine:
                 refine_prompt = refine_tmpl.format(
-                    ERROR=error_text or "Unknown error",
-                    CODE=generated_code
-                )
-                if py_snippet:
-                    initial_prompt += (
-                            "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .json):\n"
-                            + py_snippet[:4000]  # guard size if large
+                    DESCRIPTION=description_target,
+                    PARAMETERS=json.dumps(parameters_target, indent=2),
+                    OBJECTIVE=objective_target,
+                    CONSTRAINTS=json.dumps(constraints_target, indent=2),
+                    PREVIOUS_MODEL=generated_code,
+                    ERROR_MESSAGE=error_text or "Unknown error",
+                    ATTEMPT=attempt + 1,
+                    GUIDELINE=guidelines,
                     )
+                if py_snippet:
+                    refine_prompt += (
+                        "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .json):\n"
+                        + py_snippet[:4000]
+                        )
                 generated_code = send_message(refine_prompt)
                 generated_code = clean_code(generated_code)
                 new_code_path = os.path.join(log_dir, f"generated_code_attempt_{attempt + 1}.py")
@@ -227,6 +240,26 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
                     f.write(generated_code)
                 attempt += 1
                 continue
+
+            # if solution["status"] in ["error", "syntax_error"] and refinement and attempt < max_refine:
+            #     refine_prompt = refine_tmpl.format(
+            #         ERROR=error_text or "Unknown error",
+            #         CODE=generated_code
+            #     )
+            #     if py_snippet:
+            #         initial_prompt += (
+            #                 "\n\nREAD-ONLY DATA CONTEXT (do not reprint; do not generate a .json):\n"
+            #                 + py_snippet[:4000]  # guard size if large
+            #         )
+            #     generated_code = send_message(refine_prompt)
+            #     generated_code = clean_code(generated_code)
+            #     new_code_path = os.path.join(log_dir, f"generated_code_attempt_{attempt + 1}.py")
+            #     with open(new_code_path, "w", encoding="utf-8") as f:
+            #         f.write(generated_code)
+            #     attempt += 1
+            #     continue
+
+            
 
             break
         except subprocess.TimeoutExpired:
@@ -243,7 +276,14 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
     with open(os.path.join(log_dir, "conversation_log.json"), "w", encoding="utf-8") as f:
         json.dump(conversation_log, f, indent=2)
 
-    return code_path, solution_json_path, attempt, llm_call_count
+    final_code_path = (
+    os.path.join(log_dir, f"generated_code_attempt_{attempt}.py")
+    if refinement
+    else code_path
+    )
+    return final_code_path, solution_json_path, attempt, llm_call_count
+
+    # return code_path, solution_json_path, attempt, llm_call_count
 
 def main():
     parser = argparse.ArgumentParser(description="Generate Gurobi code and solve optimization problem")
