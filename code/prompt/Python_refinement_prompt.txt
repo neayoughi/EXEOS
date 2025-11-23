@@ -33,7 +33,7 @@ YOUR TASKS
 3. **Produce** a corrected, full Python solution that fixes every issue and still follows best-practice guidelines.
 
 GUIDELINE:
-{Gurobi GUIDELINE}
+{GUIDELINE}
 
 DELIVERABLE
 - **Strictly return only Python code** enclosed between **```python** and **```**.
