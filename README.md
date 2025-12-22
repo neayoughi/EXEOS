@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/1056705437.svg)](https://doi.org/10.5281/zenodo.18023598)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18023598.svg)](https://doi.org/10.5281/zenodo.18023598)
 
 <img src="images/logo.png" alt="EXEOS Logo" width="130" align="left" />
 
