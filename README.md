@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1056705437.svg)](https://doi.org/10.5281/zenodo.18023598)
+
 <img src="images/logo.png" alt="EXEOS Logo" width="130" align="left" />
 
 # EXEOS: EXtraction and Error-guided refinement of Optimization Specifications
