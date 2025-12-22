@@ -3,6 +3,7 @@
     "openai_org_id": "",
     "vertex_api_key": "",
     "gcp_project_id": "",
-    "gcp_location": ""
+    "gcp_location": "",
+    "gemini3_thinking_level": "High"
 }
 

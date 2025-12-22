@@ -220,6 +220,7 @@ def generate_ampl_files(input_dir, model, log_dir, use_logprobs=False, run_numbe
         nonlocal llm_call_count
         conversation_log.append({"role": "user", "content": prompt})
         messages.append(HumanMessage(content=prompt))
+        # content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir, use_thinking=True)
         content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
         llm_call_count += 1
         conversation_log.append({"role": "assistant", "content": content})

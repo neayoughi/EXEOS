@@ -12,41 +12,7 @@ from langchain_core.messages import HumanMessage
 # =========================
 # LLM prompt
 # =========================
-# _PROMPT_TEMPLATE = """
-# You will match user-provided data parameter names to symbols used in a target schema of parameters.
 
-# ### TARGET STRUCTURE (read-only)
-# {structured}
-
-# ### USER DATA JSON (read-only; keys and shapes may not match target)
-# {data_json}
-
-# ### AMPL DATA TEMPLATE (read-only)
-# {ampl_text}
-
-# TASK
-
-# 1) Produce a JSON object where:
-#    - The top-level keys are exactly the parameter symbols from TARGET STRUCTURE.
-#    - The values come from USER DATA JSON.
-#    - You keep every numeric value, index shape, and ordering from USER DATA JSON.
-#    - You only move data between keys when the meaning matches a symbol from TARGET STRUCTURE.
-
-# 2) Produce an AMPL data text for the `.dat` file where:
-#    - You start from the AMPL DATA TEMPLATE.
-#    - You keep all numeric values, all indices, all dates, all line breaks, and the order of blocks exactly as in the template.
-#    - You only change parameter and set names so they match the symbols and set names from TARGET STRUCTURE where that mapping is clear.
-#    - You must not introduce new parameters, remove parameters, or change any numeric literal.
-#    - You must not re-index or compress tables; every line after each parameter name must stay identical except for the renamed identifier at the beginning.
-
-# 3) Parameters or sets that do not appear in TARGET STRUCTURE stay unchanged in both JSON and AMPL.
-
-# OUTPUT FORMAT (strict):
-# ---JSON---
-# {{json here}}
-# ---DAT---
-# {{dat here}}
-# """
 _PROMPT_TEMPLATE = """
 You will match user-provided data parameter names to symbols used in a target schema of parameters.
 
@@ -136,38 +102,7 @@ def _extract_json_object(s: str) -> Optional[str]:  # [NEW]
                     pass
     return None
 
-# def _clean_dat(s: str) -> str:  # [NEW]
-#     """
-#     Keep only AMPL-like param blocks.
-#     Rules:
-#       - Drop code fences, markdown, prose.
-#       - Keep from first 'param ' onward.
-#       - Remove leading non-param lines.
-#       - Remove trailing non-; junk.
-#     """
-#     s = _strip_code_fences(s)
-#     # If sections exist, we already isolated; else find from first 'param '
-#     idx = s.lower().find("param ")
-#     if idx >= 0:
-#         s = s[idx:]
-#     # Remove obvious markdown bullets and headings
-#     lines = [ln for ln in s.splitlines() if not ln.strip().startswith(("#", "-", "*"))]
-#     # Keep lines that look like AMPL param content or blank separators
-#     kept = []
-#     for ln in lines:
-#         t = ln.strip()
-#         if not t:
-#             kept.append("")
-#             continue
-#         if t.lower().startswith("param ") or re.match(r"^\d+(\s+\S+)*;?$", t) or t.endswith(";") or ":" in t:
-#             kept.append(ln)
-#         # else drop
-#     cleaned = "\n".join(kept).strip()
-#     # Ensure it ends after the last semicolon if any
-#     last_semi = cleaned.rfind(";")
-#     if last_semi != -1:
-#         cleaned = cleaned[: last_semi + 1]
-#     return cleaned.strip()
+
 
 def _clean_dat(s: str) -> str:
     """
@@ -269,6 +204,35 @@ def data_transfer(input_dir: str, model_name: str = "gpt-4-1106-preview", log_di
     user_data  = _safe_read_json(data_path, {})
     ampl_text  = _safe_read(ampl_txt_path, "")
 
+    # If the run has no structuring targets (no parameters in structured_description.json),
+    # keep inputs unchanged and only ensure data.dat exists as a copy of ampl_data.txt.
+    params = []
+    if isinstance(structured, dict):
+        params = structured.get("parameter") or []
+    if not params:
+        dat_written = False
+
+        # Prefer an existing non-empty data.dat, otherwise copy ampl_data.txt if present.
+        try:
+            if os.path.exists(dat_out_path) and os.stat(dat_out_path).st_size > 0:
+                dat_written = True
+            elif os.path.exists(ampl_txt_path) and os.stat(ampl_txt_path).st_size > 0:
+                shutil.copy(ampl_txt_path, dat_out_path)
+                dat_written = True
+        except Exception:
+            dat_written = False
+
+        report = {
+            "llm_used": False,
+            "reason": "empty_target_structure",
+            "json_extracted": False,
+            "json_keys": [],
+            "dat_nonempty": dat_written,
+        }
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+        return
+
     # Build prompt
     prompt = _PROMPT_TEMPLATE.format(
         structured=json.dumps(structured, indent=2),
@@ -318,5 +282,6 @@ def data_transfer(input_dir: str, model_name: str = "gpt-4-1106-preview", log_di
     }
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2)
+
 
 

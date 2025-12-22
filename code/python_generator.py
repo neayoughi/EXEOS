@@ -178,6 +178,7 @@ def generate_gurobi_code(input_dir, model, log_dir, use_logprobs, run_number=Non
         nonlocal llm_call_count, conversation_log
         conversation_log.append({"role": "user", "content": prompt})
         messages.append(HumanMessage(content=prompt))
+        # content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir,use_thinking=True)
         content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
         llm_call_count += 1
         conversation_log.append({"role": "assistant", "content": content})

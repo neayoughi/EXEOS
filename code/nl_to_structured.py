@@ -162,7 +162,7 @@ def process_prompt(prompt: str, model: str, log_dir: str = None, use_logprobs: b
     while attempts > 0:
         try:
             messages.append(HumanMessage(content=prompt))
-            content = llm_call(llm, messages, use_logprobs=use_logprobs, log_dir=log_dir)
+            content = llm_call(llm, messages, use_logprobs=use_logprobs)
 
             raw = content.strip()
 

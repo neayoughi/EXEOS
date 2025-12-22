@@ -53,7 +53,8 @@ def run_pipeline(nl_description: str,
                  model: str = "gpt-4-1106-preview",
                  refinement: bool = True,
                  max_refine: int = 2,
-                 structure: bool = False) -> Dict[str, Any]:
+                 structure: bool = False,
+                 use_logprobs: bool = False) -> Dict[str, Any]:
     """
     Orchestrate: NL → optional structuring → AMPL + Python generation → solve → refinement → results.
     """
@@ -68,7 +69,13 @@ def run_pipeline(nl_description: str,
 
     if structure:
         prompt = struct_generate_prompt(nl_description, json.dumps(data or {}, indent=2))
-        structured = struct_process_prompt(prompt, model=model, log_dir=log_dir, use_logprobs=False, run_number=1)
+        structured = struct_process_prompt(
+            prompt,
+            model=model,
+            log_dir=log_dir,
+            use_logprobs=use_logprobs,
+            run_number=1
+        )
         targets = {
             "description": structured.get("description", nl_description),
             "objective": structured.get("objective", ""),
@@ -93,7 +100,7 @@ def run_pipeline(nl_description: str,
         input_dir=input_dir,
         model=model,
         log_dir=_ensure_dir(os.path.join(log_dir, "ampl")),
-        use_logprobs=False,
+        use_logprobs=use_logprobs,
         run_number=1,
         refinement=refinement,
         max_refine=max_refine
@@ -105,7 +112,7 @@ def run_pipeline(nl_description: str,
         input_dir=input_dir,
         model=model,
         log_dir=_ensure_dir(os.path.join(log_dir, "python")),
-        use_logprobs=False,
+        use_logprobs=use_logprobs,
         refinement=refinement,
         max_refine=max_refine
     )
@@ -153,6 +160,7 @@ def main():
     parser.add_argument("--structure", action="store_true")
     parser.add_argument("--refinement", action="store_true")
     parser.add_argument("--max_refine", type=int, default=2)
+    parser.add_argument("--logprob", action="store_true", help="Enable log probability logging across the pipeline")
     args = parser.parse_args()
 
     nl_text = open(args.nl_file, "r", encoding="utf-8").read() if args.nl_file else args.nl
@@ -176,11 +184,10 @@ def main():
         model=args.model,
         refinement=args.refinement,
         max_refine=args.max_refine,
-        structure=args.structure
+        structure=args.structure,
+        use_logprobs=args.logprob
     )
     print(json.dumps(out, indent=2))
 
 if __name__ == "__main__":
     main()
-
-
