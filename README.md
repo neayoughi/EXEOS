@@ -25,9 +25,12 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
   - Data files in JSON format (`data.json`) and AMPL format (`ampl-data.txt`).
 - **code**: Core implementation files.
   - `app.py`: Main pipeline orchestrator (NL → Structured → AMPL/Python → Solve).
+  - `batch_runner.py`: Runs all problems under `./data` multiple times and writes summary CSVs.
   - `nl_to_structured.py`: Handles NL to structured JSON extraction.
+  - `data_transfer.py`: Normalizes `data.json` and generates `data.dat`.
   - `ampl_generator.py`: Generates and refines AMPL models.
   - `python_generator.py`: Generates and refines Python (Gurobi) code.
+  - `llm_utils.py`: LLM routing and optional logprob capture.
 - **results**: Outcomes of the experiments. Eight variant Excel files report relative error, number of compilation errors (#CE), and number of runtime errors (#RE).
 
 
@@ -39,6 +42,10 @@ The EXEOS approach consists of four main stages, as outlined in Figure 4 of the 
 - Dependencies listed in `requirements.txt`.
 
 Note: Some tools like AMPL and Gurobi require licenses for full functionality. LLMs need API keys—configure them in `config.json` or via environment variables.
+
+### Configuration notes
+- `EXEOS_CONFIG_PATH` can point to a custom `config.json` path.
+- `EXEOS_PROMPT_DIR` can point to a custom prompt directory (default: `prompt/`).
 
 ## Installation and Configuration
 
@@ -57,30 +64,57 @@ Note: Some tools like AMPL and Gurobi require licenses for full functionality. L
   
 ## Running the Application and Usage
 
+### Single problem run (`app.py`)
 Run the pipeline via `app.py` to process an NL optimization problem. It generates structured output, AMPL/Python specifications, solves them, and refines on errors.
 
-### Basic Usage
+**Basic usage**
 `python app.py --nl_file path/to/description.txt --data_file path/to/data.json path/to/ample_data.txt `
 - If providing AMPL data, the app writes it to input/data.dat, the AMPL solver uses data.dat.
 
-### CLI Options
+**CLI options**
 - `--nl_file` or --nl: Path to .txt file with NL optimization description (file or raw string).
 - `--data_file`: One or two files: JSON data. Second is AMPL .dat or .txt
-- `--model` (default: "gpt-4-1106-preview"): LLM model (e.g., "gpt-4o", "vertex-gemini").
+- `--model` (default: "gpt-4-1106-preview"): LLM model (e.g., "gpt-4o", "o4-mini", "vertex-gemini-2.5-pro").
 - `--structure`: Turn on the structuring step before generation. 
 - `--refinement`: Enable iterative refinement on errors (default: disabled).
 - `--max_refine` (default: 2): Max refinement attempts.
 
-### Example
+**Example**
 `python app.py --nl_file description.txt --data_file data.json ampl_data.txt --structure --refinement --max_refine 3`
 
  Outputs are saved in `logs/run_<timestamp>/`:
  
- - `input/`: `description.txt`, `data.json`, `ampl_data.txt` and `ampl_data.txt`, `structured_description.json`.
+ - `input/`: `description.txt`, `data.json`, `ampl_data.txt` and `data.dat`, `structured_description.json`, `data_transfer_report.json`.
  - `ampl/`: AMPL .mod, solver output, solution files.
  - `python/`: Generated Python file, stdout/stderr logs, parsed `solution.json`.
  - `pipeline_result.json`: Top-level summary.
 
+### Batch experiments (`batch_runner.py`)
+Run many problems under `./data` multiple times and collect results in:
+- `logs/ampl_results.csv`
+- `logs/python_results.csv`
+
+**Example (full pipeline)**
+`python batch_runner.py --data_root data --logs_root logs --runs 5 --model gpt-4o --structure --refinement --max_refine 2`
+
+**Example (baseline without data transfer)**
+`python batch_runner.py --data_root data --logs_root logs --runs 5 --model gpt-4o --no_transfer`
+
+**Key flags**
+- `--data_root` (default: `data`): Root folder with problem subfolders.
+- `--logs_root` (default: `logs`): Output folder for logs and CSVs.
+- `--runs` (default: 5): Runs per problem.
+- `--model`: LLM model name.
+- `--structure`: Run NL structuring per problem.
+- `--refinement`: Turn on refinement loops in generators.
+- `--max_refine`: Max refinement attempts.
+- `--logprob`: Save token logprob data when supported.
+- `--no_transfer`: Skip data transfer and keep original inputs as the baseline.
+- `--only_ampl`: Run only the AMPL pipeline.
+- `--only_python`: Run only the Python pipeline.
+  
+Batch run logs are written under:
+`logs/<problem_id>/<run_index>/` with `input/`, `ampl/`, and `python/` subfolders.
 
 
 
